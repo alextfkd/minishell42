@@ -6,8 +6,15 @@
 /*   By: tkatsumata <tkatsumata@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:13:40 by tkatsumata        #+#    #+#             */
-/*   Updated: 2025/10/03 14:13:52 by tkatsumata       ###   ########.fr       */
+/*   Updated: 2025/10/03 15:12:06 by tkatsumata       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	main(int argc, char **argv)
+{
+	(void)argc;
+	(void)argv;
+	return (0);
+}
