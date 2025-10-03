@@ -6,8 +6,7 @@ services:
     # 前回作成したDockerfileを元にビルド
     build: .
     # コンテナ名を指定
-    container_name: 42tokyo
-    
+    container_name: 42minishell
     # 1. コンテナ内での操作を一般ユーザー 'dev' で行うように指定
     # Dockerfileで作成したUID/GIDと合わせる
     user: "1000:1000"
