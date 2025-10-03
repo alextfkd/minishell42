@@ -34,6 +34,7 @@ RUN apt-get update && \
     python3-venv \
     iputils-ping \
     && apt-get clean \
+    && unminimize \
     && rm -rf /var/lib/apt/lists/*
 
 # 3. セキュリティ向上のため、一般ユーザーを作成
@@ -74,4 +75,4 @@ RUN mkdir -p /home/$USERNAME/.vim/plugin
 COPY --chown=$USERNAME:$USERNAME 42header/plugin/stdheader.vim /home/$USERNAME/.vim/plugin/
 
 # デフォルトのコマンド
-CMD ["zsh"]
+CMD ["bash"]
