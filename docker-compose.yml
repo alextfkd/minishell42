@@ -21,7 +21,7 @@ services:
       
       # ソースコードと設定ファイルのマウント先を一般ユーザーのホームディレクトリに変更
       - ./srcs:/home/dev/srcs
-      - .zshrc:/home/dev/.zshrc
+      #- .zshrc:/home/dev/.zshrc
       - ~/.ssh:/home/dev/.ssh
 
     # zshをインタラクティブに操作するための設定
