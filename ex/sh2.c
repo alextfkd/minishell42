@@ -14,9 +14,9 @@ struct cmd {
     char **argv;
     int capa;
     int status;
-    int pid;
-    struct cmd *next;
-};
+    int pid; //プロセスID
+    struct cmd *next; // 次のコマンド
+}; //コマンドのリスト構造。
 
 #define REDIRECT_P(cmd) ((cmd)->argc == -1)
 #define PID_BUILTIN -2
@@ -48,8 +48,8 @@ int
 main(int argc, char *argv[])
 {
     program_name = argv[0];
-    for (;;) {
-        prompt();
+    for (;;) { // loop
+        prompt(); // プロンプトを表示して、コマンド入力待ち
     }
     exit(0);
 }
@@ -61,17 +61,17 @@ static void prompt(void)
     static char buf[LINEBUF_MAX];
     struct cmd *cmd;
 
-    fprintf(stdout, "$ ");
-    fflush(stdout);
-    if (fgets(buf, LINEBUF_MAX, stdin) == NULL)
+    fprintf(stdout, "$ "); //プロンプトをstdoutに表示
+    fflush(stdout); // stdoutのデータを即出力。満杯になるのを待たない。
+    if (fgets(buf, LINEBUF_MAX, stdin) == NULL) // コマンドをbufに取得
         exit(0);
-    cmd = parse_command_line(buf);
+    cmd = parse_command_line(buf); // 構文解析してcmd構造体を返す。
     if (cmd == NULL) {
         fprintf(stderr, "%s: syntax error\n", program_name);
         return;
     }
     if (cmd->argc > 0)
-        invoke_commands(cmd);
+        invoke_commands(cmd); //コマンド実行
     free_cmd(cmd);
 }
 
@@ -79,11 +79,15 @@ static int
 invoke_commands(struct cmd *cmdhead)
 {
     int st;
+    // 標準入出力を退避
     int original_stdin = dup(0);
     int original_stdout = dup(1);
 
-    exec_pipeline(cmdhead);
-    st = wait_pipeline(cmdhead);
+    exec_pipeline(cmdhead); //パイプを実行
+    st = wait_pipeline(cmdhead); // パイプの実行結果待ち
+
+    //退避していた標準入出力を戻す。
+    //退避する理由は、リダイレクトで標準入出力を書き換えてしまうため、後で元に戻すため。
     close(0); dup2(original_stdin, 0); close(original_stdin);
     close(1); dup2(original_stdout, 1); close(original_stdout);
 
@@ -93,21 +97,29 @@ invoke_commands(struct cmd *cmdhead)
 #define HEAD_P(cmd) ((cmd) == cmdhead)
 #define TAIL_P(cmd) (((cmd)->next == NULL) || REDIRECT_P((cmd)->next))
 
-static void exec_pipeline(struct cmd *cmdhead)
+static void exec_pipeline(struct cmd *cmdhead) // pipexと同じかな。
 {
     struct cmd *cmd;
     int fds1[2] = {-1, -1};
     int fds2[2] = {-1, -1};
 
+    // #define REDIRECT_P(cmd) ((cmd)->argc == -1)
+
     for (cmd = cmdhead; cmd && !REDIRECT_P(cmd); cmd = cmd->next) {
         fds1[0] = fds2[0];
         fds1[1] = fds2[1];
+
+        // #define TAIL_P(cmd) (((cmd)->next == NULL) || REDIRECT_P((cmd)->next))
+
         if (! TAIL_P(cmd)) {
             if (pipe(fds2) < 0) {
                 perror("pipe");
                 exit(3);
             }
         }
+
+        // #define PID_BUILTIN -2
+        // コマンドが実装したコマンドかどうか
         if (lookup_builtin(cmd->argv[0]) != NULL) {
             cmd->pid = PID_BUILTIN;
         }
@@ -184,6 +196,8 @@ static struct cmd* pipeline_tail(struct cmd *cmdhead)
 #define INIT_ARGV 8
 #define IDENT_CHAR_P(c) (!isspace((int)c) && ((c) != '|') && ((c) != '>'))
 
+// 構文解析
+
 static struct cmd* parse_command_line(char *p)
 {
     struct cmd *cmd;
@@ -242,6 +256,8 @@ free_cmd(struct cmd *cmd)
     free(cmd);
 }
 
+// 作成したコマンド一覧
+
 struct builtin builtins_list[] = {
     {"cd",      builtin_cd},
     {"pwd",     builtin_pwd},
@@ -249,6 +265,7 @@ struct builtin builtins_list[] = {
     {NULL,      NULL}
 };
 
+// 作成したコマンドと一致するか
 static struct builtin*
 lookup_builtin(char *cmd)
 {
@@ -260,6 +277,8 @@ lookup_builtin(char *cmd)
     }
     return NULL;
 }
+
+// cd コマンド
 
 static int
 builtin_cd(int argc, char *argv[])
@@ -275,6 +294,7 @@ builtin_cd(int argc, char *argv[])
     return 0;
 }
 
+// pwdコマンド
 static int
 builtin_pwd(int argc, char *argv[])
 {
@@ -292,6 +312,7 @@ builtin_pwd(int argc, char *argv[])
     return 0;
 }
 
+// exit コマンド
 static int
 builtin_exit(int argc, char *argv[])
 {
