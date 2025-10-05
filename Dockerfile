@@ -51,7 +51,7 @@ USER $USERNAME
 WORKDIR /home/$USERNAME
 
 # zshrcをコピー（ローカルの.zshrcファイルが必要です）
-COPY --chown=$USERNAME:$USERNAME .zshrc /home/$USERNAME/.zshrc
+#COPY --chown=$USERNAME:$USERNAME .zshrc /home/$USERNAME/.zshrc
 
 # uvのインストール
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
