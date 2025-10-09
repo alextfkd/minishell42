@@ -8,7 +8,7 @@ on:
 
 jobs:
   build: # ジョブの名前
-    runs-on: ubuntu-latest # 実行環境 (Linuxの最新版を使用)
+    runs-on: ubuntu-22.04 # 実行環境 (Linuxの最新版を使用)
 
     steps:
       # 1. リポジトリのコードをチェックアウト
@@ -17,10 +17,10 @@ jobs:
 
       # 2. 必要なコンパイラやツールをインストール (C/C++の場合の例)
       # makeが使用する言語やツールに応じて、このステップを追加・変更します
-      - name: Install dependencies (optional)
+      - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential libreadline-dev libbsd-dev # gcc, g++, makeなどを含む
+          sudo apt-get install -y build-essential libbsd-dev libreadline-dev 
 
       # 3. makeコマンドを実行してビルド
       - name: Run make
