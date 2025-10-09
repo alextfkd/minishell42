@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies (optional)
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential # gcc, g++, makeなどを含む
+          sudo apt-get install -y build-essential libreadline-dev libbsd-dev # gcc, g++, makeなどを含む
 
       # 3. makeコマンドを実行してビルド
       - name: Run make
