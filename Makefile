@@ -13,7 +13,7 @@ OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 CFLAGS = -Wall -Wextra -Werror
 IFLAGS = -Iincludes -Ilibft
 LFLAGS = -Llibft
-LIBFLAGS = -lft 
+LIBFLAGS = -lft -lreadline
 
 VPATH = $(SRCDIR)
 
@@ -50,4 +50,7 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus libft
+norminette: 
+	norminette ./srcs
+
+.PHONY: all clean fclean re bonus libft norminette
