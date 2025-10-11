@@ -34,8 +34,8 @@ RUN apt-get update && \
     python3-venv \
     iputils-ping \
     && apt-get clean \
-    && unminimize \
     && rm -rf /var/lib/apt/lists/*
+#    && unminimize \
 
 # 3. セキュリティ向上のため、一般ユーザーを作成
 #    - sudoとzshをインストールした後でユーザーを作成します

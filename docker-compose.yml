@@ -12,13 +12,13 @@ services:
     user: "1000:1000"
 
     # 2. MinilibxのGUIをホストに表示するための設定 (X11 Forwarding)
-    environment:
-      - DISPLAY=host.docker.internal:0
+    # environment:
+    # - DISPLAY=host.docker.internal:0
       # ホストのDISPLAY環境変数をコンテナに引き継ぐ
     volumes:
       # X11通信用のソケットをマウント
       - /tmp/.X11-unix:/tmp/.X11-unix
-      
+
       # ソースコードと設定ファイルのマウント先を一般ユーザーのホームディレクトリに変更
       - ./srcs:/home/dev/srcs
       #- .zshrc:/home/dev/.zshrc
