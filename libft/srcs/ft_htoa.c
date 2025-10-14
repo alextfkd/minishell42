@@ -6,11 +6,11 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:08:37 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/05/18 20:44:15 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/15 00:34:59 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
 static int	count_hex_len(unsigned long long nb)
 {

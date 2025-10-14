@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 11:19:11 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/14 21:31:17 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/15 00:30:21 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdint.h>
+
+# define UPPER_HEX 1
+# define LOWER_HEX 0
 
 int		ft_isspace(int c);
 int		ft_isalpha(int c);
@@ -53,7 +56,7 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-void	ft_free_tab(char **tab);
+void	ft_free_tab(char **table);
 
 typedef struct s_list
 {
@@ -65,10 +68,20 @@ t_list	*ft_lstnew(void *content);
 void	ft_lstadd_front(t_list **lst, t_list *new);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
+t_list	*ft_lstlast(t_list *lst);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
+char	*ft_htoa(unsigned long long nb, int flag);
+char	*ft_lltoa(long long nb);
+int		ft_putchar(char c);
+int		ft_putstr(char *s);
+int		ft_putptr(void *p);
+int		ft_putstr(char *s);
+int		ft_putint(long long nb);
+int		ft_puthex(unsigned int nb, int flag);
 
 #endif

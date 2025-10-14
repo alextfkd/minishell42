@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putptr.c                                        :+:      :+:    :+:   */
+/*   ft_free_tab.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/18 17:06:09 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/05/18 20:46:06 by htsutsum         ###   ########.fr       */
+/*   Created: 2025/07/25 15:37:51 by htsutsum          #+#    #+#             */
+/*   Updated: 2025/10/15 00:30:04 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_putptr(void *p)
+void	ft_free_tab(char **table)
 {
-	int					len;
-	unsigned long long	nb;
-	char				*s;
+	size_t	i;
 
-	if (!p)
-		return (ft_putstr("(nil)"));
-	len = ft_putstr("0x");
-	if (len < 0)
-		return (-1);
-	nb = (unsigned long long)p;
-	s = ft_htoa(nb, LOWER_HEX);
-	len += ft_putstr(s);
-	free(s);
-	return (len);
+	i = 0;
+	while (table[i])
+		free(table[i++]);
+	free(table);
 }

@@ -6,11 +6,11 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 18:57:34 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/05/19 14:17:55 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/14 23:37:46 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
 static unsigned int	count_ll_len(long long n)
 {

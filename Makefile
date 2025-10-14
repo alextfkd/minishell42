@@ -4,14 +4,15 @@ GCC = gcc -g
 
 OBJDIR = ./objs
 SRCDIR = ./srcs
+INCLUDE = includes
 LIBFT = ./libft/libft.a
 
-SRCS = main.c 
+SRCS = main.c
 
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
 CFLAGS = -Wall -Wextra -Werror
-IFLAGS = -Iincludes -Ilibft
+IFLAGS = -Iincludes -Ilibft/includes
 LFLAGS = -Llibft
 LIBFLAGS = -lft -lreadline
 
@@ -50,7 +51,7 @@ fclean: clean
 
 re: fclean all
 
-norminette: 
+norminette:
 	norminette ./srcs
 
 .PHONY: all clean fclean re bonus libft norminette

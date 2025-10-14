@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/18 17:03:40 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/05/18 17:40:04 by htsutsum         ###   ########.fr       */
+/*   Created: 2025/05/18 17:01:48 by htsutsum          #+#    #+#             */
+/*   Updated: 2025/10/14 23:38:01 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_putstr(char *s)
+int	ft_putchar(char c)
 {
-	int	len;
-
-	if (!s)
-		return (ft_putstr("(null)"));
-	len = ft_strlen(s);
-	write(1, s, len);
-	return (len);
+	return (write(1, &c, 1));
 }

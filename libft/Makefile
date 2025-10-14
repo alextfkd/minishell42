@@ -1,9 +1,9 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 NAME = libft.a
-INCDIR = include
-OBJDIR = obj
-SRCDIR = src
+INCDIR = includes
+OBJDIR = objs
+SRCDIR = srcs
 INCLUDES = -I$(INCDIR)
 HEADER = $(INCDIR)/libft.h
 LIBFT_FILES = ft_strlen.c \
@@ -54,24 +54,19 @@ B_FILES = ft_lstnew_bonus.c \
 		ft_lstiter_bonus.c \
 		ft_lstmap_bonus.c
 
+FT_PRINTF_FILES = ft_putchar.c ft_puthex.c ft_putptr.c ft_putstr.c \
+	ft_putint.c ft_lltoa.c ft_htoa.c
+
 LIBFT_SRC = $(addprefix $(SRCDIR)/,$(LIBFT_FILES))
 B_SRC = $(addprefix $(SRCDIR)/,$(B_FILES))
+FT_PRINTF_SRC = $(addprefix $(SRCDIR)/,$(FT_PRINTF_FILES))
 
-SRC = $(LIBFT_SRC) $(B_SRC) $(GNL_SRC) $(FT_PRINTF_FILES)
+SRC = $(LIBFT_SRC) $(B_SRC)	$(FT_PRINTF_FILES)
 
 LIBFT_OBJ=$(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(LIBFT_SRC))
 B_OBJ=$(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(B_SRC))
-OBJ = $(LIBFT_OBJ) $(B_OBJ)
-
-# $(info DEBUG: LIBFT_SRC = $(LIBFT_SRC))
-# $(info DEBUG: B_SRC = $(B_SRC))
-# $(info DEBUG: LIBFT_OBJ = $(LIBFT_OBJ))
-# $(info DEBUG: B_OBJ = $(B_OBJ))
-# $(info DEBUG: GML_SRC = $(GNL_SRC))
-# $(info DEBUG: GNL_OBJ = $(B_OBJ))
-# $(info DEBUG: FT_PRINTF_SRC = $(FT_PRINTF_SRC))
-# $(info DEBUG: FT_PRINTF_OBJ = $(FT_PRINTF_OBJ))
-# $(info DEBUG: OBJ = $(OBJ))
+FT_PRINTF_OBJ=$(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(FT_PRINTF_SRC))
+OBJ = $(LIBFT_OBJ) $(B_OBJ) $(FT_PRINTF_OBJ)
 
 all: $(NAME)
 
