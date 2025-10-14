@@ -7,3 +7,5 @@ libft2/*.a
 libft2/*.o
 libft2/obj/*.o
 libft2/obj
+objs/main.o
+.env
