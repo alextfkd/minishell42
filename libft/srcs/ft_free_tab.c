@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_free_tab.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/15 00:02:30 by htsutsum         ###   ########.fr       */
+/*   Created: 2025/07/25 15:37:51 by htsutsum          #+#    #+#             */
+/*   Updated: 2025/10/15 00:30:04 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include <string.h>
-# include <unistd.h>
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <sys/wait.h>
-# include <fcntl.h>
-# include <signal.h>
-# include <dirent.h>
-# include <term.h>
+void	ft_free_tab(char **table)
+{
+	size_t	i;
 
-#endif
+	i = 0;
+	while (table[i])
+		free(table[i++]);
+	free(table);
+}

@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_puthex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/15 00:02:30 by htsutsum         ###   ########.fr       */
+/*   Created: 2025/05/18 17:05:02 by htsutsum          #+#    #+#             */
+/*   Updated: 2025/10/14 23:38:08 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include <string.h>
-# include <unistd.h>
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <sys/wait.h>
-# include <fcntl.h>
-# include <signal.h>
-# include <dirent.h>
-# include <term.h>
+int	ft_puthex(unsigned int nb, int flag)
+{
+	char	*s;
+	int		len;
 
-#endif
+	s = ft_htoa((unsigned long long)nb, flag);
+	if (!s)
+		return (-1);
+	len = 0;
+	len = ft_putstr(s);
+	free(s);
+	return (len);
+}

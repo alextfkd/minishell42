@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_putptr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/15 00:02:30 by htsutsum         ###   ########.fr       */
+/*   Created: 2025/05/18 17:06:09 by htsutsum          #+#    #+#             */
+/*   Updated: 2025/10/14 23:38:16 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include <string.h>
-# include <unistd.h>
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <sys/wait.h>
-# include <fcntl.h>
-# include <signal.h>
-# include <dirent.h>
-# include <term.h>
+int	ft_putptr(void *p)
+{
+	int					len;
+	unsigned long long	nb;
+	char				*s;
 
-#endif
+	if (!p)
+		return (ft_putstr("(nil)"));
+	len = ft_putstr("0x");
+	if (len < 0)
+		return (-1);
+	nb = (unsigned long long)p;
+	s = ft_htoa(nb, LOWER_HEX);
+	len += ft_putstr(s);
+	free(s);
+	return (len);
+}
