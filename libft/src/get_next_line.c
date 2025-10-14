@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 21:08:24 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/07/23 03:50:57 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/09 04:26:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int	push_stack(t_line *line, char c)
 char	*get_next_line(int fd)
 {
 	t_line	line;
-	char	c;
+	int		c;
 
 	line.str = NULL;
 	line.len = 0;

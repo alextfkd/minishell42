@@ -33,6 +33,7 @@ RUN apt-get update && \
     libxext-dev \
     python3-venv \
     iputils-ping \
+    libreadline-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 #    && unminimize \
