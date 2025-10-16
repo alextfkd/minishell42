@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   interactive_shell.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/03 14:13:40 by tkatsumata        #+#    #+#             */
-/*   Updated: 2025/10/16 02:38:31 by marvin           ###   ########.fr       */
+/*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
+/*   Updated: 2025/10/16 02:00:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv)
+int	interactive_shell(int argc, char **argv, t_loglevel log_level)
 {
-	int			exit_status;
-	t_loglevel	log_level;
+	char	*input;
 
-	log_level = LOG_QUIET;
-	if (argc == 1)
-		exit_status = interactive_shell(argc, argv, log_level);
-	else if (argc >= 2)
-		exit_status = non_interactive_shell(argc, argv, log_level);
-	else
-		return (1);
-	return (exit_status);
+	log_debug("MINISHELL INTERACTIVE MODE", log_level);
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
+	(void)argc;
+	(void)argv;
+	input = NULL;
+	while (1)
+	{
+		input = readline(FT_PROMPT);
+		if (input == NULL)
+			return (exit_with_sigeof());
+		log_debug_show_input(input, log_level);
+	}
 }
