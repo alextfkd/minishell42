@@ -3,11 +3,14 @@ CC = cc -g
 GCC = gcc -g
 
 OBJDIR = ./objs
+OBJSUBDIR = ./objs/utils ./objs/prompt
 SRCDIR = ./srcs
 INCLUDE = includes
 LIBFT = ./libft/libft.a
 
 SRCS = main.c
+SRCS += utils/ft_log.c utils/ft_sig_handler.c
+SRCS += prompt/interactive_shell.c prompt/noninteractive_shell.c
 
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
@@ -15,10 +18,6 @@ CFLAGS = -Wall -Wextra -Werror
 IFLAGS = -Iincludes -Ilibft/includes
 LFLAGS = -Llibft
 LIBFLAGS = -lft -lreadline
-
-VPATH = $(SRCDIR)
-
-#VPATH = $(SRCDIR):$(SRCDIR)/ft_cdlst:$(SRCDIR)/ps_wrap:$(SRCDIR)/stacks:$(SRCDIR)/ps_utils:$(SRCDIR)/sort
 
 all: $(OBJDIR) $(NAME)
 
@@ -28,8 +27,15 @@ $(OBJDIR):
 $(NAME): $(LIBFT) $(OBJS)
 	$(GCC) $(CFLAGS) $(IFLAGS) $(OBJS) -o $@ $(LFLAGS) $(LIBFLAGS)
 
-$(OBJDIR)/%.o: %.c
-	mkdir -p $(OBJDIR)
+$(OBJDIR)/main.o: $(SRCDIR)/main.c
+	$(GCC) $(CFLAGS) $(IFLAGS) -c $< -o $@
+
+$(OBJDIR)/utils/%.o: $(SRCDIR)/utils/%.c
+	mkdir -p $(OBJDIR)/utils
+	$(GCC) $(CFLAGS) $(IFLAGS) -c $< -o $@
+
+$(OBJDIR)/prompt/%.o: $(SRCDIR)/prompt/%.c
+	mkdir -p $(OBJDIR)/prompt
 	$(GCC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
 $(LIBFT):
@@ -37,10 +43,6 @@ $(LIBFT):
 
 libft_clean:
 	make --directory ./libft/ clean
-
-$(OBJDIR)/%.o: %.c
-	mkdir -p $(OBJDIR)
-	$(GCC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
 clean: libft_clean
 	rm -f $(OBJS)
@@ -52,6 +54,6 @@ fclean: clean
 re: fclean all
 
 norminette:
-	norminette ./srcs
+	norminette ./srcs ./includes ./libft
 
 .PHONY: all clean fclean re bonus libft norminette
