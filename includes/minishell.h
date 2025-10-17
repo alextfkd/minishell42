@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/16 14:07:04 by marvin           ###   ########.fr       */
+/*   Updated: 2025/10/17 08:20:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,11 @@ void		sigint_handler(int signal);
 int			exit_with_sigeof(void);
 
 t_ms_buf	*create_ms_buf(void);
-void		delete_ms_buf(t_ms_buf *ms_buf);
 void		log_debug_ms_buf(t_ms_buf *ms_buf, t_loglevel log_level);
+
+void		delete_ms_buf(t_ms_buf *ms_buf);
+void		free_tmp_buf(t_ms_buf *ms_buf);
+void		free_shell_buf(t_ms_buf *ms_buf);
+void		free_readline_buf(t_ms_buf *ms_buf);
 
 #endif
