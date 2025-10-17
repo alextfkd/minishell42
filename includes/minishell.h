@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/17 08:20:47 by marvin           ###   ########.fr       */
+/*   Updated: 2025/10/17 10:42:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,8 @@ void		delete_ms_buf(t_ms_buf *ms_buf);
 void		free_tmp_buf(t_ms_buf *ms_buf);
 void		free_shell_buf(t_ms_buf *ms_buf);
 void		free_readline_buf(t_ms_buf *ms_buf);
+
+int			execute_cmd(char *input, t_loglevel log_level);
+void		exec_line(t_ms_buf *ms_buf, t_loglevel log_level, int *status);
 
 #endif
