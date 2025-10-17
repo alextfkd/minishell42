@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:14:43 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/17 03:57:20 by marvin           ###   ########.fr       */
+/*   Updated: 2025/10/17 10:44:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	sigint_handler(int signal)
 		log_debug("SIGINT CAPTURED (ctrl-C)", log_level);
 		log_debug("EXIT WITH STATUS CODE 0", log_level);
 		log_debug("(exit without message)", log_level);
-		//exit(0);
 	}
 }
 
