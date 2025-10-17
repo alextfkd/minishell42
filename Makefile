@@ -10,7 +10,7 @@ LIBFT = ./libft/libft.a
 
 SRCS = main.c
 SRCS += utils/ft_log.c utils/ft_sig_handler.c
-SRCS += prompt/interactive_shell.c prompt/noninteractive_shell.c
+SRCS += prompt/interactive_shell.c prompt/noninteractive_shell.c prompt/shell_buffer.c
 
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
