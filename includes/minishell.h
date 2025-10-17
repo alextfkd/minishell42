@@ -6,12 +6,14 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/16 02:40:36 by marvin           ###   ########.fr       */
+/*   Updated: 2025/10/16 14:07:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define _POSIX_C_SOURCE 200809L
+# define _XOPEN_SOURCE 700
 
 # include <stdio.h>
 # include <readline/readline.h>
@@ -26,9 +28,11 @@
 # include <signal.h>
 # include <dirent.h>
 # include <term.h>
-# include "minishell.h"
+# include "libft.h"
 
 # define FT_PROMPT "> "
+
+extern volatile sig_atomic_t	g_sig_received;
 
 typedef enum e_loglevel
 {
@@ -38,15 +42,26 @@ typedef enum e_loglevel
 	LOG_QUIET = 3,
 }	t_loglevel;
 
-int		interactive_shell(int argc, char **argv, t_loglevel log_level);
-int		non_interactive_shell(int argc, char **argv, t_loglevel log_level);
+typedef struct s_ms_buf
+{
+	char	*rl_buf;
+	char	*tmp_buf;
+	char	*sh_buf;
+}	t_ms_buf;
 
-void	log_debug(char *msg, t_loglevel log_level);
-void	log_debug_show_input(char *msg, t_loglevel log_level);
-void	log_warning(char *msg, t_loglevel log_level);
-void	log_info(char *msg, t_loglevel log_level);
+int			interactive_shell(int argc, char **argv, t_loglevel log_level);
+int			non_interactive_shell(int argc, char **argv, t_loglevel log_level);
 
-void	sigint_handler(int signal);
-int		exit_with_sigeof(void);
+void		log_debug(char *msg, t_loglevel log_level);
+void		log_debug_show_input(char *msg, t_loglevel log_level);
+void		log_warning(char *msg, t_loglevel log_level);
+void		log_info(char *msg, t_loglevel log_level);
+
+void		sigint_handler(int signal);
+int			exit_with_sigeof(void);
+
+t_ms_buf	*create_ms_buf(void);
+void		delete_ms_buf(t_ms_buf *ms_buf);
+void		log_debug_ms_buf(t_ms_buf *ms_buf, t_loglevel log_level);
 
 #endif
