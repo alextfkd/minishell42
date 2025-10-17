@@ -11,3 +11,4 @@ libft2/obj
 objs/main.o
 .env
 .libft2/
+objs/*/*.o
