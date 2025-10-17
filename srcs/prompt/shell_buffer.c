@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 09:21:26 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/16 09:26:21 by marvin           ###   ########.fr       */
+/*   Updated: 2025/10/17 08:22:06 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,6 @@ t_ms_buf	*create_ms_buf(void)
 	ms_buf->tmp_buf = NULL;
 	ms_buf->sh_buf = NULL;
 	return (ms_buf);
-}
-
-// Delete the t_ms_buf memory and the all attributes inside.
-void	delete_ms_buf(t_ms_buf *ms_buf)
-{
-	if (ms_buf == NULL)
-		return ;
-	if (ms_buf->rl_buf != NULL)
-		free(ms_buf->rl_buf);
-	if (ms_buf->tmp_buf != NULL)
-		free(ms_buf->tmp_buf);
-	if (ms_buf->sh_buf != NULL)
-		free(ms_buf->sh_buf);
-	free(ms_buf);
 }
 
 void	log_debug_ms_buf(t_ms_buf *ms_buf, t_loglevel log_level)
