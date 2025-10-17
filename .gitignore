@@ -4,10 +4,6 @@
 minishell
 libft/*.a
 libft/*.o
-libft2/*.a
-libft2/*.o
-libft2/obj/*.o
-libft2/obj
 objs/main.o
 .env
-.libft2/
+exec/
