@@ -6,12 +6,11 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 22:49:41 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/18 14:36:56 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/18 16:18:19 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/includes/libft.h"
-#include <stdio.h>
+#include "exec.h"
 
 static char	*_append_cmd_to_path(char *path, char *cmd)
 {
@@ -28,15 +27,15 @@ static char	*_append_cmd_to_path(char *path, char *cmd)
 	return (cmd_path);
 }
 
-static int	_check_cmd_path(char *av0)
+static char	*_check_cmd_path(char *av0)
 {
 	if (ft_strchr(av0, '/'))
 	{
 		if (access(av0, F_OK | X_OK) == 0)
 			return (ft_strdup(av0));
-		return (1);
+		return (NULL);
 	}
-	return (0);
+	return (NULL);
 }
 
 static char	**_get_path_dir(void)
@@ -44,8 +43,6 @@ static char	**_get_path_dir(void)
 	char	*env_path;
 	char	**paths;
 
-	if (_check_cmd_path(av0))
-		return (NULL);
 	env_path = getenv("PATH");
 	if (!env_path)
 		return (NULL);
@@ -55,16 +52,11 @@ static char	**_get_path_dir(void)
 	return (paths);
 }
 
-char	*find_cmd_path(char *av0)
+static char	*_search_paths(char **paths, char *av0)
 {
 	int		i;
-	char	*env_path;
-	char	**paths;
 	char	*cmd_path;
 
-	paths = _get_path_dir();
-	if (!paths)
-		return (NULL);
 	i = 0;
 	while (paths[i])
 	{
@@ -79,6 +71,26 @@ char	*find_cmd_path(char *av0)
 		free(cmd_path);
 		i++;
 	}
-	ft_free_tab(paths);
 	return (NULL);
+}
+
+char	*find_cmd_path(char *av0)
+{
+	char	**paths;
+	char	*cmd_path;
+
+	cmd_path = _check_cmd_path(av0);
+	if (cmd_path != NULL)
+		return (cmd_path);
+	paths = _get_path_dir();
+	if (!paths)
+		return (NULL);
+	cmd_path = _search_paths(paths, av0);
+	if (!cmd_path)
+	{
+		ft_free_tab(paths);
+		return (NULL);
+	}
+	ft_free_tab(paths);
+	return (cmd_path);
 }
