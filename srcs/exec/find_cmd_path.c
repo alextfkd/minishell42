@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 22:49:41 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/18 16:18:19 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/18 17:23:22 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,7 @@ static char	*_search_paths(char **paths, char *av0)
 		if (!cmd_path)
 			break ;
 		if (access(cmd_path, F_OK | X_OK) == 0)
-		{
-			ft_free_tab(paths);
 			return (cmd_path);
-		}
 		free(cmd_path);
 		i++;
 	}
