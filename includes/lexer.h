@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 23:28:39 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/18 11:08:49 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/18 14:40:00 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define LEXER_H
 
 typedef struct s_token			t_token;
-typedef struct s_redirection	t_redirection;
-typedef struct s_pipeline		t_pipeline;
 
 // lexer status
 typedef enum e_state
@@ -52,30 +50,6 @@ typedef struct s_token
 	char						*val;
 	struct s_token				*next;
 }								t_token;
-
-// Auxiliary structure of redirection
-typedef struct s_redirection
-{
-	t_tokenkind					tk;
-	char						*file;
-	t_redirection				*next;
-}								t_redirection;
-
-// Single command Structure
-typedef struct s_cmd
-{
-	int							ac;
-	char						**av;
-	char						**ep;
-	t_redirection				*red;
-}								t_cmd;
-
-// The entire pipline
-typedef struct s_pipeline
-{
-	t_cmd						*cmd;
-	t_pipeline					*next;
-}								t_pipeline;
 
 int								extract_symbol_token(t_lexer *lex);
 int								extract_char_token(t_lexer *lex);

@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/18 12:24:42 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/18 14:37:45 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "lexer.h"
 
 # define MAX_CMD 100
+# define CMD_NOT_FOUND 127
 
 typedef struct s_redirection	t_redirection;
 typedef struct s_pipeline		t_pipeline;
@@ -43,6 +44,7 @@ typedef struct s_pipeline
 	t_pipeline		*next;
 }					t_pipeline;
 
-int		exec_command(char *input, char **ep);
+int		exec_cmd(char *input, char **ep);
+char	*find_cmd_path(char *av0);
 
 #endif
