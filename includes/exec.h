@@ -6,21 +6,14 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/18 16:50:34 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/18 17:43:20 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
 
-# include "./libft/includes/libft.h"
 # include "lexer.h"
-# include <errno.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <unistd.h>
 
 # define MAX_CMD 100
 # define CMD_NOT_FOUND 127

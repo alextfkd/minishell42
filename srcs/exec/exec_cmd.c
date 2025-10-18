@@ -6,11 +6,11 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:48:20 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/18 16:26:46 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/18 17:49:39 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "minishell.h"
 
 // Check whether the command is a built-in command
 static int	_is_builtin_cmd(t_cmd *cmd)

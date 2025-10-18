@@ -6,12 +6,11 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 16:23:05 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/18 17:19:17 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/18 17:49:48 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./libft/includes/libft.h"
-#include "exec.h"
+#include "minishell.h"
 
 // create child process
 static void	_child_process(char *cmd_path, char **av, char **ep)
