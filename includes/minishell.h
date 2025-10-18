@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/18 18:49:45 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/18 20:18:07 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
 # include "exec.h"
 # define FT_PROMPT "> "
 
-
 extern volatile sig_atomic_t	g_sig_received;
 
 typedef enum e_loglevel
@@ -52,7 +51,8 @@ typedef struct s_ms_buf
 	char	*sh_buf;
 }	t_ms_buf;
 
-int			interactive_shell(int argc, char **argv, char **envp, t_loglevel log_level);
+int			interactive_shell(int argc, char **argv, char **envp,
+				t_loglevel log_level);
 int			non_interactive_shell(int argc, char **argv, t_loglevel log_level);
 
 void		log_debug(char *msg, t_loglevel log_level);
