@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/16 02:40:36 by marvin           ###   ########.fr       */
+/*   Updated: 2025/10/18 17:45:05 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@
 # include <signal.h>
 # include <dirent.h>
 # include <term.h>
-# include "minishell.h"
+# include <errno.h>
+# include "libft.h"
+# include "exec.h"
 
 # define FT_PROMPT "> "
 
