@@ -7,3 +7,5 @@ libft/*.o
 objs/main.o
 .env
 exec/
+test/
+
