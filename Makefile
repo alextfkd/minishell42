@@ -10,7 +10,7 @@ LIBFT = ./libft/libft.a
 
 SRCS = main.c
 SRCS += utils/ft_log.c utils/ft_sig_handler.c
-SRCS += prompt/interactive_shell.c prompt/noninteractive_shell.c
+SRCS += prompt/interactive_shell.c prompt/noninteractive_shell.c prompt/shell_buffer.c prompt/shell_buf_free.c prompt/execute_line.c
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
 CFLAGS = -Wall -Wextra -Werror
@@ -57,6 +57,8 @@ fclean: clean
 re: fclean all
 
 norminette:
-	norminette ./srcs ./includes ./libft
+	bash ./norm.sh
 
 .PHONY: all clean fclean re bonus libft norminette
+
+#norminette ./srcs ./includes ./libft
