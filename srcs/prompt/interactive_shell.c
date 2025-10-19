@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interactive_shell.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/17 10:43:29 by marvin           ###   ########.fr       */
+/*   Updated: 2025/10/18 19:19:24 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	execute_cmd(char *input, t_loglevel log_level)
 	return (0);
 }
 
-int	interactive_shell(int argc, char **argv, t_loglevel log_level)
+int	interactive_shell(int argc, char **argv, char **envp, t_loglevel log_level)
 {
 	t_ms_buf			*ms_buf;
 	int					status;
@@ -37,6 +37,7 @@ int	interactive_shell(int argc, char **argv, t_loglevel log_level)
 	{
 		log_debug_ms_buf(ms_buf, log_level);
 		ms_buf->rl_buf = readline(FT_PROMPT);
+		status = exec_cmd(ms_buf->rl_buf, envp);
 		exec_line(ms_buf, log_level, &status);
 		if (status != 0)
 			break ;
