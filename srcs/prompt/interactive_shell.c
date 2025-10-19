@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/19 22:37:45 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/19 23:28:25 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ int	execute_cmd(char *input, t_loglevel log_level)
 
 int	interactive_shell(int argc, char **argv, char **envp, t_loglevel log_level)
 {
-	t_ms_buf			*ms_buf;
-	int					status;
+	t_ms_buf	*ms_buf;
+	int			status;
+	t_list	*pipeline;
 
 	log_debug("MINISHELL INTERACTIVE MODE", log_level);
 	signal(SIGINT, sigint_handler);
@@ -37,7 +38,9 @@ int	interactive_shell(int argc, char **argv, char **envp, t_loglevel log_level)
 	{
 		log_debug_ms_buf(ms_buf, log_level);
 		ms_buf->rl_buf = readline(FT_PROMPT);
-		status = exec_cmd(ms_buf->rl_buf, envp);
+		pipeline = parse_input(ms_buf->rl_buf);
+		exec_pipeline(pipeline, envp);
+		ft_lstclear(&pipeline, free_cmd_content);
 		exec_line(ms_buf, log_level, &status);
 		if (status != 0)
 			break ;

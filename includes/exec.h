@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/19 22:43:03 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/19 23:11:06 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int		handle_fork_err(pid_t *pid);
 int		handle_pipe_err(t_list *p, int *pipe_fds);
 int		exec_single_cmd(t_cmd *cmd, char **ep);
 char	*find_cmd_path(char *av0);
+
 t_list	*parse_input(char *input);
+void	free_cmd_content(void *cmd_ptr);
 
 #endif
