@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/19 23:28:25 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/19 23:50:18 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,19 @@ int	execute_cmd(char *input, t_loglevel log_level)
 	return (0);
 }
 
+static	void	_exec_cmd_test(char *input, char **envp)
+{
+	t_list	*pipeline;
+
+	pipeline = parse_input(input);
+	exec_pipeline(pipeline, envp);
+	ft_lstclear(&pipeline, free_cmd_content);
+}
+
 int	interactive_shell(int argc, char **argv, char **envp, t_loglevel log_level)
 {
 	t_ms_buf	*ms_buf;
 	int			status;
-	t_list	*pipeline;
 
 	log_debug("MINISHELL INTERACTIVE MODE", log_level);
 	signal(SIGINT, sigint_handler);
@@ -38,9 +46,7 @@ int	interactive_shell(int argc, char **argv, char **envp, t_loglevel log_level)
 	{
 		log_debug_ms_buf(ms_buf, log_level);
 		ms_buf->rl_buf = readline(FT_PROMPT);
-		pipeline = parse_input(ms_buf->rl_buf);
-		exec_pipeline(pipeline, envp);
-		ft_lstclear(&pipeline, free_cmd_content);
+		_exec_cmd_test(ms_buf->rl_buf, envp);
 		exec_line(ms_buf, log_level, &status);
 		if (status != 0)
 			break ;
