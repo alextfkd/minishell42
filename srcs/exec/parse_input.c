@@ -6,13 +6,13 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 15:35:22 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/19 19:06:42 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/19 22:43:49 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
-#include <stdio.h>
+#include "minishell.h"
 
+// callback function for ft_lstclear()
 void	free_cmd_content(void *cmd_ptr)
 {
 	t_cmd	*cmd;
@@ -25,6 +25,7 @@ void	free_cmd_content(void *cmd_ptr)
 	free(cmd);
 }
 
+// create new t_cmd value
 t_cmd	*create_cmd(char *cmd_line)
 {
 	t_cmd	*cmd;

@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 23:28:39 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/18 18:53:30 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/19 15:23:54 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@ typedef enum e_state
 // Token kind
 typedef enum e_tokenkind
 {
+	TK_INIT,
 	TK_CHAR,
 	TK_PIPE,
-	TK_REDI_IN,
-	TK_REDI_OUT,
-	TK_REDI_HEREDOC,
-	TK_REDI_APPEND
+	TK_REDI_OUT_TRUC,
+	TK_REDI_OUT_APPEND,
+	TK_REDI_IN_FILE,
+	TK_REDI_IN_HEREDOC
 }	t_tokenkind;
 
 typedef struct s_lexer

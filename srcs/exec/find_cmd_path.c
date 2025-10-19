@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 22:49:41 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/18 17:49:59 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/19 22:30:37 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	*_check_cmd_path(char *av0)
 {
 	if (ft_strchr(av0, '/'))
 	{
-		if (access(av0, F_OK | X_OK) == 0)
+		if (access(av0, F_OK) == 0)
 			return (ft_strdup(av0));
 		return (NULL);
 	}
