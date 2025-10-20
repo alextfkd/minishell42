@@ -3,7 +3,7 @@ CC = cc -g
 GCC = gcc -g
 
 OBJDIR = ./objs
-OBJSUBDIR = ./objs/utils ./objs/prompt
+OBJSUBDIR = ./objs/utils ./objs/prompt ./objs/exec
 SRCDIR = ./srcs
 INCLUDE = includes
 LIBFT = ./libft/libft.a
@@ -11,7 +11,7 @@ LIBFT = ./libft/libft.a
 SRCS = main.c
 SRCS += utils/ft_log.c utils/ft_sig_handler.c
 SRCS += prompt/interactive_shell.c prompt/noninteractive_shell.c prompt/shell_buffer.c prompt/shell_buf_free.c prompt/execute_line.c
-
+SRCS += exec/exec_single_cmd.c exec/exec_pipline.c exec/exec_pipline_util.c exec/parse_input.c exec/find_cmd_path.c
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
 CFLAGS = -Wall -Wextra -Werror
@@ -36,6 +36,10 @@ $(OBJDIR)/utils/%.o: $(SRCDIR)/utils/%.c
 
 $(OBJDIR)/prompt/%.o: $(SRCDIR)/prompt/%.c
 	mkdir -p $(OBJDIR)/prompt
+	$(GCC) $(CFLAGS) $(IFLAGS) -c $< -o $@
+
+$(OBJDIR)/exec/%.o: $(SRCDIR)/exec/%.c
+	mkdir -p $(OBJDIR)/exec
 	$(GCC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
 $(LIBFT):
