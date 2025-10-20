@@ -1,85 +1,65 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/07/31 20:34:58 by htsutsum          #+#    #+#              #
-#    Updated: 2025/08/22 11:31:18 by htsutsum         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME = minishell
+CC = cc -g
+GCC = gcc -g
 
-NAME = fractol
-CC = cc
-INCDIR = include
-LIBFTDIR = libft
-MLXDIR = minilibx-linux
-INCLUDES = $(INCDIR) $(LIBFTDIR)/include $(MLXDIR)
-CFLAGS = -Wall -Wextra -Werror -O2 -march=native $(addprefix -I,$(INCLUDES))
-MLXFLAGS = -L$(MLXDIR) -lmlx -lXext -lX11 -lm
-SRCDIR = src
-OBJDIR = obj
+OBJDIR = ./objs
+OBJSUBDIR = ./objs/utils ./objs/prompt ./objs/exec
+SRCDIR = ./srcs
+INCLUDE = includes
+LIBFT = ./libft/libft.a
 
-FILES_FRACTOL = main_bonus.c\
-				parse_args_bonus.c\
-				display.c\
-				render_bonus.c \
-				fractal_bonus.c\
-				key_mouse_event_bonus.c\
-				expose_resize_event.c\
-				color_bonus.c\
-				complex.c
+SRCS = main.c
+SRCS += utils/ft_log.c utils/ft_sig_handler.c
+SRCS += prompt/interactive_shell.c prompt/noninteractive_shell.c prompt/shell_buffer.c prompt/shell_buf_free.c prompt/execute_line.c
+SRCS += exec/exec_single_cmd.c exec/exec_pipline.c exec/exec_pipline_util.c exec/parse_input.c exec/find_cmd_path.c
+OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
-HEADER = $(INCDIR)/fractal_bonus.h\
-         $(INCDIR)/color_bonus.h\
-		 $(INCDIR)/complex.h
+CFLAGS = -Wall -Wextra -Werror
+IFLAGS = -Iincludes -Ilibft/includes
+LFLAGS = -Llibft
+LIBFLAGS = -lft -lreadline
 
-SRC = $(addprefix $(SRCDIR)/, $(FILES_FRACTOL))
-OBJ = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRC))
+all: $(OBJDIR) $(NAME)
 
-LIBFT = $(LIBFTDIR)/libft.a
-MLX = $(MLXDIR)/libmlx.a
-MLX_REPO = https://github.com/42Paris/minilibx-linux.git
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
 
-all: $(NAME)
+$(NAME): $(LIBFT) $(OBJS)
+	$(GCC) $(CFLAGS) $(IFLAGS) $(OBJS) -o $@ $(LFLAGS) $(LIBFLAGS)
 
-$(LIBFT): $(LIBFTDIR)
-	@make -C $(LIBFTDIR)
+$(OBJDIR)/main.o: $(SRCDIR)/main.c
+	$(GCC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
-$(MLX): | $(MLXDIR)
-	$(MAKE) -C $(MLXDIR)
+$(OBJDIR)/utils/%.o: $(SRCDIR)/utils/%.c
+	mkdir -p $(OBJDIR)/utils
+	$(GCC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
-$(NAME): $(OBJ) $(LIBFT) $(MLX)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLXFLAGS) -o $(NAME)
+$(OBJDIR)/prompt/%.o: $(SRCDIR)/prompt/%.c
+	mkdir -p $(OBJDIR)/prompt
+	$(GCC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADER)
-	@mkdir -p $(OBJDIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJDIR)/exec/%.o: $(SRCDIR)/exec/%.c
+	mkdir -p $(OBJDIR)/exec
+	$(GCC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
-clone:
-	@if [ ! -d "$(MLXDIR)" ]; then \
-		echo "Cloning MinilibX from $(MLX_REPO)"; \
-		git clone $(MLX_REPO) ; \
-	else \
-		echo "$(MLXDIR) directory already exists, skipping clone."; \
-	fi
+$(LIBFT):
+	make --directory ./libft/
 
-bonus: all
+libft_clean:
+	make --directory ./libft/ clean
 
-clean:
-	@make -C $(LIBFTDIR) clean
-	@make -C $(MLXDIR) clean
-	@rm -rf $(OBJDIR)
+clean: libft_clean
+	rm -f $(OBJS)
+	rm -rf $(OBJDIR)
 
 fclean: clean
-	@make -C $(LIBFTDIR) fclean
-	@make -C $(MLXDIR) clean
-	@rm -rf $(NAME)
+	rm -f $(NAME) ./libft/libft.a
 
 re: fclean all
 
-test: $(NAME)
-	valgrind -s --track-fds=yes --trace-children=yes --leak-check=full --track-origins=yes --show-leak-kinds=all ./fractol m
+norminette:
+	bash ./norm.sh
 
-.PHONY: all bonus clone clean fclean re test
+.PHONY: all clean fclean re bonus libft norminette
+
+#norminette ./srcs ./includes ./libft

@@ -1,0 +1,35 @@
+# docker-compose.yml
+
+services:
+  # サービス名をより一般的な 'dev' に変更 (任意)
+  dev:
+    # 前回作成したDockerfileを元にビルド
+    build: .
+    # コンテナ名を指定
+    container_name: 42minishell
+    # 1. コンテナ内での操作を一般ユーザー 'dev' で行うように指定
+    # Dockerfileで作成したUID/GIDと合わせる
+    user: "1000:1000"
+
+    # 2. MinilibxのGUIをホストに表示するための設定 (X11 Forwarding)
+    # environment:
+    # - DISPLAY=host.docker.internal:0
+      # ホストのDISPLAY環境変数をコンテナに引き継ぐ
+    volumes:
+      # X11通信用のソケットをマウント
+      - /tmp/.X11-unix:/tmp/.X11-unix
+
+      # ソースコードと設定ファイルのマウント先を一般ユーザーのホームディレクトリに変更
+      - ./srcs:/home/dev/srcs
+      #- .zshrc:/home/dev/.zshrc
+      - ~/.ssh:/home/dev/.ssh
+
+    # zshをインタラクティブに操作するための設定
+    tty: true
+    stdin_open: true
+
+    # lldb/gdbなどのデバッガを動作させるための権限設定
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
