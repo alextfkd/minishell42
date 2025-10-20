@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:48:20 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/19 22:50:47 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/20 09:45:24 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	exec_single_cmd(t_cmd *cmd, char **envp)
 
 	if (!cmd || !cmd->argv || !cmd->argv[0])
 		return (0);
-	if (_is_builtin_cmd(cmd))
+	if (_is_builtin_cmd(cmd) && BUILTIN_ON)
 	{
 		status = _exec_bulitin_cmd(cmd);
 		return (status);
