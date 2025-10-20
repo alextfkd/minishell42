@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/18 20:18:07 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/20 06:18:52 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,11 @@ typedef struct s_ms_buf
 
 int			interactive_shell(int argc, char **argv, char **envp,
 				t_loglevel log_level);
-int			non_interactive_shell(int argc, char **argv, t_loglevel log_level);
+int			non_interactive_shell(
+				int argc,
+				char **argv,
+				char **envp,
+				t_loglevel log_level);
 
 void		log_debug(char *msg, t_loglevel log_level);
 void		log_debug_show_input(char *msg, t_loglevel log_level);
@@ -71,7 +75,12 @@ void		free_tmp_buf(t_ms_buf *ms_buf);
 void		free_shell_buf(t_ms_buf *ms_buf);
 void		free_readline_buf(t_ms_buf *ms_buf);
 
-int			execute_cmd(char *input, t_loglevel log_level);
-void		exec_line(t_ms_buf *ms_buf, t_loglevel log_level, int *status);
+int			execute_cmd(char *input, char **envp, t_loglevel log_level);
+void		exec_line(
+				t_ms_buf *ms_buf,
+				char **envp,
+				t_loglevel log_level,
+				int *status
+				);
 
 #endif

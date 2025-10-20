@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:13:40 by tkatsumata        #+#    #+#             */
-/*   Updated: 2025/10/18 19:18:48 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/20 06:19:51 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc == 1)
 		exit_status = interactive_shell(argc, argv, envp, log_level);
 	else if (argc >= 2)
-		exit_status = non_interactive_shell(argc, argv, log_level);
+		exit_status = non_interactive_shell(argc, argv, envp, log_level);
 	else
 		return (1);
 	return (exit_status);

@@ -6,47 +6,48 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/18 17:43:20 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/20 09:30:43 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
 
+# include <sys/wait.h>
+# include "libft.h"
 # include "lexer.h"
 
-# define MAX_CMD 100
+# define MAX_PID 100
+# define MAX_ARGV 100
 # define CMD_NOT_FOUND 127
+# define BUILTIN_ON 0
 
 typedef struct s_redirection	t_redirection;
-typedef struct s_pipeline		t_pipeline;
 
-// Auxiliary structure of redirection
+// auxiliary structure of redirection
 typedef struct s_redirection
 {
-	t_tokenkind					tk;
-	char						*file;
-	t_redirection				*next;
-}								t_redirection;
+	t_tokenkind		tk;
+	char			*file;
+	t_redirection	*next;
+}	t_redirection;
 
-// Single command Structure
+// single command Structure
 typedef struct s_cmd
 {
-	int							ac;
-	char						**av;
-	char						**ep;
-	t_redirection				*red;
-}								t_cmd;
+	int				argc;
+	char			**argv;
+	int				status;
+	t_redirection	*red;
+}	t_cmd;
 
-// The entire pipline
-typedef struct s_pipeline
-{
-	t_cmd						*cmd;
-	t_pipeline					*next;
-}								t_pipeline;
+int		exec_pipeline(t_list *p, char **ep);
+int		handle_fork_err(pid_t *pid);
+int		handle_pipe_err(t_list *p, int *pipe_fds);
+int		exec_single_cmd(t_cmd *cmd, char **ep);
+char	*find_cmd_path(char *av0);
 
-int								exec_cmd(char *input, char **ep);
-int								exec_shell_cmd(t_cmd *cmd, char **ep);
-char							*find_cmd_path(char *av0);
+t_list	*parse_input(char *input);
+void	free_cmd_content(void *cmd_ptr);
 
 #endif
