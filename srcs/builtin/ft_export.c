@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   noninteractive_shell.c                             :+:      :+:    :+:   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/16 01:59:38 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/25 15:03:55 by tkatsuma         ###   ########.fr       */
+/*   Created: 2025/10/20 08:44:03 by tkatsuma          #+#    #+#             */
+/*   Updated: 2025/10/25 15:12:09 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	non_interactive_shell(
-	t_shell *shell,
-	char **envp
-)
+int	ft_export(char *env)
 {
-	log_debug("MINISHELL NON-INTERACTIVE MODE", shell->loglevel);
-	execute_cmd(shell->argv[1], envp, shell->loglevel);
+	(void)env;
 	return (0);
 }
-//log_debug_show_input(argv[1], log_level);

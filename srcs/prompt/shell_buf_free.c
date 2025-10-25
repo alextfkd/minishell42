@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   shell_buf_free.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 08:19:27 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/17 08:23:16 by marvin           ###   ########.fr       */
+/*   Updated: 2025/10/25 14:58:06 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // Delete the t_ms_buf memory and the all attributes inside.
-void	delete_ms_buf(t_ms_buf *ms_buf)
+void	free_ms_buf(t_ms_buf *ms_buf)
 {
 	if (ms_buf == NULL)
 		return ;

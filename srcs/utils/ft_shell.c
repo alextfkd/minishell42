@@ -1,34 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_shell.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/03 14:13:40 by tkatsumata        #+#    #+#             */
-/*   Updated: 2025/10/25 15:11:05 by tkatsuma         ###   ########.fr       */
+/*   Created: 2025/10/25 15:09:57 by tkatsuma          #+#    #+#             */
+/*   Updated: 2025/10/25 15:10:21 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_sig_received = 0;
-
-int	main(int argc, char **argv, char **envp)
+t_shell	*create_t_shell(int argc, char **argv)
 {
 	t_shell	*shell;
 
-	shell = create_t_shell(argc, argv);
+	shell = (t_shell *)ft_calloc(sizeof(t_shell), 1);
 	if (shell == NULL)
-		return (1);
-	if (shell->argc == 1)
-		shell->status = interactive_shell(shell, envp);
-	else if (shell->argc >= 2)
-		shell->status = non_interactive_shell(shell, envp);
-	else
-	{
-		shell->status = 1;
-		return (free_t_shell(shell));
-	}
-	return (free_t_shell(shell));
+		return (NULL);
+	shell->ms_buf = create_ms_buf();
+	if (shell->ms_buf == NULL)
+		return (free(shell), NULL);
+	shell->argc = argc;
+	shell->argv = argv;
+	shell->loglevel = LOGLEVEL;
+	shell->status = SHELL_SUCCESS;
+	return (shell);
+}
+
+t_status	free_t_shell(t_shell *shell)
+{
+	t_status	res;
+
+	res = shell->status;
+	free_ms_buf(shell->ms_buf);
+	free(shell);
+	return (res);
 }
