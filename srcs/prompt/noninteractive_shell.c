@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:38 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/27 09:29:33 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/27 18:55:37 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int	non_interactive_shell(
 	char **envp,
 	t_loglevel log_level
 )
-
-void	non_interactive_shell()
 {
 	(void)argc;
 	log_debug("MINISHELL NON-INTERACTIVE MODE", log_level);

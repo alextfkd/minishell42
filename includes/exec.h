@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/27 21:22:38 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/27 22:17:15 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 typedef struct s_redirect	t_redirect;
 
-// type of bulitin command
+// type of a bulitin command
 typedef enum e_bultin_type
 {
 	BT_NOT_BULTIN = 0,
