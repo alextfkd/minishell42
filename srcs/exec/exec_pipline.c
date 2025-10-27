@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:35:43 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/19 22:47:56 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/27 20:31:42 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,14 @@ int	exec_pipeline(t_list *p, char **envp)
 	int		prev_fd_in;
 	pid_t	pid[MAX_PID];
 	int		i;
+	int		status;
 
+	if(p != NULL && p->next == NULL)
+	{
+		status = exec_builtin_cmd_in_parent(p,envp);
+		if(status != -1)
+			return (status);
+	}
 	prev_fd_in = STDIN_FILENO;
 	i = 0;
 	while (p)

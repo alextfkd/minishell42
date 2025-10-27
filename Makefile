@@ -9,9 +9,10 @@ INCLUDE = includes
 LIBFT = ./libft/libft.a
 
 SRCS = main.c
-SRCS += utils/ft_log.c utils/ft_sig_handler.c
+SRCS += utils/ft_log.c utils/ft_sig_handler.c utils/ft_log_token.c
 SRCS += prompt/interactive_shell.c prompt/noninteractive_shell.c prompt/shell_buffer.c prompt/shell_buf_free.c prompt/execute_line.c
-SRCS += exec/exec_single_cmd.c exec/exec_pipline.c exec/exec_pipline_util.c exec/parse_input.c exec/find_cmd_path.c
+SRCS += exec/exec_single_cmd.c exec/exec_pipline.c exec/exec_pipline_util.c exec/parse_input.c exec/find_cmd_path.c exec/exec_bultin_cmd_in_parent.c
+SRCS += lexer/extract_symbol_token.c lexer/extract_word_token.c lexer/lexer.c
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
 CFLAGS = -Wall -Wextra -Werror
@@ -40,6 +41,10 @@ $(OBJDIR)/prompt/%.o: $(SRCDIR)/prompt/%.c
 
 $(OBJDIR)/exec/%.o: $(SRCDIR)/exec/%.c
 	mkdir -p $(OBJDIR)/exec
+	$(GCC) $(CFLAGS) $(IFLAGS) -c $< -o $@
+
+$(OBJDIR)/lexer/%.o: $(SRCDIR)/lexer/%.c
+	mkdir -p $(OBJDIR)/lexer
 	$(GCC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
 $(LIBFT):

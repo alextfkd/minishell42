@@ -6,29 +6,35 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:48:20 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/20 09:45:24 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/27 20:54:03 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// check whether the command is a built-in command
-static int	_is_builtin_cmd(t_cmd *cmd)
+// get the types of bultin command.
+t_builtin_type	get_builtin_type(t_cmd *cmd)
 {
-	int			i;
-	const char	*b_cmd[] = {"echo", "cd", "pwd", "export", "unset", "env",
-		"exit", NULL};
+	const char	*name;
 
 	if (!cmd || !cmd->argv || !cmd->argv[0])
 		return (1);
-	i = 0;
-	while (b_cmd[i] != NULL)
-	{
-		if (ft_strcmp(cmd->argv[0], b_cmd[i]) == 0)
-			return (1);
-		i++;
-	}
-	return (0);
+	name = cmd->argv[0];
+	if (ft_strcmp(name, "cd") == 0)
+		return (BT_CD);
+	if (ft_strcmp(name, "export") == 0)
+		return (BT_EXPORT);
+	if (ft_strcmp(name, "unset") == 0)
+		return (BT_UNSET);
+	if (ft_strcmp(name, "exit") == 0)
+		return (BT_EXIT);
+	if (ft_strcmp(name, "echo") == 0)
+		return (BT_ECHO);
+	if (ft_strcmp(name, "pwd") == 0)
+		return (BT_PWD);
+	if (ft_strcmp(name, "env") == 0)
+		return (BT_ENV);
+	return (BT_NOT_BULTIN);
 }
 
 // execute shell command
@@ -44,7 +50,7 @@ static void	_exec_shell_cmd(t_cmd *cmd, char **envp)
 	}
 	if (access(cmd_path, X_OK) == -1)
 	{
-		perror("mnishell");
+		perror("mnishell: ");
 		free(cmd_path);
 		exit(126);
 	}
@@ -60,9 +66,10 @@ static void	_exec_shell_cmd(t_cmd *cmd, char **envp)
 }
 
 // execute bulti command
-static	int	_exec_bulitin_cmd(t_cmd *cmd)
+int	exec_bulitin_cmd(t_cmd *cmd, char **envp)
 {
-	printf("exec builtin cmd : %s\n", cmd->argv[0]);
+	(void)envp;
+	printf("execute a builtin cmd -> %s\n", cmd->argv[0]);
 	return (0);
 }
 
@@ -71,13 +78,16 @@ int	exec_single_cmd(t_cmd *cmd, char **envp)
 {
 	int	status;
 
+	status = 0;
 	if (!cmd || !cmd->argv || !cmd->argv[0])
 		return (0);
-	if (_is_builtin_cmd(cmd) && BUILTIN_ON)
+	if (get_builtin_type(cmd) != BT_NOT_BULTIN && BUILTIN_ON)
 	{
-		status = _exec_bulitin_cmd(cmd);
+		log_debug("execute a builtin command in child process", LOG_DEBUG);
+		status = exec_bulitin_cmd(cmd, envp);
 		return (status);
 	}
-	_exec_shell_cmd(cmd, envp);
-	return (1);
+	else
+		_exec_shell_cmd(cmd, envp);
+	return (status);
 }
