@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/20 09:30:43 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/27 10:22:10 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,26 @@
 # define MAX_ARGV 100
 # define CMD_NOT_FOUND 127
 # define BUILTIN_ON 0
+# define HERE_DOC_PROMPT "> "
 
-typedef struct s_redirection	t_redirection;
+typedef struct s_redirect	t_redirect;
 
 // auxiliary structure of redirection
-typedef struct s_redirection
+typedef struct s_redirect
 {
-	t_tokenkind		tk;
-	char			*file;
-	t_redirection	*next;
-}	t_redirection;
+	t_tokenkind	tk;
+	char		*file;
+	int 		is_quated;
+	t_redirect	*next;
+}	t_redirect;
 
 // single command Structure
 typedef struct s_cmd
 {
-	int				argc;
-	char			**argv;
-	int				status;
-	t_redirection	*red;
+	int			argc;
+	char		**argv;
+	int			status;
+	t_redirect	*red;
 }	t_cmd;
 
 int		exec_pipeline(t_list *p, char **ep);

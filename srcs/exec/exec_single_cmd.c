@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:48:20 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/20 09:45:24 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/27 10:29:38 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	_exec_shell_cmd(t_cmd *cmd, char **envp)
 }
 
 // execute bulti command
-static	int	_exec_bulitin_cmd(t_cmd *cmd)
+static	int	_exec_bulitin_cmd(t_cmd *cmd, char **envp)
 {
 	printf("exec builtin cmd : %s\n", cmd->argv[0]);
 	return (0);
@@ -75,9 +75,9 @@ int	exec_single_cmd(t_cmd *cmd, char **envp)
 		return (0);
 	if (_is_builtin_cmd(cmd) && BUILTIN_ON)
 	{
-		status = _exec_bulitin_cmd(cmd);
+		status = _exec_bulitin_cmd(cmd,envp);
 		return (status);
 	}
-	_exec_shell_cmd(cmd, envp);
-	return (1);
+	status = _exec_shell_cmd(cmd, envp);
+	return (status);
 }
