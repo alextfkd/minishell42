@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   extract.c                                          :+:      :+:    :+:   */
+/*   extract_symbol_token.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 10:58:17 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/18 11:25:50 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/28 00:28:02 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,22 @@ static int	_extract_pipe_token(t_lexer *lex)
 	return (0);
 }
 
-static int	_extract_redirin_token(t_lexer *lex)
+static int	_extract_semi_token(t_lexer *lex)
+{
+	char	*start;
+	int		len;
+
+	start = lex->buf + lex->idx;
+	if (*start != ';')
+		return (1);
+	len = 1;
+	if (upsert_token(lex, TK_SEMI, start, len) == NULL)
+		return (1);
+	lex->idx += len;
+	return (0);
+}
+
+static int	_extract_redirect_in_token(t_lexer *lex)
 {
 	char		*start;
 	t_tokenkind	tk;
@@ -39,12 +54,12 @@ static int	_extract_redirin_token(t_lexer *lex)
 		return (1);
 	if (*(start + 1) == '<')
 	{
-		tk = TK_REDI_HEREDOC;
+		tk = TK_REDI_IN_HEREDOC;
 		len = 2;
 	}
 	else
 	{
-		tk = TK_REDI_IN;
+		tk = TK_REDI_IN_FILE;
 		len = 1;
 	}
 	if (upsert_token(lex, tk, start, len) == NULL)
@@ -53,7 +68,7 @@ static int	_extract_redirin_token(t_lexer *lex)
 	return (0);
 }
 
-static int	_extract_redirout_token(t_lexer *lex)
+static int	_extract_redirect_out_token(t_lexer *lex)
 {
 	char		*start;
 	t_tokenkind	tk;
@@ -64,12 +79,12 @@ static int	_extract_redirout_token(t_lexer *lex)
 		return (1);
 	if (*(start + 1) == '>')
 	{
-		tk = TK_REDI_APPEND;
+		tk = TK_REDI_OUT_APPEND;
 		len = 2;
 	}
 	else
 	{
-		tk = TK_REDI_OUT;
+		tk = TK_REDI_OUT_TRUC;
 		len = 1;
 	}
 	if (upsert_token(lex, tk, start, len) == NULL)
@@ -80,37 +95,13 @@ static int	_extract_redirout_token(t_lexer *lex)
 
 int	extract_symbol_token(t_lexer *lex)
 {
+	if (_extract_semi_token(lex) == 0)
+		return (0);
 	if (_extract_pipe_token(lex) == 0)
 		return (0);
-	if (_extract_redirin_token(lex) == 0)
+	if (_extract_redirect_in_token(lex) == 0)
 		return (0);
-	if (_extract_redirout_token(lex) == 0)
+	if (_extract_redirect_out_token(lex) == 0)
 		return (0);
-	return (1);
-}
-
-int	extract_char_token(t_lexer *lex)
-{
-	char	c;
-	char	*start;
-	int		start_idx;
-	int		len;
-
-	start_idx = lex->idx;
-	start = lex->buf + start_idx;
-	while (lex->buf[lex->idx])
-	{
-		c = lex->buf[lex->idx];
-		if (ft_isspace(c) || ft_strchr("|<>", c))
-			break ;
-		lex->idx++;
-	}
-	len = lex->idx - start_idx;
-	if (len > 0)
-	{
-		if (upsert_token(lex, TK_CHAR, start, len) == NULL)
-			return (1);
-		return (0);
-	}
 	return (1);
 }

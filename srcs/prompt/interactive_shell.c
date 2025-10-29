@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interactive_shell.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/25 16:37:07 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/10/28 01:12:24 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,13 @@ int	execute_cmd(char *input, char **envp, t_loglevel log_level)
 static	void	_exec_cmd_test(char *input, char **envp)
 {
 	t_list	*pipeline;
+	t_token	*head_token;
 
-	log_debug_show_input("running _exec_cmd_test()", LOG_QUIET);
-	log_debug_show_input(input, LOG_QUIET);
+	log_debug_show_input("running _exec_cmd_test()", LOG_DEBUG);
+	log_debug_show_input(input, LOG_DEBUG);
+	head_token = tokenize(input);
+	log_debug_show_token(head_token);
+	free_tokens(head_token);
 	pipeline = parse_input(input);
 	exec_pipeline(pipeline, envp);
 	ft_lstclear(&pipeline, free_cmd_content);
