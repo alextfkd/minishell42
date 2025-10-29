@@ -6,14 +6,11 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 23:26:50 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/18 11:25:32 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/28 01:12:03 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./libft/includes/libft.h"
-#include "lexer.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "minishell.h"
 
 static void	_append_token_to_list(t_lexer *lex, t_token *new_token)
 {
@@ -37,8 +34,8 @@ t_token	*upsert_token(t_lexer *lex, t_tokenkind tk, char *start, int len)
 	val = malloc((len + 1) * sizeof(char));
 	if (!val)
 		return (NULL);
-	val[len] = '\0';
 	ft_strlcpy(val, start, len + 1);
+	val[len] = '\0';
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
 	{
@@ -61,20 +58,27 @@ t_token	*tokenize(char *input)
 	while (lex.buf[lex.idx] != '\0')
 	{
 		if (ft_isspace(lex.buf[lex.idx]))
-		{
 			lex.idx++;
-			continue ;
+		else if (extract_symbol_token(&lex) == 0)
+			;
+		else if (extract_word_token(&lex) == 0)
+			;
+		else
+		{
+			free_tokens(lex.head);
+			return (NULL);
 		}
-		if (extract_symbol_token(&lex) == 0)
-			continue ;
-		if (extract_char_token(&lex) == 0)
-			continue ;
+	}
+	if (lex.state != S_NORMAL)
+	{
+		log_debug("minishell: syntax error: unclosed quote", LOG_DEBUG);
+		free_tokens(lex.head);
 		return (NULL);
 	}
 	return (lex.head);
 }
 
-void	free_token(t_token *head)
+void	free_tokens(t_token *head)
 {
 	t_token	*tmp;
 

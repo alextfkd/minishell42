@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   noninteractive_shell.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:38 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/20 06:20:09 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/10/27 18:55:37 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

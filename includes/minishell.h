@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/20 06:18:52 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/10/28 01:07:46 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # include <errno.h>
 # include "libft.h"
 # include "exec.h"
-# define FT_PROMPT "> "
+# define FT_PROMPT "minishell42$ "
 
 extern volatile sig_atomic_t	g_sig_received;
 
@@ -63,6 +63,7 @@ void		log_debug(char *msg, t_loglevel log_level);
 void		log_debug_show_input(char *msg, t_loglevel log_level);
 void		log_warning(char *msg, t_loglevel log_level);
 void		log_info(char *msg, t_loglevel log_level);
+void		log_debug_show_token(t_token *head);
 
 void		sigint_handler(int signal);
 int			exit_with_sigeof(void);
