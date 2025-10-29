@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 23:28:39 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/28 00:25:30 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/29 14:34:19 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ typedef enum e_state
 // Token kind
 typedef enum e_tokenkind
 {
-	TK_INIT,
 	TK_CHAR,
 	TK_PIPE,
 	TK_SEMI,
@@ -58,5 +57,6 @@ int		extract_word_token(t_lexer *lex);
 t_token	*upsert_token(t_lexer *lex, t_tokenkind tk, char *start, int len);
 t_token	*tokenize(char *input);
 void	free_tokens(t_token *head);
+//t_list	*parse_tokens(t_token *token_head);
 
 #endif

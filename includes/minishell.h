@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/28 01:07:46 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/29 14:31:41 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # include <errno.h>
 # include "libft.h"
 # include "exec.h"
-# define FT_PROMPT "minishell42$ "
+# define FT_PROMPT "$ "
 
 extern volatile sig_atomic_t	g_sig_received;
 
