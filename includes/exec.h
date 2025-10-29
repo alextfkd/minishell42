@@ -6,14 +6,14 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/30 05:41:17 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/30 05:48:59 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
 
-#include "lexer.h"
+# include "lexer.h"
 
 # define MAX_PID 100
 # define MAX_ARGV 100
@@ -22,10 +22,9 @@
 # define HERE_DOC_PROMPT "> "
 # define ERR_SYNTAX_TOKEN "minishell: syntax error near unexpected token"
 
-
 typedef struct s_red	t_red;
 typedef struct s_cmd	t_cmd;
-typedef struct s_astree t_astree;
+typedef struct s_astree	t_astree;
 
 // type of a bulitin command
 typedef enum e_bultin_type
@@ -45,33 +44,33 @@ typedef enum e_node
 {
 	NODE_CMD,
 	NODE_PIPE
-} t_node;
+}	t_node;
 
 // AST
-typedef struct	s_astree
+struct	s_astree
 {
 	t_node		type;
 	t_cmd		*cmd;
 	t_astree	*left;
 	t_astree	*right;
-} t_astree;
+};
 
 // auxiliary structure of redirection
-typedef struct s_red
+struct s_red
 {
 	t_tkind		tk;
 	char		*data;
 	t_red		*next;
-}	t_red;
+};
 
 // single command Structure
-typedef struct s_cmd
+struct s_cmd
 {
 	int			argc;
 	char		**argv;
 	int			status;
 	t_red		*red;
-}	t_cmd;
+};
 
 int				exec_pipeline(t_list *p, char **ep);
 int				handle_fork_err(pid_t *pid);

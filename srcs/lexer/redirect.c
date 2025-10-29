@@ -6,51 +6,46 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:44:01 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/30 05:06:32 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/30 06:03:30 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // handle redirection
-int handle_red(t_cmd *cmd, t_token **current)
+int	handle_red(t_cmd *cmd, t_token **current)
 {
-	t_token *operator;
+	t_token	*operator;
 	t_token	*file;
 	t_red	*new_red;
 
 	operator = *current;
 	file = operator->next;
-	if(file == NULL)
+	if (file == NULL)
 	{
-		ft_putstr_fd(ERR_SYNTAX_TOKEN,2);
-		ft_putendl_fd("newline",2);
+		ft_putstr_fd(ERR_SYNTAX_TOKEN, 2);
+		ft_putendl_fd("newline", 2);
 		return (1);
 	}
-	if(file->tk != TK_CHAR)
+	if (file->tk != TK_CHAR)
 	{
-		ft_putstr_fd(ERR_SYNTAX_TOKEN,2);
-		if(file->data != NULL)
-			ft_putendl_fd(file->data,2);
-		else
-			ft_putstr_fd("\n",2);
+		ft_putendl_fd(ERR_SYNTAX_TOKEN, 2);
 		return (1);
 	}
-	new_red = creaete_red_node(operator->tk,file->data);
-	if(!new_red)
+	new_red = creaete_red_node(operator->tk, file->data);
+	if (!new_red)
 		return (1);
 	red_add_back(&(cmd->red), new_red);
 	*current == operator->next->next;
-
 }
 
-//create empyt redirection node
-t_red *create_red_node(t_tkind tk, char *data)
+// create empyt redirection node
+t_red	*create_red_node(t_tkind tk, char *data)
 {
-	t_red *new;
+	t_red	*new;
 
-	new = ft_calloc(sizeof(t_red),1);
-	if(!new)
+	new = ft_calloc(sizeof(t_red), 1);
+	if (!new)
 	{
 		perror("minishell: t_red memory allocated error");
 		return (NULL);
@@ -62,7 +57,7 @@ t_red *create_red_node(t_tkind tk, char *data)
 }
 
 // find the last redirection
-t_red	*red_last(t_red *red)
+t_red	*find_last_red(t_red *red)
 {
 	if (red)
 		while (red->next)
@@ -70,20 +65,19 @@ t_red	*red_last(t_red *red)
 	return (red);
 }
 
-// add new redirection
+// append new redirection
 void	red_add_back(t_red **head_red, t_red *new)
 {
-	t_red *last_red;
+	t_red	*last_red;
 
 	if (!*head_red)
 		head_red = new;
 	else
-
-		last_red = red_last(*head_red);
-		last_red->next = new;
+		last_red = find_last_red(*head_red);
+	last_red->next = new;
 }
 
-// free redirectino lst
+// free redirectino list
 void	clear_red(t_red *head_red)
 {
 	t_red	*tmp;
@@ -93,8 +87,8 @@ void	clear_red(t_red *head_red)
 	while (head_red != NULL)
 	{
 		tmp = head_red;
-		head_red= head_red->next;
-		if(tmp->data)
+		head_red = head_red->next;
+		if (tmp->data)
 			free(tmp->data);
 		free(tmp);
 	}

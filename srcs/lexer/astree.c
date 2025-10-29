@@ -6,29 +6,33 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:38:27 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/30 05:15:11 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/30 05:56:36 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_astree *create_ast_node(t_node type, t_cmd *cmd, t_astree *left, t_astree *right )
+t_astree	*create_ast_node(
+		t_node type,
+		t_cmd *cmd,
+		t_astree *left,
+		t_astree *right )
 {
-	t_astree *new;
+	t_astree	*new;
 
-	new = ft_calloc(sizeof(t_astree),1);
-	if(!new)
+	new = ft_calloc(sizeof(t_astree), 1);
+	if (!new)
 	{
 		perror("minishell: t_astree memory allocated error");
-		if(cmd)
+		if (cmd)
 			clear_cmd(cmd);
 		clear_astree(left);
 		clear_astree(right);
 		return (NULL);
 	}
-	astree_add_type(new, type);
-	astree_add_cmd(new, cmd);
-	astree_add_branch(new,left,right);
+	_astree_add_type(new, type);
+	_astree_add_cmd(new, cmd);
+	astree_add_branch(new, left, right);
 	return (new);
 }
 
@@ -40,18 +44,18 @@ void	astree_add_branch(t_astree *root, t_astree *left, t_astree *right)
 	root->right = right;
 }
 
-void	astree_set_type(t_astree *node, t_node type)
+static void	_astree_set_type(t_astree *node, t_node type)
 {
 	if (!node)
 		return ;
 	node->type = type;
 }
 
-void	astree_set_cmd(t_astree *node, t_cmd *cmd)
+static void	_astree_set_cmd(t_astree *node, t_cmd *cmd)
 {
 	if (!node || !cmd)
 		return ;
-	node->cmd= cmd;
+	node->cmd = cmd;
 }
 
 void	clear_astree(t_astree *node)
