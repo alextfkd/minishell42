@@ -18,7 +18,7 @@ int	execute_cmd(char *input, char **envp, t_loglevel log_level)
 {
 	(void)log_level;
 	(void)envp;
-	log_debug_show_input(input, LOG_DEBUG);
+	log_debug_show_input(input, LOG_QUIET);
 	_exec_cmd_test(input, envp);
 	return (0);
 }
@@ -38,29 +38,25 @@ static	void	_exec_cmd_test(char *input, char **envp)
 	ft_lstclear(&pipeline, free_cmd_content);
 }
 
-int	interactive_shell(int argc, char **argv, char **envp, t_loglevel log_level)
+int	interactive_shell(t_shell *shell, char **envp)
 {
 	t_ms_buf	*ms_buf;
-	int			status;
+	t_status	status;
 
-	log_debug("MINISHELL INTERACTIVE MODE", log_level);
+	log_debug("MINISHELL INTERACTIVE MODE", shell->loglevel);
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
-	(void)argc;
-	(void)argv;
-	status = 0;
-	ms_buf = create_ms_buf();
-	if (ms_buf == NULL)
-		return (1);
+	ms_buf = shell->ms_buf;
+	status = shell->status;
 	while (g_sig_received == 0)
 	{
-		log_debug_ms_buf(ms_buf, log_level);
+		log_debug_ms_buf(shell);
 		ms_buf->rl_buf = readline(FT_PROMPT);
-		exec_line(ms_buf, envp, log_level, &status);
+		exec_line(shell, envp);
 		if (status != 0)
 			break ;
 	}
-	log_debug("5. EXIT", log_level);
+	log_debug("5. EXIT", shell->loglevel);
 	rl_clear_history();
-	return (delete_ms_buf(ms_buf), status);
+	return (status);
 }

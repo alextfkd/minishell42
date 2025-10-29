@@ -13,15 +13,12 @@
 #include "minishell.h"
 
 int	non_interactive_shell(
-	int argc,
-	char **argv,
-	char **envp,
-	t_loglevel log_level
+	t_shell *shell,
+	char **envp
 )
 {
-	(void)argc;
-	log_debug("MINISHELL NON-INTERACTIVE MODE", log_level);
-	execute_cmd(argv[1], envp, log_level);
+	log_debug("MINISHELL NON-INTERACTIVE MODE", shell->loglevel);
+	execute_cmd(shell->argv[1], envp, shell->loglevel);
 	return (0);
 }
 //log_debug_show_input(argv[1], log_level);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_buffer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 09:21:26 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/17 08:22:06 by marvin           ###   ########.fr       */
+/*   Updated: 2025/10/25 14:25:20 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,12 @@ t_ms_buf	*create_ms_buf(void)
 	return (ms_buf);
 }
 
-void	log_debug_ms_buf(t_ms_buf *ms_buf, t_loglevel log_level)
+void	log_debug_ms_buf(t_shell *shell)
 {
-	if (log_level <= LOG_DEBUG)
+	t_ms_buf	*ms_buf;
+
+	ms_buf = shell->ms_buf;
+	if (shell->loglevel <= LOG_DEBUG)
 	{
 		printf("ms_buf->rl_buf  = %s\n", ms_buf->rl_buf);
 		printf("ms_buf->tmp_buf = %s\n", ms_buf->tmp_buf);
