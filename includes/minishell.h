@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/28 01:07:46 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/30 01:40:56 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # include <errno.h>
 # include "libft.h"
 # include "exec.h"
-# define FT_PROMPT "minishell42$ "
+# define FT_PROMPT "minishell$ "
 
 extern volatile sig_atomic_t	g_sig_received;
 
@@ -75,7 +75,7 @@ void		log_debug(char *msg, t_loglevel log_level);
 void		log_debug_show_input(char *msg, t_loglevel log_level);
 void		log_warning(char *msg, t_loglevel log_level);
 void		log_info(char *msg, t_loglevel log_level);
-void		log_debug_show_token(t_token *head);
+void		log_debug_show_token(t_token *head, t_loglevel log_level);
 
 void		sigint_handler(int signal);
 int			exit_with_sigeof(void);
