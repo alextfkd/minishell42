@@ -9,7 +9,7 @@ INCLUDE = includes
 LIBFT = ./libft/libft.a
 
 SRCS = main.c
-SRCS += utils/ft_log.c utils/ft_sig_handler.c utils/ft_shell.c　utils/ft_sig_handler.c utils/ft_log_token.c
+SRCS += utils/ft_log.c utils/ft_shell.c utils/ft_sig_handler.c utils/ft_log_token.c
 SRCS += prompt/interactive_shell.c prompt/noninteractive_shell.c prompt/shell_buffer.c prompt/shell_buf_free.c prompt/execute_line.c
 SRCS += exec/exec_single_cmd.c exec/exec_pipline.c exec/exec_pipline_util.c exec/parse_input.c exec/find_cmd_path.c exec/exec_bultin_cmd_in_parent.c
 SRCS += lexer/extract_symbol_token.c lexer/extract_word_token.c lexer/lexer.c
