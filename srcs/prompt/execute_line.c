@@ -16,31 +16,36 @@ static void	exec_line_1(
 				t_ms_buf *ms_buf,
 				char **envp,
 				t_loglevel	log_level,
-				int	*status
+				t_status	*status
 				);
 static void	exec_line_2(
 				t_ms_buf *ms_buf,
 				char **envp,
 				t_loglevel	log_level,
-				int	*status
+				t_status	*status
 				);
 static void	exec_line_3(
 				t_ms_buf *ms_buf,
 				char **envp,
 				t_loglevel	log_level,
-				int	*status
+				t_status	*status
 				);
 static void	exec_line_4(
 				t_ms_buf *ms_buf,
 				char **envp,
 				t_loglevel	log_level,
-				int	*status
+				t_status	*status
 				);
 
-void	exec_line(
-	t_ms_buf *ms_buf, char **envp, t_loglevel log_level, int *status
-)
+void	exec_line(t_shell *shell, char **envp)
 {
+	t_ms_buf	*ms_buf;
+	t_status	*status;
+	t_loglevel	log_level;
+
+	ms_buf = shell->ms_buf;
+	status = &(shell->status);
+	log_level = shell->loglevel;
 	if (ms_buf->tmp_buf != NULL && ms_buf->rl_buf == NULL)
 		exec_line_1(ms_buf, envp, log_level, status);
 	else if (ms_buf->tmp_buf != NULL && ms_buf->rl_buf != NULL)
@@ -54,9 +59,10 @@ void	exec_line(
 }
 
 static void	exec_line_1(
-	t_ms_buf *ms_buf, char **envp, t_loglevel log_level, int	*status
+	t_ms_buf *ms_buf, char **envp, t_loglevel log_level, t_status *status
 )
 {
+	t_app app;
 	log_debug("1. tmp_buf != NULL && rl_buf == NULL", log_level);
 	ms_buf->sh_buf = ft_strdup(ms_buf->tmp_buf);
 	if (ms_buf->sh_buf == NULL)
@@ -65,14 +71,16 @@ static void	exec_line_1(
 		return ;
 	}
 	free_tmp_buf(ms_buf);
-	*status = execute_cmd(ms_buf->sh_buf, envp, log_level);
+	set_up_app(&app,envp);
+	*status = execute_cmd(ms_buf->sh_buf, &app, log_level);
 	free_shell_buf(ms_buf);
 }
 
 static void	exec_line_2(
-	t_ms_buf *ms_buf, char **envp, t_loglevel log_level, int	*status
+	t_ms_buf *ms_buf, char **envp, t_loglevel log_level, t_status *status
 )
 {
+	t_app app;
 	log_debug("2. tmp_buf != NULL && rl_buf != NULL", log_level);
 	ms_buf->sh_buf = ft_strjoin(ms_buf->tmp_buf, ms_buf->rl_buf);
 	if (ms_buf->sh_buf == NULL)
@@ -95,12 +103,14 @@ ms_buf->sh_buf[ft_strlen(ms_buf->sh_buf) - 1] == '\\')
 		}
 		return (free_shell_buf(ms_buf));
 	}
-	*status = execute_cmd(ms_buf->sh_buf, envp, log_level);
+	set_up_app(&app, envp);
+	*status = execute_cmd(ms_buf->sh_buf, &app, log_level);
+	clear_app(&app);
 	free_shell_buf(ms_buf);
 }
 
 static void	exec_line_3(
-	t_ms_buf *ms_buf, char **envp, t_loglevel log_level, int	*status
+	t_ms_buf *ms_buf, char **envp, t_loglevel log_level, t_status *status
 )
 {
 	log_debug("3. tmp_buf == NULL && rl_buf == NULL", log_level);
@@ -111,9 +121,10 @@ static void	exec_line_3(
 }
 
 static void	exec_line_4(
-	t_ms_buf *ms_buf, char **envp, t_loglevel log_level, int	*status
+	t_ms_buf *ms_buf, char **envp, t_loglevel log_level, t_status *status
 )
 {
+	t_app app;
 	log_debug("4. tmp_buf == NULL && rl_buf != NULL", log_level);
 	if (ft_strlen(ms_buf->rl_buf) != 0 && \
 ms_buf->rl_buf[ft_strlen(ms_buf->rl_buf) - 1] == '\\')
@@ -132,6 +143,8 @@ ms_buf->rl_buf[ft_strlen(ms_buf->rl_buf) - 1] == '\\')
 	log_debug("4-2. Executing rl_input", log_level);
 	log_debug(ms_buf->rl_buf, log_level);
 	add_history(ms_buf->rl_buf);
-	*status = execute_cmd(ms_buf->rl_buf, envp, log_level);
+	set_up_app(&app, envp);
+	*status = execute_cmd(ms_buf->rl_buf, &app, log_level);
+	clear_app(&app);
 	free_readline_buf(ms_buf);
 }
