@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 15:35:22 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/19 22:43:49 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/30 11:25:52 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_cmd	*create_cmd(char *cmd_line)
 	argv = ft_split(cmd_line, ' ');
 	if (!argv || !argv[0])
 		return (NULL);
-	cmd = ft_calloc(sizeof(t_cmd), 1);
+	cmd = ft_calloc(1, sizeof(t_cmd));
 	if (!cmd)
 	{
 		ft_free_tab(argv);

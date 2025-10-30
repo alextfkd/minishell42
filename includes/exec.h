@@ -6,14 +6,15 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/30 10:10:38 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/30 14:56:27 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
 
-# include "lexer.h"
+#include "lexer.h"
+#include "minishell.h"
 
 # define MAX_PID 100
 # define MAX_ARGV 100
@@ -76,11 +77,11 @@ struct s_cmd
 struct s_app
 {
 	char	**envp;
-	int		last_status;
-	int		original_stdio;
+	int		exit_status;
 	int		original_stdin;
-	t_pid	pid;
+	int		original_stdout;
 };
+
 
 int				exec_pipeline(t_list *p, char **ep);
 int				handle_fork_err(pid_t *pid);
@@ -92,7 +93,31 @@ int				exec_single_cmd(t_cmd *cmd, char **ep);
 int				exec_bulitin_cmd(t_cmd *cmd, char **envp);
 char			*find_cmd_path(char *av0);
 
+
+// simple test parser
 t_list			*parse_input(char *input);
 void			free_cmd_content(void *cmd_ptr);
+
+// command parser
+void		clear_cmd(t_cmd *cmd);
+t_astree	*parse_command(t_token **tokens_head);
+
+// perser
+int 		is_red(t_tkind tk);
+t_astree	*parse_pipeline(t_token **tokens_head);
+int 		count_tk_char(t_token *start,t_token *end);
+
+// redirection parser
+void		clear_red(t_red *head_red);
+t_red		*create_red_node(t_tkind tk, char *data);
+int			handle_red(t_cmd *cmd, t_token **current);
+
+// ast utils
+t_astree	*create_ast_node(t_node type, t_cmd *cmd, t_astree *left, t_astree *right);
+void		astree_add_branch(t_astree *root, t_astree *left, t_astree *right);
+void		clear_astree(t_astree *node);
+
+//execute
+int		execute_pipeline(t_astree *node, t_app *app);
 
 #endif

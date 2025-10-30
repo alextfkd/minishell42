@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/30 10:20:35 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/30 15:09:07 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
 # include <term.h>
 # include <errno.h>
 # include "libft.h"
-# include "lexer.h"
 # include "exec.h"
 # define FT_PROMPT "minishell$ "
 
@@ -69,6 +68,7 @@ typedef struct s_shell
 	t_status	status;
 }	t_shell;
 
+
 int			interactive_shell(t_shell *shell, char **envp);
 int			non_interactive_shell(t_shell *shell, char **envp);
 
@@ -76,7 +76,8 @@ void		log_debug(char *msg, t_loglevel log_level);
 void		log_debug_show_input(char *msg, t_loglevel log_level);
 void		log_warning(char *msg, t_loglevel log_level);
 void		log_info(char *msg, t_loglevel log_level);
-void		log_debug_show_token(t_token *head, t_loglevel log_level);
+void		log_debug_show_token(t_token *token_head, t_loglevel log_level);
+void		log_debug_show_ast(t_astree *ast_root, t_loglevel log_level);
 
 void		sigint_handler(int signal);
 int			exit_with_sigeof(void);
@@ -89,9 +90,15 @@ void		free_tmp_buf(t_ms_buf *ms_buf);
 void		free_shell_buf(t_ms_buf *ms_buf);
 void		free_readline_buf(t_ms_buf *ms_buf);
 
-int			execute_cmd(char *input, char **envp, t_loglevel log_level);
+//int			execute_cmd(char *input, char **envp, t_loglevel log_level);
+int			execute_cmd(char *inpt, t_app *app, t_loglevel log_level);
 void		exec_line(t_shell *shell, char **envp);
 t_shell		*create_t_shell(int argc, char **argv);
 t_status	free_t_shell(t_shell *shell);
+
+// app util
+int			clear_app(t_app *app);
+int			set_up_app(t_app *app,char **envp);
+void 		reset_stdio(t_app *app);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 06:30:16 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/30 06:50:34 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/30 16:23:36 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_cmd *_create_cmd_node()
 {
 	t_cmd *cmd;
 
-	cmd = ft_calloc(sizeof(t_cmd), 1);
+	cmd = ft_calloc(1, sizeof(t_cmd));
 	if (!cmd)
 	{
 		perror("minishell: t_cmd memory allocated error");
@@ -58,7 +58,11 @@ void set_argv(t_cmd *cmd,t_token *start,t_token *end)
 		else if (current->tk == TK_CHAR)
 		{
 
-			cmd->argv[i] = current->data;
+			cmd->argv[i] = ft_strdup(current->data);
+			if(!cmd->argv[i])
+			{
+				return ;
+			}
 			i++;
 			current = current->next;
 		}
@@ -73,7 +77,7 @@ int handle_argv(t_cmd *cmd,t_token *start,t_token *end)
 {
 	int argc;
 
-    argc = count_args(start, end);
+    argc = count_tk_char(start, end);
     if (argc < 0)
         return (1);
 
@@ -95,7 +99,7 @@ t_astree *parse_command(t_token **tokens_head)
 	t_token		*current;
 	t_token		*head;
 
-	cmd = create_cmd_node();
+	cmd = _create_cmd_node();
 	head = *tokens_head;
 	current = head;
 	while(current != NULL && current->tk != TK_PIPE)
