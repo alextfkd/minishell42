@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:44:01 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/30 06:03:30 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/30 06:36:29 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	handle_red(t_cmd *cmd, t_token **current)
 	*current == operator->next->next;
 }
 
-// create empyt redirection node
+// create new redirection node
 t_red	*create_red_node(t_tkind tk, char *data)
 {
 	t_red	*new;
@@ -77,7 +77,7 @@ void	red_add_back(t_red **head_red, t_red *new)
 	last_red->next = new;
 }
 
-// free redirectino list
+// free redirection list
 void	clear_red(t_red *head_red)
 {
 	t_red	*tmp;

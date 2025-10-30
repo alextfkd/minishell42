@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/28 01:12:24 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/29 22:56:59 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static	void	_exec_cmd_test(char *input, char **envp)
 	log_debug_show_input("running _exec_cmd_test()", LOG_DEBUG);
 	log_debug_show_input(input, LOG_DEBUG);
 	head_token = tokenize(input);
-	log_debug_show_token(head_token);
+	log_debug_show_token(head_token,LOG_DEBUG);
 	free_tokens(head_token);
 	pipeline = parse_input(input);
 	exec_pipeline(pipeline, envp);

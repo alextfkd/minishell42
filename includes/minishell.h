@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/30 01:40:56 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/30 10:20:35 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # include <term.h>
 # include <errno.h>
 # include "libft.h"
+# include "lexer.h"
 # include "exec.h"
 # define FT_PROMPT "minishell$ "
 
