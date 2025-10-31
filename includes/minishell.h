@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/31 15:21:43 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/31 22:10:49 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ t_status	free_t_shell(t_shell *shell);
 
 // app util
 int			clear_app(t_app *app);
-int			set_up_app(t_app *app, char **envp);
+int			setup_app(t_app *app, char **envp);
 void		reset_stdio(t_app *app);
 
 #endif

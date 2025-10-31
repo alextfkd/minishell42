@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 05:25:43 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/31 15:42:36 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/31 16:12:21 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static const char	*_get_node_type(t_node type)
 
 static void	_print_ast_node(t_astree *node)
 {
+	int	i;
+
 	printf("├── %s", _get_node_type(node->type));
 	if (node->type == NODE_CMD)
 	{

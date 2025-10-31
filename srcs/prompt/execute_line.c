@@ -71,7 +71,7 @@ static void	exec_line_1(
 		return ;
 	}
 	free_tmp_buf(ms_buf);
-	set_up_app(&app,envp);
+	setup_app(&app,envp);
 	*status = execute_cmd(ms_buf->sh_buf, &app, log_level);
 	free_shell_buf(ms_buf);
 }
@@ -103,7 +103,7 @@ ms_buf->sh_buf[ft_strlen(ms_buf->sh_buf) - 1] == '\\')
 		}
 		return (free_shell_buf(ms_buf));
 	}
-	set_up_app(&app, envp);
+	setup_app(&app, envp);
 	*status = execute_cmd(ms_buf->sh_buf, &app, log_level);
 	clear_app(&app);
 	free_shell_buf(ms_buf);
@@ -143,7 +143,7 @@ ms_buf->rl_buf[ft_strlen(ms_buf->rl_buf) - 1] == '\\')
 	log_debug("4-2. Executing rl_input", log_level);
 	log_debug(ms_buf->rl_buf, log_level);
 	add_history(ms_buf->rl_buf);
-	set_up_app(&app, envp);
+	setup_app(&app, envp);
 	*status = execute_cmd(ms_buf->rl_buf, &app, log_level);
 	clear_app(&app);
 	free_readline_buf(ms_buf);

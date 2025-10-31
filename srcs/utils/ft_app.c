@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 10:58:24 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/31 15:37:49 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/31 22:10:40 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int	clear_app(t_app *app)
 // reset stdio in main.
 void	reset_stdio(t_app *app)
 {
-	if (dup2(app->original_stdin, STDIN_FILENO))
+	if (dup2(app->original_stdin, STDIN_FILENO) < 0)
 		perror("minnishell: reset stdin");
-	if (dup2(app->original_stdout, STDOUT_FILENO))
+	if (dup2(app->original_stdout, STDOUT_FILENO) < 0)
 		perror("misnishell: reset stdout");
 }
 

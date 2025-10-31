@@ -6,45 +6,16 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:44:01 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/30 16:58:59 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/31 20:16:43 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// find the last redirection
-t_red	*find_last_red(t_red *red)
+// check error
+
+static int	_print_file_error(t_token *file)
 {
-	if (red)
-		while (red->next)
-			red = red->next;
-	return (red);
-}
-
-// append new redirection
-void	red_add_back(t_red **head_red, t_red *new)
-{
-	t_red	*last_red;
-
-	if (!*head_red)
-		*head_red = new;
-	else
-	{
-		last_red = find_last_red(*head_red);
-		last_red->next = new;
-	}
-}
-
-// handle redirection
-int	handle_red(t_cmd *cmd, t_token **current)
-{
-	t_token	*operator;
-	t_token *file;
-	char	*new_data;
-	t_red	*new_red;
-
-	operator = *current;
-	file = operator->next;
 	if (file == NULL)
 	{
 		ft_putstr_fd(ERR_SYNTAX_TOKEN, 2);
@@ -56,8 +27,23 @@ int	handle_red(t_cmd *cmd, t_token **current)
 		ft_putendl_fd(ERR_SYNTAX_TOKEN, 2);
 		return (1);
 	}
+	return (0);
+}
+
+// handle redirection
+int	handle_red(t_cmd *cmd, t_token **current)
+{
+	t_token	*operator;
+	t_token	*file;
+	char	*new_data;
+	t_red	*new_red;
+
+	operator = *current;
+	file = operator->next;
+	if (_print_file_error(file))
+		return (1);
 	new_data = ft_strdup(file->data);
-	if(!new_data)
+	if (!new_data)
 	{
 		perror("minishell: red->data memory allocation error");
 		return (1);
@@ -71,7 +57,7 @@ int	handle_red(t_cmd *cmd, t_token **current)
 }
 
 // create new redirection node
-t_red	*create_red_node(t_tkind tk, char *data)
+t_red	*create_red_node(t_tkind tk, char *file)
 {
 	t_red	*new;
 
@@ -82,26 +68,7 @@ t_red	*create_red_node(t_tkind tk, char *data)
 		return (NULL);
 	}
 	new->tk = tk;
-	new->data = data;
+	new->file = file;
 	new->next = NULL;
 	return (new);
-}
-
-
-
-// free redirection list
-void	clear_red(t_red *head_red)
-{
-	t_red	*tmp;
-
-	if (!head_red)
-		return ;
-	while (head_red != NULL)
-	{
-		tmp = head_red;
-		head_red = head_red->next;
-		if (tmp->data)
-			free(tmp->data);
-		free(tmp);
-	}
 }
