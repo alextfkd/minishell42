@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 23:08:11 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/30 11:55:13 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/01 01:41:15 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ const char	*_get_token_kind(t_tkind tk)
 		return ("UNKNOWN");
 }
 
-void	log_debug_show_token(t_token *head,t_loglevel log_level)
+void	log_debug_show_token(t_token *head, t_loglevel log_level)
 {
 	t_token	*current;
 	int		i;
