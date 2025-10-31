@@ -6,35 +6,34 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:48:20 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/31 23:32:17 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/01 00:48:20 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-static void _execve_exit_error()
+static void	_execve_exit_error(void)
 {
 	if (errno == EACCES)
 		exit(126);
 	else
 		exit(127);
-
 }
-static int _set_exit_status(int status)
+
+static int	_set_exit_status(int status)
 {
 	if (WIFEXITED(status))
-		return(WEXITSTATUS(status));
+		return (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
 	return (0);
 }
 
-int execute_external_cmd(t_cmd *cmd, t_app *app)
+int	execute_external_cmd(t_cmd *cmd, t_app *app)
 {
 	int		status;
 	pid_t	pid;
-	char 	*cmd_path;
+	char	*cmd_path;
 
 	pid = fork();
 	if (pid == 0)
@@ -54,25 +53,25 @@ int execute_external_cmd(t_cmd *cmd, t_app *app)
 			_execve_exit_error();
 		}
 	}
-	else if(pid < 0)
+	else if (pid < 0)
 	{
 		perror("minishell:");
 		return (1);
 	}
 	waitpid(pid, &status, 0);
-	return(_set_exit_status(status));
+	return (_set_exit_status(status));
 }
 
-int execute_cmd_node(t_cmd *cmd, t_app *app)
+int	execute_cmd_node(t_cmd *cmd, t_app *app)
 {
-    if (get_builtin_type(cmd) != BT_NOT_BULTIN && BUILTIN_ON)
-    {
-		app->exit_status = execute_builtin_parent(cmd,app);
-        return (app->exit_status);
-    }
-    else
-    {
-		app->exit_status = execute_external_cmd(cmd,app);
-        return (app->exit_status);
-    }
+	if (get_builtin_type(cmd) != BT_NOT_BULTIN && BUILTIN_ON)
+	{
+		app->exit_status = execute_builtin_parent(cmd, app);
+		return (app->exit_status);
+	}
+	else
+	{
+		app->exit_status = execute_external_cmd(cmd, app);
+		return (app->exit_status);
+	}
 }

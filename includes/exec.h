@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/31 23:35:13 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/01 00:29:41 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ void					astree_add_branch(t_astree *root, t_astree *left,
 void					clear_astree(t_astree *node);
 
 // execute
+int						do_redirect_in(t_red *red);
+int						do_redirect_out(t_red *red);
 int						execute_command_node(t_cmd *cmd, t_app *app);
 int						handle_redirections(t_red *red_list);
 int						execute_pipeline(t_astree *node, t_app *app);
