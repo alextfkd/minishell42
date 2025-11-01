@@ -1,39 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_pipline_util.c                                :+:      :+:    :+:   */
+/*   redirect_io.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/19 20:41:13 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/19 22:46:49 by htsutsum         ###   ########.fr       */
+/*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
+/*   Updated: 2025/11/01 00:24:09 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Initialize forks and handle error
-int	handle_fork_err(pid_t *pid)
-{
-	*pid = fork();
-	if (*pid == -1)
-	{
-		perror("minishell: fork failed");
-		return (-1);
-	}
-	return (0);
-}
+// >> >
 
-// Initialize pipe and handle error
-int	handle_pipe_err(t_list *p, int *pipe_fds)
+int	handle_redirections(t_red *red_list)
 {
-	if (p->next != NULL)
+	t_red	*current;
+	int		status;
+
+	current = red_list;
+	status = 0;
+	while (current != NULL)
 	{
-		if (pipe(pipe_fds) == -1)
-		{
-			perror("minishell: pipe failed");
-			return (-1);
-		}
+		if (current->tk == TK_RED_IN || current->tk == TK_RED_HEREDOC)
+			status = do_redirect_in(current);
+		else if (current->tk == TK_RED_OUT || current->tk == TK_RED_APPEND)
+			status = do_redirect_out(current);
+		if (status != 0)
+			return (1);
+		current = current->next;
 	}
 	return (0);
 }
