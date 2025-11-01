@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/31 22:10:49 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/01 16:08:49 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void		free_tmp_buf(t_ms_buf *ms_buf);
 void		free_shell_buf(t_ms_buf *ms_buf);
 void		free_readline_buf(t_ms_buf *ms_buf);
 
-int			execute_cmd(char *inpt, t_app *app, t_loglevel log_level);
+int			execute_cmd(char *inpt, char **envp, t_loglevel log_level);
 void		exec_line(t_shell *shell, char **envp);
 t_shell		*create_t_shell(int argc, char **argv);
 t_status	free_t_shell(t_shell *shell);
