@@ -11,7 +11,7 @@ LIBFT = ./libft/libft.a
 SRCS = main.c
 SRCS += utils/ft_log.c utils/ft_shell.c utils/ft_sig_handler.c utils/ft_log_token.c utils/ft_app.c utils/ft_log_astree.c
 SRCS += prompt/interactive_shell.c prompt/noninteractive_shell.c prompt/shell_buffer.c prompt/shell_buf_free.c prompt/execute_line.c
-SRCS += exec/find_cmd_path.c exec/command.c exec/command_1.c exec/pipeline.c exec/redirect_io.c exec/redirect_in.c exec/redirect_out.c
+SRCS += exec/find_cmd_path.c exec/command.c exec/command_1.c exec/pipeline.c exec/pipeline_1.c exec/redirect_io.c exec/redirect_in.c exec/redirect_out.c
 SRCS += lexer/extract_symbol_token.c lexer/extract_word_token.c lexer/lexer.c lexer/astree.c lexer/command.c lexer/command_1.c lexer/parser.c lexer/redirect.c lexer/redirect_1.c
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 

@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/01 00:35:52 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/01 14:53:30 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,16 @@ static int	_setup_in(t_red *red)
 
 static int	_setup_heredoc(t_red *red)
 {
-	(void)red;
-	// int fd;
-	// fd = open(red->file, O_RDONLY);
-	// if (fd == -1)
-	// {
-	// 	perror(red->file);
-	// 	return (1);
-	// }
-	// dup2(fd, STDIN_FILENO);
-	// close(fd);
-	ft_putendl_fd("heredoc has not suppotred yet", 1);
+	int	fd;
+
+	fd = open(red->file, O_RDONLY);
+	if (fd == -1)
+	{
+		perror(red->file);
+		return (1);
+	}
+	dup2(fd, STDIN_FILENO);
+	close(fd);
 	return (0);
 }
 

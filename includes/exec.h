@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/01 12:24:07 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/01 15:27:12 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ int				do_redirect_in(t_red *red);
 int				do_redirect_out(t_red *red);
 int				execute_command_node(t_cmd *cmd, t_app *app);
 int				handle_redirections(t_red *red_list);
+int				set_exit_status(int status);
+void			execute_single_cmd(t_cmd *cmd, t_app *app);
 int				execute_pipeline(t_astree *node, t_app *app);
 int				new_exec_bulitin_cmd(t_cmd *cmd, t_app *app);
 
