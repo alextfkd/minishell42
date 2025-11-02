@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 05:25:43 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/31 16:12:21 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/03 07:18:27 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	log_debug_show_ast(t_astree *root, t_loglevel log_level)
 	}
 	else
 	{
-		if (log_level == LOG_DEBUG)
+		if (log_level <= LOG_DEBUG)
 			_print_ast_indent(root, 0);
 	}
 	log_debug("---- Abstract Syntax Tree End ----", log_level);

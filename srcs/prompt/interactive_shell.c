@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/01 16:06:42 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/03 07:19:21 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	execute_cmd(char *input, char **envp, t_loglevel log_level)
 	(void)log_level;
 	log_debug_show_input(input, LOG_QUIET);
 	setup_app(&app, envp);
-	_exec_cmd_test(input, &app, LOG_DEBUG);
+	_exec_cmd_test(input, &app, log_level);
 	clear_app(&app);
 	return (0);
 }
@@ -41,7 +41,7 @@ static void	_exec_cmd_test(char *input, t_app *app, t_loglevel log_level)
 		ast_root = parse_pipeline(&head_token);
 		if (ast_root)
 		{
-			log_debug_show_ast(ast_root, LOG_DEBUG);
+			log_debug_show_ast(ast_root, log_level);
 			execute_pipeline(ast_root, app);
 			reset_stdio(app);
 			clear_astree(ast_root);

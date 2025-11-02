@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 15:35:22 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/01 15:53:29 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/03 07:06:29 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_astree	*_handle_pipe_sequence(t_token **tokens_head,
 	if (*tokens_head == NULL)
 	{
 		ft_putstr_fd(ERR_SYNTAX_TOKEN, 2);
-		ft_putendl_fd("|", 2);
+		ft_putendl_fd(" \'|\'", 2);
 		clear_astree(current_pipe_root);
 		return (NULL);
 	}

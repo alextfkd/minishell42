@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/03 05:34:59 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/03 07:02:44 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,10 @@ static int	_wait_for_heredoc(pid_t pid, int pipe_fds[2])
 	int	status;
 
 	close(pipe_fds[1]);
-	if (waitpid(pid, &status, 0) == -1)
+	while (waitpid(pid, &status, 0) == -1)
 	{
+		if (errno == EINTR)
+			continue ;
 		perror("minishell: pid heredoc waitpid");
 		return (1);
 	}
@@ -59,6 +61,7 @@ static int	_wait_for_heredoc(pid_t pid, int pipe_fds[2])
 
 static void	_heredoc_child(char *delimiter, int *pipe_fds, t_app *app)
 {
+	set_heredoc_signals();
 	if (dup2(app->original_stdin, STDIN_FILENO) == -1)
 	{
 		close(pipe_fds[0]);
@@ -82,7 +85,6 @@ int	handle_heredoc(t_red *red, t_app *app)
 		return (1);
 	}
 	red->fd = pipe_fds[0];
-	set_heredoc_signals();
 	pid = fork();
 	if (pid == -1)
 	{

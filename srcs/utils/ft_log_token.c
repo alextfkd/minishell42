@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 23:08:11 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/01 01:41:15 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/03 07:17:37 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ void	log_debug_show_token(t_token *head, t_loglevel log_level)
 	i = 0;
 	while (current != NULL)
 	{
-		if (current->data != NULL && log_level == LOG_DEBUG)
+		if (current->data != NULL && log_level <= LOG_DEBUG)
 			printf("[%d] kind: %-18s | value: [%s]\n",
 				i, _get_token_kind(current->tk), current->data);
 		current = current->next;
 		i++;
 	}
-	log_debug("---- Token list end ---", LOG_DEBUG);
+	log_debug("---- Token list end ---", log_level);
 }

@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/03 05:37:47 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/03 07:15:19 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void	_heredoc_ctrl_c_handler(int sig)
 {
 	(void)sig;
-	ft_putstr_fd("", 1);
 	exit(1);
 }
 
