@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/tez/42tokyo/minishell42/build",
+  "command": "/usr/bin/cc   -g -o CMakeFiles/minishell42.dir/minishell42.c.o -c /home/tez/42tokyo/minishell42/minishell42.c",
+  "file": "/home/tez/42tokyo/minishell42/minishell42.c",
+  "output": "CMakeFiles/minishell42.dir/minishell42.c.o"
+}
+]

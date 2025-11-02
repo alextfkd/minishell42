@@ -1,0 +1,2 @@
+/usr/bin/ar qc libminishell42.a CMakeFiles/minishell42.dir/minishell42.c.o
+/usr/bin/ranlib libminishell42.a

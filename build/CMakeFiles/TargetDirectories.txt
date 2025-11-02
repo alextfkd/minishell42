@@ -1,0 +1,3 @@
+/home/tez/42tokyo/minishell42/build/CMakeFiles/minishell42.dir
+/home/tez/42tokyo/minishell42/build/CMakeFiles/edit_cache.dir
+/home/tez/42tokyo/minishell42/build/CMakeFiles/rebuild_cache.dir

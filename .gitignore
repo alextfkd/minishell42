@@ -1,3 +1,9 @@
 .vscode/
-ex/bash/
-ex/a.out
+.gitignore
+.DS_Store
+minishell
+libft/*.a
+libft/*.o
+objs/main.o
+objs/*/*.o
+
