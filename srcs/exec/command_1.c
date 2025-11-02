@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:48:20 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/31 23:33:49 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/03 05:38:17 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	execute_builtin_parent(t_cmd *cmd, t_app *app)
 
 	tmp_stdin = dup(STDIN_FILENO);
 	tmp_stdout = dup(STDERR_FILENO);
-	if (handle_redirections(cmd->red) != 0)
+	if (handle_redirections(cmd->red, app) != 0)
 	{
 		_reset_std_fd(tmp_stdin, tmp_stdout);
 		return (1);
@@ -68,4 +68,18 @@ int	execute_builtin_parent(t_cmd *cmd, t_app *app)
 	status = execute_builtin_cmd(cmd, app);
 	_reset_std_fd(tmp_stdin, tmp_stdout);
 	return (status);
+}
+
+void	clear_residual_fds(void)
+{
+	int	fd;
+	int	max_fd;
+
+	fd = 3;
+	max_fd = 1024;
+	while (fd < max_fd)
+	{
+		close(fd);
+		fd++;
+	}
 }

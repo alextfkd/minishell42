@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:35:43 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/01 15:24:27 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/03 04:27:08 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	execute_single_cmd(t_cmd *cmd, t_app *app)
 {
 	char	*cmd_path;
 
-	if (handle_redirections(cmd->red) != 0)
+	if (handle_redirections(cmd->red, app) != 0)
 		exit(1);
 	if (get_builtin_type(cmd) != BT_NOT_BULTIN && BUILTIN_ON)
 		exit(_execute_builtin_child(cmd, app));

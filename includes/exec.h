@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/01 15:27:12 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/03 04:54:11 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "lexer.h"
 # include "libft.h"
 
+# define MAX_FD 1024
 # define MAX_PID 100
 # define MAX_ARGV 100
 # define BUILTIN_ON 0
@@ -81,15 +82,6 @@ struct	s_app
 	int		original_stdout;
 };
 
-// execute
-t_builtin_type	get_builtin_type(t_cmd *cmd);
-int				execute_cmd_node(t_cmd *cmd, t_app *app);
-int				handle_redirections(t_red *red_list);
-int				execute_pipeline(t_astree *node, t_app *app);
-int				execute_builtin_cmd(t_cmd *cmd, t_app *app);
-int				execute_builtin_parent(t_cmd *cmd, t_app *app);
-char			*find_cmd_path(char *av0);
-
 // command parser
 void			clear_cmd(t_cmd *cmd);
 int				count_argc(t_token *start, t_token *end);
@@ -114,13 +106,19 @@ void			astree_add_branch(t_astree *root, t_astree *left,
 void			clear_astree(t_astree *node);
 
 // execute
-int				do_redirect_in(t_red *red);
+t_builtin_type	get_builtin_type(t_cmd *cmd);
+int				execute_cmd_node(t_cmd *cmd, t_app *app);
+int				execute_pipeline(t_astree *node, t_app *app);
+int				execute_builtin_cmd(t_cmd *cmd, t_app *app);
+int				execute_builtin_parent(t_cmd *cmd, t_app *app);
+char			*find_cmd_path(char *av0);
+void			set_heredoc_signals(void);
+int				handle_heredoc(t_red *red, t_app *app);
+int				do_redirect_in(t_red *red, t_app *app);
 int				do_redirect_out(t_red *red);
-int				execute_command_node(t_cmd *cmd, t_app *app);
-int				handle_redirections(t_red *red_list);
+int				handle_redirections(t_red *red, t_app *app);
 int				set_exit_status(int status);
 void			execute_single_cmd(t_cmd *cmd, t_app *app);
-int				execute_pipeline(t_astree *node, t_app *app);
-int				new_exec_bulitin_cmd(t_cmd *cmd, t_app *app);
+void			clear_residual_fds(void);
 
 #endif
