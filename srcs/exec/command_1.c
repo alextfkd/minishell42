@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:48:20 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/03 05:38:17 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/03 06:00:22 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	clear_residual_fds(void)
 	int	max_fd;
 
 	fd = 3;
-	max_fd = 1024;
+	max_fd = MAX_FD;
 	while (fd < max_fd)
 	{
 		close(fd);
