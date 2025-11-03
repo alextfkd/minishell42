@@ -6,11 +6,18 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 15:35:22 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/03 07:06:29 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/03 09:41:56 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_parser_error(char *delimiter)
+{
+	ft_putstr_fd(ERR_SYNTAX_TOKEN, 1);
+	ft_putstr_fd(delimiter, 1);
+	ft_putendl_fd("\'", 1);
+}
 
 static t_astree	*_handle_pipe_sequence(t_token **tokens_head,
 		t_astree *current_pipe_root)
@@ -20,8 +27,7 @@ static t_astree	*_handle_pipe_sequence(t_token **tokens_head,
 	*tokens_head = (*tokens_head)->next;
 	if (*tokens_head == NULL)
 	{
-		ft_putstr_fd(ERR_SYNTAX_TOKEN, 2);
-		ft_putendl_fd(" \'|\'", 2);
+		print_parser_error("|");
 		clear_astree(current_pipe_root);
 		return (NULL);
 	}

@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/03 07:06:29 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/03 09:40:57 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define MAX_ARGV 100
 # define BUILTIN_ON 0
 # define HERE_DOC_PROMPT "> "
-# define ERR_SYNTAX_TOKEN "minishell: syntax error near unexpected token"
+# define ERR_SYNTAX_TOKEN "minishell: syntax error near unexpected token \'"
 
 typedef struct s_red	t_red;
 typedef struct s_cmd	t_cmd;
@@ -84,6 +84,7 @@ struct	s_app
 
 // command parser
 void			clear_cmd(t_cmd *cmd);
+void			print_parser_error(char *delimiter);
 int				count_argc(t_token *start, t_token *end);
 int				handle_argv(t_cmd *cmd, t_token *start, t_token *end);
 t_astree		*parse_command(t_token **tokens_head);

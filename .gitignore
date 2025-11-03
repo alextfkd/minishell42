@@ -5,5 +5,6 @@ minishell
 libft/*.a
 libft/*.o
 objs/main.o
+.env
 objs/*/*.o
-
+.github

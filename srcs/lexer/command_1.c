@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 06:30:16 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/01 12:35:52 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/03 09:36:10 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	handle_argv(t_cmd *cmd, t_token *start, t_token *end)
 	argc = count_argc(start, end);
 	if (argc < 0)
 	{
-		ft_putendl_fd(ERR_SYNTAX_TOKEN, 2);
+		print_parser_error("newline");
 		return (1);
 	}
 	cmd->argv = (char **)ft_calloc(argc + 1, sizeof(char *));
