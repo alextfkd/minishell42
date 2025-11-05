@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/06 02:52:41 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/06 08:35:01 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ t_shell		*create_t_shell(int argc, char **argv);
 t_status	free_t_shell(t_shell *shell);
 
 //builtin
+char		*ft_get_current_dir(void);
 int			ft_pwd(void);
 int			ft_env(t_app *app);
 
