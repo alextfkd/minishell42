@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/03 04:54:11 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/04 23:48:32 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,16 +94,16 @@ t_astree		*parse_pipeline(t_token **tokens_head);
 // redirection parser
 int				is_red(t_tkind tk);
 void			clear_red(t_red *head_red);
-t_red			*create_red_node(t_tkind tk, char *data);
+//t_red			*create_red_node(t_tkind tk, char *data);
 void			red_add_back(t_red **head_red, t_red *new);
 int				handle_red(t_cmd *cmd, t_token **current);
 
 // create AST
-t_astree		*create_ast_node(t_node type, t_cmd *cmd, t_astree *left,
+t_astree		*astree_create_node(t_node type, t_cmd *cmd, t_astree *left,
 					t_astree *right);
 void			astree_add_branch(t_astree *root, t_astree *left,
 					t_astree *right);
-void			clear_astree(t_astree *node);
+void			astree_clear(t_astree *node);
 
 // execute
 t_builtin_type	get_builtin_type(t_cmd *cmd);
