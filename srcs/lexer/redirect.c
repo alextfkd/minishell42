@@ -3,72 +3,78 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:44:01 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/03 02:06:32 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/05 04:24:27 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// check error
+static t_red	*_create_red_node(t_tkind tk, char *file);
+static int		_validate_red_target(t_token *target);
 
-static int	_print_file_error(t_token *file)
+/* Create redirection node (t_red) and append on (or create) t_cmd->red.
+The new redirection node is created from the current token (operator) and
+the next token (redirection target).*/
+int	handle_red(t_cmd *cmd, t_token **current)
 {
+	t_token	*operator;
+	t_token	*target;
+	char	*target_data;
+	t_red	*redirection_node;
+
+	if (!cmd || !current || !(*current))
+		return (1);
+	operator = *current;
+	target = operator->next;
+	if (_validate_red_target(target))
+		return (1);
+	target_data = ft_strdup(target->data);
+	if (!target_data)
+		return (perror("minishell: red->data memory allocation error"), 1);
+	redirection_node = _create_red_node(operator->tk, target_data);
+	if (!redirection_node)
+		return (perror("minishell: t_red memory allocated error"), 1);
+	else if (cmd->red == NULL)
+		cmd->red = redirection_node;
+	else
+		red_add_back(&(cmd->red), redirection_node);
+	*current = operator->next->next;
+	return (0);
+}
+
+// Create a new redirection node (t_red).
+static t_red	*_create_red_node(t_tkind tk, char *file)
+{
+	t_red	*new;
+
 	if (file == NULL)
+		return (NULL);
+	new = ft_calloc(1, sizeof(t_red));
+	if (!new)
+		return (NULL);
+	new->tk = tk;
+	new->file = file;
+	new->next = NULL;
+	return (new);
+}
+
+/* Returns 1 if t_token is NULL or t_token->tk is not TK_CHAR; 
+Otherwise returns 0.*/
+static int	_validate_red_target(t_token *target)
+{
+	if (target == NULL)
 	{
 		ft_putstr_fd(ERR_SYNTAX_TOKEN, 2);
 		ft_putendl_fd(" \'newline\'", 2);
 		return (1);
 	}
-	if (file->tk != TK_CHAR)
+	if (target->tk != TK_CHAR)
 	{
 		ft_putendl_fd(ERR_SYNTAX_TOKEN, 2);
 		return (1);
 	}
 	return (0);
-}
-
-// handle redirection
-int	handle_red(t_cmd *cmd, t_token **current)
-{
-	t_token	*operator;
-	t_token	*file;
-	char	*new_data;
-	t_red	*new_red;
-
-	operator = *current;
-	file = operator->next;
-	if (_print_file_error(file))
-		return (1);
-	new_data = ft_strdup(file->data);
-	if (!new_data)
-	{
-		perror("minishell: red->data memory allocation error");
-		return (1);
-	}
-	new_red = create_red_node(operator->tk, new_data);
-	if (!new_red)
-		return (1);
-	red_add_back(&(cmd->red), new_red);
-	*current = operator->next->next;
-	return (0);
-}
-
-// create new redirection node
-t_red	*create_red_node(t_tkind tk, char *file)
-{
-	t_red	*new;
-
-	new = ft_calloc(1, sizeof(t_red));
-	if (!new)
-	{
-		perror("minishell: t_red memory allocated error");
-		return (NULL);
-	}
-	new->tk = tk;
-	new->file = file;
-	new->next = NULL;
-	return (new);
 }
