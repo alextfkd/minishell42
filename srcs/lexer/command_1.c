@@ -3,14 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   command_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 06:30:16 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/01 12:35:52 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/06 01:15:55 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	_argv_loop(t_cmd *cmd, t_token **current_ptr, int *i_ptr,
+				t_token *end);
+static int	_set_argv(t_cmd *cmd, t_token *start, t_token *end);
+static int	_count_argc(t_token *start, t_token *end);
+
+// handle argv
+int	handle_argv(t_cmd *cmd, t_token *start, t_token *end)
+{
+	int	argc;
+
+	if (!cmd)
+		return (1);
+	argc = _count_argc(start, end);
+	if (argc < 0)
+	{
+		ft_putendl_fd(ERR_SYNTAX_TOKEN, 2);
+		return (1);
+	}
+	cmd->argv = (char **)ft_calloc(argc + 1, sizeof(char *));
+	if (!cmd->argv)
+	{
+		perror("minishell: t_cmd->argv memory allocated error");
+		return (1);
+	}
+	if (_set_argv(cmd, start, end))
+		return (1);
+	cmd->argc = argc;
+	return (0);
+}
 
 // free cmd list
 void	clear_cmd(t_cmd *cmd)
@@ -22,33 +52,6 @@ void	clear_cmd(t_cmd *cmd)
 	if (cmd->argv)
 		ft_free_tab(cmd->argv);
 	free(cmd);
-}
-
-// count TK_CHAR and increment argc
-int	count_argc(t_token *start, t_token *end)
-{
-	t_token	*current;
-	int		argc;
-
-	argc = 0;
-	current = start;
-	while (current != end)
-	{
-		if (is_red(current->tk))
-		{
-			if (current->next == NULL || current->next->tk != TK_CHAR)
-				return (-1);
-			current = current->next->next;
-		}
-		else if (current->tk == TK_CHAR)
-		{
-			argc++;
-			current = current->next;
-		}
-		else
-			return (-1);
-	}
-	return (argc);
 }
 
 static int	_argv_loop(t_cmd *cmd, t_token **current_ptr, int *i_ptr,
@@ -90,25 +93,30 @@ static int	_set_argv(t_cmd *cmd, t_token *start, t_token *end)
 	return (0);
 }
 
-// handle argv
-int	handle_argv(t_cmd *cmd, t_token *start, t_token *end)
+/* count TK_CHAR and increment argc
+*/ 
+static int	_count_argc(t_token *start, t_token *end)
 {
-	int	argc;
+	t_token	*current;
+	int		argc;
 
-	argc = count_argc(start, end);
-	if (argc < 0)
+	argc = 0;
+	current = start;
+	while (current != end)
 	{
-		ft_putendl_fd(ERR_SYNTAX_TOKEN, 2);
-		return (1);
+		if (is_red(current->tk))
+		{
+			if (current->next == NULL || current->next->tk != TK_CHAR)
+				return (-1);
+			current = current->next->next;
+		}
+		else if (current->tk == TK_CHAR)
+		{
+			argc++;
+			current = current->next;
+		}
+		else
+			return (-1);
 	}
-	cmd->argv = (char **)ft_calloc(argc + 1, sizeof(char *));
-	if (!cmd->argv)
-	{
-		perror("minishell: t_cmd->argv memory allocated error");
-		return (1);
-	}
-	if (_set_argv(cmd, start, end))
-		return (1);
-	cmd->argc = argc;
-	return (0);
+	return (argc);
 }
