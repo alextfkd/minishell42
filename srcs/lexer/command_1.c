@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 06:30:16 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/06 06:39:30 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/06 08:27:51 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@ int	set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end)
 	int	argc;
 
 	if (!cmd)
-		return (1);
+		log_debug("cmd is null in set_cmd_argv!", LOG_DEBUG);
+		//return (1);
 	argc = _count_argc(start, end);
+	log_debug("current argc", LOG_DEBUG);
+	printf("argc -> %d\n", argc);
 	if (argc < 0)
 	{
 		ft_putendl_fd(ERR_SYNTAX_TOKEN, 2);
