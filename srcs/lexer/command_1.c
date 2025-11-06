@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 06:30:16 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/06 05:41:54 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/06 06:39:30 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,6 @@ int	set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end)
 		return (1);
 	cmd->argc = argc;
 	return (0);
-}
-
-// free cmd list
-void	clear_cmd(t_cmd *cmd)
-{
-	if (!cmd)
-		return ;
-	if (cmd->red)
-		clear_red(cmd->red);
-	if (cmd->argv)
-		ft_free_tab(cmd->argv);
-	free(cmd);
 }
 
 static int	_argv_loop(t_cmd *cmd, t_token **current_ptr, int *i_ptr,

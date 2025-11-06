@@ -6,19 +6,19 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 06:30:16 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/06 06:04:33 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/06 06:43:27 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static t_cmd	*_create_empty_cmd_node(void);
-static int		set_cmd_redirection(t_cmd *cmd, t_token *current);
+void			clear_cmd(t_cmd *cmd);
 
 t_astree	*parse_command(t_token **tokens_head)
 {
-	t_cmd		*cmd;
 	t_astree	*node;
+	t_cmd		*cmd;
 	t_token		*current;
 	t_token		*head;
 
@@ -38,6 +38,18 @@ t_astree	*parse_command(t_token **tokens_head)
 	return (node);
 }
 
+// free cmd list
+void	clear_cmd(t_cmd *cmd)
+{
+	if (!cmd)
+		return ;
+	if (cmd->red)
+		clear_red(cmd->red);
+	if (cmd->argv)
+		ft_free_tab(cmd->argv);
+	free(cmd);
+}
+
 /* Create empty cmd node.*/
 static t_cmd	*_create_empty_cmd_node(void)
 {
@@ -49,26 +61,4 @@ static t_cmd	*_create_empty_cmd_node(void)
 		return (NULL);
 	}
 	return (cmd);
-}
-
-static int	set_cmd_redirection(t_cmd *cmd, t_token *current)
-{
-	t_token	*p_token;
-	int		res;
-
-	if (!cmd)
-		return (1);
-	p_token = current;
-	while (p_token != NULL && p_token->tk != TK_PIPE)
-	{
-		if (is_red(p_token->tk))
-		{
-			res = append_red_to_cmd(cmd, p_token);
-			if (res == 1)
-				return (1);
-		}
-		p_token = p_token->next;
-	}
-	//*current_ptr = current;
-	return (0);
 }
