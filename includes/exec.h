@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/03 04:54:11 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/06 09:09:31 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_red	t_red;
 typedef struct s_cmd	t_cmd;
 typedef struct s_astree	t_astree;
 typedef struct s_app	t_app;
+typedef struct s_env	t_env;
 
 // type of a bulitin command
 typedef enum e_bultin_type
@@ -74,9 +75,17 @@ struct	s_cmd
 	t_red	*red;
 };
 
+struct s_env
+{
+	char	*key;
+	char	*value;
+	t_env	*next;
+};
+
 struct	s_app
 {
 	char	**envp;
+	t_env	*env_list;
 	int		exit_status;
 	int		original_stdin;
 	int		original_stdout;

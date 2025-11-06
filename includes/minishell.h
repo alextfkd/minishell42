@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/06 08:35:01 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/07 05:36:24 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void		log_warning(char *msg, t_loglevel log_level);
 void		log_info(char *msg, t_loglevel log_level);
 void		log_debug_show_token(t_token *token_head, t_loglevel log_level);
 void		log_debug_show_ast(t_astree *ast_root, t_loglevel log_level);
-
+void		print_redirections(t_red *red);
 void		sigint_handler(int signal);
 int			exit_with_sigeof(void);
 

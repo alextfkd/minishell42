@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 05:25:43 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/03 07:18:27 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/07 04:18:25 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,8 @@ static void	_print_ast_node(t_astree *node)
 			i++;
 		}
 		printf("]");
-		if (node->cmd->red)
-			printf(" + Reds...)");
-		else
-			printf(")");
+		print_redirections(node->cmd->red);
+		printf(")");
 	}
 }
 

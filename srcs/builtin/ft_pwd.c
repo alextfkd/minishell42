@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:34:42 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/06 08:32:03 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/06 08:53:43 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_get_current_dir(void)
 }
 
 /**
- * @brief Prints the current sworking directory
+ * @brief Prints the current sworking directory to standard output.
  *
  * @return int 0 if successful,1 on error.
  */
