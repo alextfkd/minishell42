@@ -6,14 +6,14 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 06:30:16 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/06 11:13:02 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/06 11:38:26 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static t_cmd	*_create_empty_cmd_node(void);
-static int		_parse_cmd_loop(t_cmd *cmd, t_token **current_ptr);
+static int		_seek_redirection(t_cmd *cmd, t_token **current_ptr);
 
 t_astree	*parse_command(t_token **tokens_head)
 {
@@ -51,10 +51,10 @@ static t_cmd	*_create_empty_cmd_node(void)
 	return (cmd);
 }
 
-static int	_parse_cmd_loop(t_cmd *cmd, t_token **current_ptr)
+static int	_seek_redirection(t_cmd *cmd, t_token *current)
 {
 	t_token	*current;
-	int		append_red_to_cmd_res;
+	int		res;
 
 	if (!cmd || !current_ptr || !(*current_ptr))
 		return (1);
@@ -63,14 +63,11 @@ static int	_parse_cmd_loop(t_cmd *cmd, t_token **current_ptr)
 	{
 		if (is_red(current->tk))
 		{
-			append_red_to_cmd_res = append_red_to_cmd(cmd, current_ptr);
-			if (append_red_to_cmd_res == 1)
+			res = append_red_to_cmd(cmd, current_ptr);
+			if (res == 1)
 				return (1);
 		}
-		else
-		{
-			current = current->next;
-		}
+		current = current->next;
 	}
 	*current_ptr = current;
 	return (0);

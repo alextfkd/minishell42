@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:44:01 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/06 11:13:02 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/06 11:23:31 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ static int		_validate_red_target(t_token *target);
 /* Create redirection node (t_red) and append on (or create) t_cmd->red.
 The new redirection node is created from the current token (operator) and
 the next token (redirection target).*/
-int	append_red_to_cmd(t_cmd *cmd, t_token **current)
+int	append_red_to_cmd(t_cmd *cmd, t_token *current)
 {
 	t_token	*operator;
 	t_token	*target;
 	char	*target_data;
 	t_red	*redirection_node;
 
-	if (!cmd || !current || !(*current))
+	if (!cmd || !current)
 		return (1);
-	operator = *current;
+	operator = current;
 	target = operator->next;
 	if (_validate_red_target(target))
 		return (1);
@@ -41,7 +41,6 @@ int	append_red_to_cmd(t_cmd *cmd, t_token **current)
 		cmd->red = redirection_node;
 	else
 		red_add_back(&(cmd->red), redirection_node);
-	*current = operator->next->next;
 	return (0);
 }
 
