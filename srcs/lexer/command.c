@@ -6,14 +6,13 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 06:30:16 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/05 01:04:51 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/06 11:13:02 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static t_cmd	*_create_empty_cmd_node(void);
-static int		_handle_red_or_cleanup(t_cmd *cmd, t_token **current_ptr);
 static int		_parse_cmd_loop(t_cmd *cmd, t_token **current_ptr);
 
 t_astree	*parse_command(t_token **tokens_head)
@@ -25,18 +24,15 @@ t_astree	*parse_command(t_token **tokens_head)
 
 	if (!tokens_head || !(*tokens_head))
 		return (NULL);
+	head = *tokens_head;
+	current = *tokens_head;
 	cmd = _create_empty_cmd_node();
 	if (!cmd)
-		return (NULL);
-	head = *tokens_head;
-	current = head;
+		return (perror("minishell: t_cmd memory allocated error"), NULL);
 	if (_parse_cmd_loop(cmd, &current))
-		return (NULL);
+		return (clear_cmd(cmd), NULL);
 	if (handle_argv(cmd, head, current))
-	{
-		clear_cmd(cmd);
-		return (NULL);
-	}
+		return (clear_cmd(cmd), NULL);
 	*tokens_head = current;
 	node = astree_create_node(NODE_CMD, cmd, NULL, NULL);
 	return (node);
@@ -50,7 +46,6 @@ static t_cmd	*_create_empty_cmd_node(void)
 	cmd = ft_calloc(1, sizeof(t_cmd));
 	if (!cmd)
 	{
-		perror("minishell: t_cmd memory allocated error");
 		return (NULL);
 	}
 	return (cmd);
@@ -59,29 +54,24 @@ static t_cmd	*_create_empty_cmd_node(void)
 static int	_parse_cmd_loop(t_cmd *cmd, t_token **current_ptr)
 {
 	t_token	*current;
+	int		append_red_to_cmd_res;
 
+	if (!cmd || !current_ptr || !(*current_ptr))
+		return (1);
 	current = *current_ptr;
 	while (current != NULL && current->tk != TK_PIPE)
 	{
 		if (is_red(current->tk))
 		{
-			if (_handle_red_or_cleanup(cmd, &current))
+			append_red_to_cmd_res = append_red_to_cmd(cmd, current_ptr);
+			if (append_red_to_cmd_res == 1)
 				return (1);
 		}
 		else
+		{
 			current = current->next;
+		}
 	}
 	*current_ptr = current;
-	return (0);
-}
-
-/**/
-static int	_handle_red_or_cleanup(t_cmd *cmd, t_token **current_ptr)
-{
-	if (handle_red(cmd, current_ptr))
-	{
-		clear_cmd(cmd);
-		return (1);
-	}
 	return (0);
 }

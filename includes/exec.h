@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/05 01:45:23 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/06 11:14:02 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int				is_red(t_tkind tk);
 void			clear_red(t_red *head_red);
 //t_red			*create_red_node(t_tkind tk, char *data);
 void			red_add_back(t_red **head_red, t_red *new);
-int				handle_red(t_cmd *cmd, t_token **current);
+int				append_red_to_cmd(t_cmd *cmd, t_token **current);
 
 t_astree		*astree_create_node(t_node type, t_cmd *cmd, t_astree *left,
 					t_astree *right);

@@ -8,3 +8,4 @@ objs/main.o
 .env
 objs/*/*.o
 
+libft/objs/*.o
