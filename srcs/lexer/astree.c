@@ -6,19 +6,41 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:38:27 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/05 00:14:34 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/06 07:45:42 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	_astree_set_type(t_astree *node, t_node type);
-static void	_astree_set_cmd(t_astree *node, t_cmd *cmd);
 void		astree_clear(t_astree *node);
 void		astree_add_branch(t_astree *node, t_astree *left, t_astree *right);
+static t_astree	*_astree_create_node(
+		t_node type,
+		t_cmd *cmd,
+		t_astree *left,
+		t_astree *right );
+
+t_astree	*astree_create_cmd_node(t_token **tokens_head)
+{
+	t_cmd		*cmd;
+	t_astree	*node;
+
+	cmd = parse_command(tokens_head);
+	if (cmd == NULL)
+		return (NULL);
+	node = _astree_create_node(NODE_CMD, cmd, NULL, NULL);
+	if (node == NULL)
+		return (clear_cmd(cmd), NULL);
+	return (node);
+}
+
+t_astree	*astree_create_pipe_node(t_astree *left, t_astree *right)
+{
+	return (_astree_create_node(NODE_PIPE, NULL, left, right));
+}
 
 /*Create AST tree node. */
-t_astree	*astree_create_node(
+static t_astree	*_astree_create_node(
 		t_node type,
 		t_cmd *cmd,
 		t_astree *left,
@@ -35,8 +57,8 @@ t_astree	*astree_create_node(
 		astree_clear(right);
 		return (NULL);
 	}
-	_astree_set_type(new, type);
-	_astree_set_cmd(new, cmd);
+	new->type = type;
+	new->cmd = cmd;
 	astree_add_branch(new, left, right);
 	return (new);
 }
@@ -60,18 +82,4 @@ void	astree_add_branch(t_astree *node, t_astree *left, t_astree *right)
 		return ;
 	node->left = left;
 	node->right = right;
-}
-
-static void	_astree_set_type(t_astree *node, t_node type)
-{
-	if (!node)
-		return ;
-	node->type = type;
-}
-
-static void	_astree_set_cmd(t_astree *node, t_cmd *cmd)
-{
-	if (!node || !cmd)
-		return ;
-	node->cmd = cmd;
 }

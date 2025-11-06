@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 15:35:22 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/05 00:09:03 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/06 07:44:08 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,18 @@ static t_astree	*_handle_pipe_sequence(
 
 t_astree	*parse_pipeline(t_token **tokens_head)
 {
-	t_astree	*pipe_root;
+	t_astree	*root_node;
 
-	pipe_root = parse_command(tokens_head);
-	if (!pipe_root)
+	root_node = astree_create_cmd_node(tokens_head);
+	if (!root_node)
 		return (NULL);
 	while (*tokens_head != NULL && (*tokens_head)->tk == TK_PIPE)
 	{
-		pipe_root = _handle_pipe_sequence(tokens_head, pipe_root);
-		if (!pipe_root)
+		root_node = _handle_pipe_sequence(tokens_head, root_node);
+		if (!root_node)
 			return (NULL);
 	}
-	return (pipe_root);
+	return (root_node);
 }
 
 static t_astree	*_handle_pipe_sequence(t_token **tokens_head,
@@ -45,14 +45,13 @@ static t_astree	*_handle_pipe_sequence(t_token **tokens_head,
 		astree_clear(current_pipe_root);
 		return (NULL);
 	}
-	right_node = parse_command(tokens_head);
+	right_node = astree_create_cmd_node(tokens_head);
 	if (!right_node)
 	{
 		astree_clear(current_pipe_root);
 		return (NULL);
 	}
-	current_pipe_root = astree_create_node(NODE_PIPE, NULL, current_pipe_root,
-			right_node);
+	current_pipe_root = astree_create_pipe_node(current_pipe_root, right_node);
 	if (!current_pipe_root)
 	{
 		astree_clear(current_pipe_root);

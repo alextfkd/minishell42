@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/06 06:12:38 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/06 07:42:00 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,8 @@ int			set_cmd_redirection(t_cmd *cmd, t_token *current);
 int			clear_app(t_app *app);
 int			setup_app(t_app *app, char **envp);
 void		reset_stdio(t_app *app);
+
+t_astree	*astree_create_cmd_node(t_token **tokens_head);
+t_astree	*astree_create_pipe_node(t_astree *left, t_astree *right);
 
 #endif

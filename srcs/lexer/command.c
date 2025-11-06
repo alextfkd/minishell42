@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 06:30:16 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/06 06:43:27 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/06 07:46:09 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 static t_cmd	*_create_empty_cmd_node(void);
 void			clear_cmd(t_cmd *cmd);
 
-t_astree	*parse_command(t_token **tokens_head)
+t_cmd	*parse_command(t_token **tokens_head)
 {
-	t_astree	*node;
 	t_cmd		*cmd;
 	t_token		*current;
 	t_token		*head;
@@ -34,8 +33,7 @@ t_astree	*parse_command(t_token **tokens_head)
 	if (set_cmd_argv(cmd, head, current))
 		return (clear_cmd(cmd), NULL);
 	*tokens_head = current;
-	node = astree_create_node(NODE_CMD, cmd, NULL, NULL);
-	return (node);
+	return (cmd);
 }
 
 // free cmd list
