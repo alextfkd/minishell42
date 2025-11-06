@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/06 11:14:02 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/06 06:03:47 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ struct	s_app
 // command parser
 void			clear_cmd(t_cmd *cmd);
 //int				count_argc(t_token *start, t_token *end);
-int				handle_argv(t_cmd *cmd, t_token *start, t_token *end);
+int				set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end);
 t_astree		*parse_command(t_token **tokens_head);
 
 // pipeline perser
@@ -96,7 +96,7 @@ int				is_red(t_tkind tk);
 void			clear_red(t_red *head_red);
 //t_red			*create_red_node(t_tkind tk, char *data);
 void			red_add_back(t_red **head_red, t_red *new);
-int				append_red_to_cmd(t_cmd *cmd, t_token **current);
+int				append_red_to_cmd(t_cmd *cmd, t_token *current);
 
 t_astree		*astree_create_node(t_node type, t_cmd *cmd, t_astree *left,
 					t_astree *right);

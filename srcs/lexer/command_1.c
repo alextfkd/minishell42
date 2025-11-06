@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 06:30:16 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/06 01:15:55 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/06 05:41:54 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,11 @@ static int	_argv_loop(t_cmd *cmd, t_token **current_ptr, int *i_ptr,
 static int	_set_argv(t_cmd *cmd, t_token *start, t_token *end);
 static int	_count_argc(t_token *start, t_token *end);
 
-// handle argv
-int	handle_argv(t_cmd *cmd, t_token *start, t_token *end)
+/* Set array of *char to t_cmd->argv. The redirection operator token 
+and the following redirection target are excluded.
+The length of array is n + 1, terminating with NULL.
+*/
+int	set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end)
 {
 	int	argc;
 
