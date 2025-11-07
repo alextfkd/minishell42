@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 22:49:41 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/29 22:01:29 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:45:19 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,12 @@ static char	*_search_paths(char **paths, char *av0)
 	return (NULL);
 }
 
+/**
+ * @brief search for the full path of the executable file form command name
+ *
+ * @param av0 command name to execute (e.g.,"ls")
+ * @return char* the full path to executable file. Return Null if not found.
+ */
 char	*find_cmd_path(char *av0)
 {
 	char	**paths;
