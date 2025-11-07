@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 23:28:39 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/03 06:25:10 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/10/31 15:17:58 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ struct s_lexer
 	t_token		*tail;
 };
 
+// lexer
 int			extract_symbol_token(t_lexer *lex);
 int			extract_word_token(t_lexer *lex);
 t_token		*upsert_token(t_lexer *lex, t_tkind tk, char *start, int len);

@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:48:20 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/03 04:16:51 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/07 06:30:02 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,7 @@ int	execute_external_cmd(t_cmd *cmd, t_app *app)
 
 	pid = fork();
 	if (pid == 0)
-	{
 		_execute_child_process(cmd, app);
-	}
 	else if (pid < 0)
 	{
 		perror("minishell:");

@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/01 16:08:49 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/07 06:47:26 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # define _XOPEN_SOURCE 700
 
 # include "exec.h"
+# include "builtin.h"
 # include "libft.h"
 # include <dirent.h>
 # include <errno.h>
@@ -35,6 +36,7 @@
 # include <sys/wait.h>
 # include <term.h>
 # include <unistd.h>
+# include <limits.h>
 # define FT_PROMPT "minishell$ "
 
 extern volatile sig_atomic_t	g_sig_received;
@@ -78,7 +80,7 @@ void		log_warning(char *msg, t_loglevel log_level);
 void		log_info(char *msg, t_loglevel log_level);
 void		log_debug_show_token(t_token *token_head, t_loglevel log_level);
 void		log_debug_show_ast(t_astree *ast_root, t_loglevel log_level);
-
+void		print_redirections(t_red *red);
 void		sigint_handler(int signal);
 int			exit_with_sigeof(void);
 

@@ -7,4 +7,6 @@ libft/*.o
 objs/main.o
 .env
 objs/*/*.o
-.github
+.env
+pipex_tester/
+memo.c

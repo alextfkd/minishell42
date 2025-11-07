@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/03 09:40:57 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/07 15:38:14 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,15 @@
 # include "libft.h"
 
 # define MAX_FD 1024
-# define MAX_PID 100
-# define MAX_ARGV 100
-# define BUILTIN_ON 0
+# define BUILTIN_ON 1
 # define HERE_DOC_PROMPT "> "
-# define ERR_SYNTAX_TOKEN "minishell: syntax error near unexpected token \'"
+# define ERR_SYNTAX_TOKEN "minishell: syntax error near unexpected token"
 
 typedef struct s_red	t_red;
 typedef struct s_cmd	t_cmd;
 typedef struct s_astree	t_astree;
 typedef struct s_app	t_app;
+typedef struct s_env	t_env;
 
 // type of a bulitin command
 typedef enum e_bultin_type
@@ -66,17 +65,35 @@ struct	s_red
 	t_red	*next;
 };
 
-// single command Structure
+/**
+ * @brief
+ *
+ */
 struct	s_cmd
 {
 	int		argc;
 	char	**argv;
+	int		is_piped;
+	int		stdin;
+	int		stdout;
 	t_red	*red;
+};
+
+/**
+ * @brief
+ *
+ */
+struct s_env
+{
+	char	*key;
+	char	*value;
+	t_env	*next;
 };
 
 struct	s_app
 {
 	char	**envp;
+	t_env	*env_list;
 	int		exit_status;
 	int		original_stdin;
 	int		original_stdout;
@@ -84,7 +101,6 @@ struct	s_app
 
 // command parser
 void			clear_cmd(t_cmd *cmd);
-void			print_parser_error(char *delimiter);
 int				count_argc(t_token *start, t_token *end);
 int				handle_argv(t_cmd *cmd, t_token *start, t_token *end);
 t_astree		*parse_command(t_token **tokens_head);
@@ -121,5 +137,7 @@ int				handle_redirections(t_red *red, t_app *app);
 int				set_exit_status(int status);
 void			execute_single_cmd(t_cmd *cmd, t_app *app);
 void			clear_residual_fds(void);
+
+
 
 #endif

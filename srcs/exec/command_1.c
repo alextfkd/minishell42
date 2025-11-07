@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:48:20 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/03 06:00:22 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/07 15:52:54 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,6 @@ t_builtin_type	get_builtin_type(t_cmd *cmd)
 	if (ft_strcmp(name, "env") == 0)
 		return (BT_ENV);
 	return (BT_NOT_BULTIN);
-}
-
-int	execute_builtin_cmd(t_cmd *cmd, t_app *app)
-{
-	(void)app;
-	printf("execute a builtin cmd -> %s\n", cmd->argv[0]);
-	return (0);
 }
 
 static void	_reset_std_fd(int tmp_stdin, int tmp_stdout)
