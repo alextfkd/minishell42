@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/07 07:48:36 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/07 05:24:41 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	_heredoc_loop(char *delimiter, int *pipe_fds)
 
 	while (1)
 	{
+		fflush(stdout);
 		line = readline(HERE_DOC_PROMPT);
 		if (!line)
 		{
@@ -69,7 +70,6 @@ static void	_heredoc_child(char *delimiter, int *pipe_fds, t_app *app)
 		close(pipe_fds[1]);
 		exit(1);
 	}
-	close(app->original_stdout);
 	close(pipe_fds[0]);
 	_heredoc_loop(delimiter, pipe_fds);
 	close(pipe_fds[1]);

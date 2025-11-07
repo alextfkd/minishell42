@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/07 06:47:26 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/07 05:36:24 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # define _XOPEN_SOURCE 700
 
 # include "exec.h"
-# include "builtin.h"
 # include "libft.h"
 # include <dirent.h>
 # include <errno.h>
@@ -96,6 +95,11 @@ int			execute_cmd(char *inpt, char **envp, t_loglevel log_level);
 void		exec_line(t_shell *shell, char **envp);
 t_shell		*create_t_shell(int argc, char **argv);
 t_status	free_t_shell(t_shell *shell);
+
+//builtin
+char		*ft_get_current_dir(void);
+int			ft_pwd(void);
+int			ft_env(t_app *app);
 
 // app util
 int			clear_app(t_app *app);

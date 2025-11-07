@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/07 15:38:14 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/06 09:09:31 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 # include "libft.h"
 
 # define MAX_FD 1024
-# define BUILTIN_ON 1
+# define MAX_PID 100
+# define MAX_ARGV 100
+# define BUILTIN_ON 0
 # define HERE_DOC_PROMPT "> "
 # define ERR_SYNTAX_TOKEN "minishell: syntax error near unexpected token"
 
@@ -65,24 +67,14 @@ struct	s_red
 	t_red	*next;
 };
 
-/**
- * @brief
- *
- */
+// single command Structure
 struct	s_cmd
 {
 	int		argc;
 	char	**argv;
-	int		is_piped;
-	int		stdin;
-	int		stdout;
 	t_red	*red;
 };
 
-/**
- * @brief
- *
- */
 struct s_env
 {
 	char	*key;
@@ -137,7 +129,5 @@ int				handle_redirections(t_red *red, t_app *app);
 int				set_exit_status(int status);
 void			execute_single_cmd(t_cmd *cmd, t_app *app);
 void			clear_residual_fds(void);
-
-
 
 #endif
