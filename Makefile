@@ -19,7 +19,7 @@ LFLAGS = -Llibft
 LIBFLAGS = -lft -lreadline
 
 SRCS_MAIN = main.c
-UTILS_FILES = ft_log.c ft_shell.c ft_sig_handler.c ft_log_token.c ft_app.c ft_log_astree.c ft_log_astree_sub.c
+UTILS_FILES = ft_log.c ft_shell.c ft_sig_handler.c ft_log_token.c ft_app.c ft_log_astree.c ft_log_astree_sub.c ft_env.c ft_env_sub.c ft_env_list.c
 PROMPT_FILES = interactive_shell.c noninteractive_shell.c shell_buffer.c shell_buf_free.c execute_line.c
 EXEC_FILES = find_cmd_path.c command.c command_1.c pipeline.c pipeline_1.c redirect_io.c redirect_in.c redirect_out.c heredoc.c heredoc_1.c
 LEXER_FILES = extract_symbol_token.c extract_word_token.c lexer.c astree.c command.c command_1.c parser.c redirect.c redirect_1.c

@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/07 05:36:24 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/09 15:03:47 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,22 @@ t_shell		*create_t_shell(int argc, char **argv);
 t_status	free_t_shell(t_shell *shell);
 
 //builtin
-char		*ft_get_current_dir(void);
 int			ft_pwd(void);
 int			ft_env(t_app *app);
 
 // app util
-int			clear_app(t_app *app);
+int			free_app(t_app *app);
 int			setup_app(t_app *app, char **envp);
 void		reset_stdio(t_app *app);
+
+// env uti
+t_env		*envp_to_env_list(char **envp);
+char		**env_list_to_envp(t_env *env_list);
+char		**update_envp(t_env *env_list, char **current_envp);
+void		free_envp(char **envp);
+char		*get_key_env_line(const char *envp_line);
+char		*get_value_env_line(const char *envp_line);
+char		**dup_envp(char **main_envp);
+char		*env_get_value(t_env *env_list, const char *key);
 
 #endif

@@ -6,23 +6,34 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 10:58:24 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/01 16:07:33 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/09 14:51:56 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// clear values of app and close stdio
-int	clear_app(t_app *app)
+/**
+ * @brief Cleans up and frees all resources held
+ * by the main application structure.
+ *
+ * @param app
+ * @return int
+ */
+int	free_app(t_app *app)
 {
 	if (app->envp)
-		ft_free_tab(app->envp);
+		free_envp(app->envp);
 	close(app->original_stdin);
 	close(app->original_stdout);
 	return (app->exit_status);
 }
 
-// reset stdio in main.
+/**
+ * @brief Resets standard input and output file descriptors
+ * to their original state.
+ *
+ * @param app
+ */
 void	reset_stdio(t_app *app)
 {
 	if (dup2(app->original_stdin, STDIN_FILENO) < 0)
@@ -31,36 +42,14 @@ void	reset_stdio(t_app *app)
 		perror("misnishell: reset stdout");
 }
 
-// duplicate envp;
-static char	**_dup_envp(char **envp)
-{
-	int		len;
-	int		i;
-	char	**new;
-
-	len = 0;
-	while (envp[len] != NULL)
-		len++;
-	new = (char **)ft_calloc(len + 1, sizeof(char *));
-	if (!new)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		new[i] = ft_strdup(envp[i]);
-		if (!new[i])
-		{
-			new[i] = NULL;
-			ft_free_tab(new);
-			return (NULL);
-		}
-		i++;
-	}
-	new[i] = NULL;
-	return (new);
-}
-
-// set up t_app
+/**
+ * @brief Initializes the main application structure (t_app),
+ * duplicates standard I/O,and copies the environment variables.
+ *
+ * @param app
+ * @param envp
+ * @return * int
+ */
 int	setup_app(t_app *app, char **envp)
 {
 	app->exit_status = 0;
@@ -71,10 +60,10 @@ int	setup_app(t_app *app, char **envp)
 		perror("minishell: dup stdio");
 		return (1);
 	}
-	app->envp = _dup_envp(envp);
+	app->envp = dup_envp(envp);
 	if (!app->envp)
 	{
-		clear_app(app);
+		free_app(app);
 		return (1);
 	}
 	return (0);
