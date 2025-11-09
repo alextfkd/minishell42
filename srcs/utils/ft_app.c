@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 10:58:24 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/09 14:51:56 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/09 18:40:43 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 int	free_app(t_app *app)
 {
 	if (app->envp)
-		free_envp(app->envp);
+		ft_free_tab(app->envp);
 	close(app->original_stdin);
 	close(app->original_stdout);
 	return (app->exit_status);

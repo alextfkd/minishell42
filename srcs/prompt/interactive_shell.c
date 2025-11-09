@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/06 07:03:21 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/09 18:43:43 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	execute_cmd(char *input, char **envp, t_loglevel log_level)
 	log_debug_show_input(input, LOG_QUIET);
 	setup_app(&app, envp);
 	_exec_cmd_test(input, &app, log_level);
-	clear_app(&app);
+	free_app(&app);
 	return (0);
 }
 

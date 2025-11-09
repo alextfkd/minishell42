@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 09:40:06 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/09 14:58:43 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/09 18:45:32 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,17 @@
  */
 void	free_env_list(t_env *env_list)
 {
+	t_env	*tmp;
+
 	while (env_list)
 	{
 		if (env_list->key)
 			free(env_list->key);
 		if (env_list->value)
 			free(env_list->value);
+		tmp = env_list->next;
 		free(env_list);
-		env_list = env_list->next;
+		env_list = tmp;
 	}
 }
 
@@ -40,12 +43,10 @@ void	free_env_list(t_env *env_list)
 t_env	*env_new_node(const char *envp_line)
 {
 	t_env	*new_node;
-	char	*key;
-	char	*value;
 
 	if (!envp_line)
 		return (NULL);
-	new_node = (char *)ft_calloc(1, sizeof(t_env));
+	new_node = (t_env *)ft_calloc(1, sizeof(t_env));
 	if (!new_node)
 		return (perror("minishell: create new env_node failed"), NULL);
 	new_node->key = get_key_env_line(envp_line);
@@ -57,7 +58,7 @@ t_env	*env_new_node(const char *envp_line)
 	new_node->value = get_value_env_line(envp_line);
 	if (!new_node->value)
 	{
-		free(new_node->node->key);
+		free(new_node->key);
 		free(new_node);
 		return (NULL);
 	}
