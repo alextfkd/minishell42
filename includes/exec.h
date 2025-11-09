@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/09 15:04:37 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/09 20:28:51 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define MAX_FD 1024
 # define MAX_PID 100
 # define MAX_ARGV 100
-# define BUILTIN_ON 0
+# define BUILTIN_ON 1
 # define HERE_DOC_PROMPT "> "
 # define ERR_SYNTAX_TOKEN "minishell: syntax error near unexpected token"
 
@@ -130,4 +130,9 @@ int				set_exit_status(int status);
 void			execute_single_cmd(t_cmd *cmd, t_app *app);
 void			clear_residual_fds(void);
 
+// builtin command
+int		ft_pwd(void);
+int		ft_env(t_app *app);
+int		ft_unset(t_app *app, t_cmd *cmd);
+int		ft_export(t_app *app, t_cmd *cmd);
 #endif
