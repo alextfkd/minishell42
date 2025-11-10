@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interactive_shell.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/06 07:03:21 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/04 23:47:56 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	_exec_cmd_test(char *input, t_app *app, t_loglevel log_level)
 			log_debug_show_ast(ast_root, log_level);
 			execute_pipeline(ast_root, app);
 			reset_stdio(app);
-			clear_astree(ast_root);
+			astree_clear(ast_root);
 		}
 	}
 	free_tokens(head_token);

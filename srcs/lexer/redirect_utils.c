@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect_1.c                                       :+:      :+:    :+:   */
+/*   redirect_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:44:01 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/31 20:17:08 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/07 06:55:15 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// Returns 1 if tk is 2 to 5.
 int	is_red(t_tkind tk)
 {
 	return (tk == TK_RED_OUT || tk == TK_RED_APPEND || tk == TK_RED_IN
 		|| tk == TK_RED_HEREDOC);
 }
 
-// find the last redirection
+// Find the last redirection node. t_red is a singly linked list.
 t_red	*find_last_red(t_red *red)
 {
 	if (red)
@@ -41,7 +42,7 @@ void	red_add_back(t_red **head_red, t_red *new)
 	}
 }
 
-// free redirection list
+// Recursively free() redirection list.
 void	clear_red(t_red *head_red)
 {
 	t_red	*tmp;

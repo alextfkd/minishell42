@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/07 05:36:24 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/10 20:31:46 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int			execute_cmd(char *inpt, char **envp, t_loglevel log_level);
 void		exec_line(t_shell *shell, char **envp);
 t_shell		*create_t_shell(int argc, char **argv);
 t_status	free_t_shell(t_shell *shell);
+int			set_cmd_redirection(t_cmd *cmd, t_token **current);
 
 //builtin
 char		*ft_get_current_dir(void);
@@ -105,5 +106,8 @@ int			ft_env(t_app *app);
 int			clear_app(t_app *app);
 int			setup_app(t_app *app, char **envp);
 void		reset_stdio(t_app *app);
+
+t_astree	*astree_create_cmd_node(t_token **tokens_head);
+t_astree	*astree_create_pipe_node(t_astree *left, t_astree *right);
 
 #endif
