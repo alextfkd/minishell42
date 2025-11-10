@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 06:30:16 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/06 08:35:53 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/07 07:45:41 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,8 @@ t_cmd	*parse_command(t_token **tokens_head)
 	if (!cmd)
 		return (perror("minishell: t_cmd memory allocated error"), NULL);
 	log_debug("cmd set", LOG_DEBUG);
-	current = set_cmd_redirection(cmd, current);
-	if (current == NULL)
+	if (set_cmd_redirection(cmd, &current) != 0)
 		log_debug("current is NULL", LOG_DEBUG);
-		//return (clear_cmd(cmd), NULL);
 	log_debug("red set", LOG_DEBUG);
 	if (set_cmd_argv(cmd, head, current))
 		return (clear_cmd(cmd), NULL);

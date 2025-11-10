@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect.c                                         :+:      :+:    :+:   */
+/*   cmd_redirection.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:44:01 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/06 08:05:47 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/07 07:45:11 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,30 @@ static t_red	*_create_red_node(t_tkind tk, char *file);
 static int		_validate_red_target(t_token *target);
 static int		_append_red_to_cmd(t_cmd *cmd, t_token *current);
 
-t_token	*set_cmd_redirection(t_cmd *cmd, t_token *current)
+/* Create redirection node (t_red) and append on (or create) t_cmd->red.
+The new redirection node is created from the current token (operator) and
+the next token (redirection target). 
+**current pointer will be moved to either NULL or TK_PIPE node.*/
+int	set_cmd_redirection(t_cmd *cmd, t_token **current)
 {
 	t_token	*p_token;
 	int		res;
 
 	if (!cmd)
-		return (NULL);
-	p_token = current;
+		return (1);
+	p_token = *current;
 	while (p_token != NULL && p_token->tk != TK_PIPE)
 	{
 		if (is_red(p_token->tk))
 		{
 			res = _append_red_to_cmd(cmd, p_token);
 			if (res == 1)
-				return (NULL);
+				return (1);
 		}
 		p_token = p_token->next;
 	}
-	return (p_token);
+	*current = p_token;
+	return (0);
 }
 
 /* Create redirection node (t_red) and append on (or create) t_cmd->red.
