@@ -28,6 +28,7 @@ typedef struct s_red	t_red;
 typedef struct s_cmd	t_cmd;
 typedef struct s_astree	t_astree;
 typedef struct s_app	t_app;
+typedef struct s_env	t_env;
 
 // type of a bulitin command
 typedef enum e_bultin_type
@@ -74,9 +75,17 @@ struct	s_cmd
 	t_red	*red;
 };
 
+struct s_env
+{
+	char	*key;
+	char	*value;
+	t_env	*next;
+};
+
 struct	s_app
 {
 	char	**envp;
+	t_env	*env_list;
 	int		exit_status;
 	int		original_stdin;
 	int		original_stdout;

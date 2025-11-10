@@ -35,6 +35,7 @@
 # include <sys/wait.h>
 # include <term.h>
 # include <unistd.h>
+# include <limits.h>
 # define FT_PROMPT "minishell$ "
 
 extern volatile sig_atomic_t	g_sig_received;
@@ -78,7 +79,7 @@ void		log_warning(char *msg, t_loglevel log_level);
 void		log_info(char *msg, t_loglevel log_level);
 void		log_debug_show_token(t_token *token_head, t_loglevel log_level);
 void		log_debug_show_ast(t_astree *ast_root, t_loglevel log_level);
-
+void		print_redirections(t_red *red);
 void		sigint_handler(int signal);
 int			exit_with_sigeof(void);
 
@@ -95,6 +96,12 @@ void		exec_line(t_shell *shell, char **envp);
 t_shell		*create_t_shell(int argc, char **argv);
 t_status	free_t_shell(t_shell *shell);
 int			set_cmd_redirection(t_cmd *cmd, t_token **current);
+
+//builtin
+char		*ft_get_current_dir(void);
+int			ft_pwd(void);
+int			ft_env(t_app *app);
+
 // app util
 int			clear_app(t_app *app);
 int			setup_app(t_app *app, char **envp);

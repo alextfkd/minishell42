@@ -54,9 +54,7 @@ int	interactive_shell(t_shell *shell, char **envp)
 {
 	t_ms_buf	*ms_buf;
 	t_status	status;
-	t_app		app;
 
-	setup_app(&app, envp);
 	log_debug("MINISHELL INTERACTIVE MODE", shell->loglevel);
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
@@ -72,6 +70,5 @@ int	interactive_shell(t_shell *shell, char **envp)
 	}
 	log_debug("5. EXIT", shell->loglevel);
 	rl_clear_history();
-	clear_app(&app);
 	return (status);
 }
