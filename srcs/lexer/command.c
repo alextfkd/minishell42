@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 06:30:16 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/07 07:45:41 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/10 23:05:06 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static t_cmd	*_create_empty_cmd_node(void);
 void			clear_cmd(t_cmd *cmd);
 
-t_cmd	*parse_command(t_token **tokens_head)
+t_cmd	*tokens2cmd(t_token **tokens_head)
 {
 	t_cmd		*cmd;
 	t_token		*current;

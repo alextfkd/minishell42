@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/06 07:44:45 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/10 23:05:02 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ struct	s_app
 void			clear_cmd(t_cmd *cmd);
 //int				count_argc(t_token *start, t_token *end);
 int				set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end);
-//t_astree		*parse_command(t_token **tokens_head);
-t_cmd			*parse_command(t_token **tokens_head);
+//t_astree		*tokens2cmd(t_token **tokens_head);
+t_cmd			*tokens2cmd(t_token **tokens_head);
 
 // pipeline perser
 t_astree		*parse_pipeline(t_token **tokens_head);
