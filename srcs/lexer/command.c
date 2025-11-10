@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 06:30:16 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/10 23:05:06 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/10 23:13:44 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 static t_cmd	*_create_empty_cmd_node(void);
 void			clear_cmd(t_cmd *cmd);
 
+/* Parse tokens and create a new t_cmd. This function will automatically set
+command redirection and args to the newly created t_cmd. 
+Returns NULL if failed.
+*/
 t_cmd	*tokens2cmd(t_token **tokens_head)
 {
 	t_cmd		*cmd;
@@ -39,7 +43,7 @@ t_cmd	*tokens2cmd(t_token **tokens_head)
 	return (cmd);
 }
 
-// free cmd list
+// Free t_cmd. This will free t_cmd->red and t_cmd->argv simltaneously.
 void	clear_cmd(t_cmd *cmd)
 {
 	if (!cmd)
