@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 08:54:40 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/10 06:29:45 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/10 20:30:32 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_token	*create_new_token(t_lexer *lex, t_tkind tk, int start, int end)
 		return (free(data), NULL);
 	return (new_token);
 }
+
 static t_token	*_create_new_token(t_tkind tk, char *data)
 {
 	t_token	*new_token;

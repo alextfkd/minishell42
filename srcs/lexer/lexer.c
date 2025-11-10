@@ -6,12 +6,13 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 23:26:50 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/10 06:29:37 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/10 20:30:07 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-t_token	*_tokenize(t_lexer *lex);
+
+t_token		*_tokenize(t_lexer *lex);
 static void	_extend_lexer_tokens(t_lexer *lex, t_token *new_token);
 
 t_token	*tokenize(char *input)
@@ -30,17 +31,13 @@ t_token	*tokenize(char *input)
 		}
 		token = _tokenize(&lex);
 		if (token == NULL)
-		{
-			free_tokens(lex.head);
-			return (NULL);
-		}
+			return (free_tokens(lex.head), NULL);
 		_extend_lexer_tokens(&lex, token);
 	}
 	if (lex.state != S_NORMAL)
 	{
 		log_debug("minishell: syntax error: unclosed quote", LOG_DEBUG);
-		free_tokens(lex.head);
-		return (NULL);
+		return (free_tokens(lex.head), NULL);
 	}
 	return (lex.head);
 }

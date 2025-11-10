@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 10:58:17 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/08 23:46:38 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/10 20:29:16 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ static int	_update_quote_state(t_lexer *lex, char c)
 		lex->state = S_NORMAL;
 	return (0);
 }
-
 
 /*
 static int	_handle_char_and_quote_state(t_lexer *lex, char c)

@@ -6,19 +6,20 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:38:27 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/06 07:45:42 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/10 20:27:57 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		astree_clear(t_astree *node);
-void		astree_add_branch(t_astree *node, t_astree *left, t_astree *right);
+void			astree_clear(t_astree *node);
+void			astree_add_branch(
+					t_astree *node, t_astree *left, t_astree *right);
 static t_astree	*_astree_create_node(
-		t_node type,
-		t_cmd *cmd,
-		t_astree *left,
-		t_astree *right );
+					t_node type,
+					t_cmd *cmd,
+					t_astree *left,
+					t_astree *right );
 
 t_astree	*astree_create_cmd_node(t_token **tokens_head)
 {

@@ -17,7 +17,7 @@ static int	_argv_loop(t_cmd *cmd, t_token **current_ptr, int *i_ptr,
 static int	_set_argv(t_cmd *cmd, t_token *start, t_token *end);
 static int	_count_argc(t_token *start, t_token *end);
 
-/* Set array of *char to t_cmd->argv. The redirection operator token 
+/* Set array of *char to t_cmd->argv. The redirection operator token
 and the following redirection target are excluded.
 The length of array is n + 1, terminating with NULL.
 */
@@ -27,7 +27,6 @@ int	set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end)
 
 	if (!cmd)
 		log_debug("cmd is null in set_cmd_argv!", LOG_DEBUG);
-		//return (1);
 	argc = _count_argc(start, end);
 	log_debug("current argc", LOG_DEBUG);
 	printf("argc -> %d\n", argc);
@@ -87,8 +86,7 @@ static int	_set_argv(t_cmd *cmd, t_token *start, t_token *end)
 	return (0);
 }
 
-/* count TK_CHAR and increment argc
-*/ 
+/* count TK_CHAR and increment argc */
 static int	_count_argc(t_token *start, t_token *end)
 {
 	t_token	*current;

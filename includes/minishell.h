@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/07 07:28:46 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/10 20:31:46 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int			execute_cmd(char *inpt, char **envp, t_loglevel log_level);
 void		exec_line(t_shell *shell, char **envp);
 t_shell		*create_t_shell(int argc, char **argv);
 t_status	free_t_shell(t_shell *shell);
-int 		set_cmd_redirection(t_cmd *cmd, t_token **current);
+int			set_cmd_redirection(t_cmd *cmd, t_token **current);
 // app util
 int			clear_app(t_app *app);
 int			setup_app(t_app *app, char **envp);
