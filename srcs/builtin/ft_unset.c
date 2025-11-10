@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cmd.c                                      :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/07 06:27:07 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/09 20:30:38 by htsutsum         ###   ########.fr       */
+/*   Created: 2025/11/07 07:30:30 by htsutsum          #+#    #+#             */
+/*   Updated: 2025/11/09 20:32:54 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	execute_builtin_cmd(t_cmd *cmd, t_app *app)
+// delete valiables of key
+int	env_unset_variable(t_env **env_list, const char *key)
 {
-	int				status;
-	t_builtin_type	type;
+	(void)env_list;
+	(void)key;
+	return (0);
+}
 
-	type = get_builtin_type(cmd);
-	if (type == BT_PWD)
-		status = ft_pwd();
-	else if (type == BT_ENV)
-		status = ft_env(app);
-	else if (type == BT_EXPORT)
-		status = ft_export(app, cmd);
-	else if (type == BT_UNSET)
-		status = ft_unset(app, cmd);
-	else
-		printf("execute a builtin cmd -> %s\n", cmd->argv[0]);
-	return (status);
+int	ft_unset(t_app *app, t_cmd *cmd)
+{
+	(void)app;
+	printf("unset %s\n", cmd->argv[0]);
+	return (0);
 }

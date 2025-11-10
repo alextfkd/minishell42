@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/07 05:36:24 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/09 20:25:43 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,26 @@ void		exec_line(t_shell *shell, char **envp);
 t_shell		*create_t_shell(int argc, char **argv);
 t_status	free_t_shell(t_shell *shell);
 
-//builtin
-char		*ft_get_current_dir(void);
-int			ft_pwd(void);
-int			ft_env(t_app *app);
-
-// app util
-int			clear_app(t_app *app);
+// app utils
+int			free_app(t_app *app);
 int			setup_app(t_app *app, char **envp);
 void		reset_stdio(t_app *app);
+
+// env utils
+t_env		*envp_to_env_list(char **envp);
+char		**env_list_to_envp(t_env *env_list);
+char		**update_envp(t_env *env_list, char **current_envp);
+void		free_envp(char **envp, size_t size);
+char		*get_key_env_line(const char *envp_line);
+char		*get_value_env_line(const char *envp_line);
+char		**dup_envp(char **main_envp);
+char		*env_get_value(t_env *env_list, const char *key);
+
+//env list util
+void		free_env_list(t_env *env_list);
+t_env		*env_new_node(const char *envp_line);
+size_t		env_list_size(t_env *env_list);
+void		env_list_add_back(t_env **env_list, t_env *new_node);
+t_env		*env_last_list(t_env *env_list);
 
 #endif
