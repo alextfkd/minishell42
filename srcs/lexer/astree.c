@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:38:27 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/10 23:05:04 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/10 23:15:37 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static t_astree	*_astree_create_node(
 	return (new);
 }
 
-/*Clears AST tree recursively.*/
+/*Clears AST tree and containing t_cmd recursively.*/
 void	astree_clear(t_astree *node)
 {
 	if (!node)

@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/10 23:05:02 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/11 03:45:44 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ t_cmd			*tokens2cmd(t_token **tokens_head);
 // pipeline perser
 t_astree		*parse_pipeline(t_token **tokens_head);
 
-// redirection parser
 int				is_red(t_tkind tk);
 void			clear_red(t_red *head_red);
 //t_red			*create_red_node(t_tkind tk, char *data);
