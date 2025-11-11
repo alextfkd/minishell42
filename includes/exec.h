@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/11 03:45:44 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/11 05:06:31 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,8 @@ struct	s_app
 	int		original_stdout;
 };
 
-// command parser
 void			clear_cmd(t_cmd *cmd);
-//int				count_argc(t_token *start, t_token *end);
 int				set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end);
-//t_astree		*tokens2cmd(t_token **tokens_head);
 t_cmd			*tokens2cmd(t_token **tokens_head);
 
 // pipeline perser
@@ -103,12 +100,9 @@ t_astree		*parse_pipeline(t_token **tokens_head);
 
 int				is_red(t_tkind tk);
 void			clear_red(t_red *head_red);
-//t_red			*create_red_node(t_tkind tk, char *data);
 void			red_add_back(t_red **head_red, t_red *new);
 int				append_red_to_cmd(t_cmd *cmd, t_token *current);
 
-//t_astree		*astree_create_node(t_node type, t_cmd *cmd, t_astree *left,
-					//t_astree *right);
 void			astree_add_branch(t_astree *root, t_astree *left,
 					t_astree *right);
 void			astree_clear(t_astree *node);
