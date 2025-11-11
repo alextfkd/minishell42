@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command.c                                          :+:      :+:    :+:   */
+/*   tokens2cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 06:30:16 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/10 23:13:44 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/11 02:34:55 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 static t_cmd	*_create_empty_cmd_node(void);
 void			clear_cmd(t_cmd *cmd);
 
-/* Parse tokens and create a new t_cmd. This function will automatically set
-command redirection and args to the newly created t_cmd. 
-Returns NULL if failed.
+/* Parse tokens and create a new t_cmd.
+This function will automatically set command redirection and args
+to the newly created t_cmd. Returns NULL if failed.
 */
 t_cmd	*tokens2cmd(t_token **tokens_head)
 {
@@ -32,13 +32,10 @@ t_cmd	*tokens2cmd(t_token **tokens_head)
 	cmd = _create_empty_cmd_node();
 	if (!cmd)
 		return (perror("minishell: t_cmd memory allocated error"), NULL);
-	log_debug("cmd set", LOG_DEBUG);
 	if (set_cmd_redirection(cmd, &current) != 0)
-		log_debug("current is NULL", LOG_DEBUG);
-	log_debug("red set", LOG_DEBUG);
-	if (set_cmd_argv(cmd, head, current))
+		log_debug("No redirection found.", LOG_DEBUG);
+	if (set_cmd_argv(cmd, head, current) != 0)
 		return (clear_cmd(cmd), NULL);
-	log_debug("argv set", LOG_DEBUG);
 	*tokens_head = current;
 	return (cmd);
 }
