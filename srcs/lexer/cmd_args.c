@@ -17,11 +17,9 @@ static int	_is_valid_redirection_token(t_token *token);
 static char	**_aquire_argv(t_token *start, int argc);
 static void	_free_argv(char **argv);
 
-/* Set array of *char to t_cmd->argv. 
-The *start token is included in argv.
-The redirection operator token and 
-the following redirection target are excluded.
-The length of array is n + 1, terminating with NULL.
+/* Set array of *char to t_cmd->argv. The *start token is included in argv.
+The redirection operator token and the following redirection target are
+excluded. The length of array is n + 1, terminating with NULL.
 */
 int	set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end)
 {
@@ -44,10 +42,9 @@ int	set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end)
 	return (0);
 }
 
-/* Count the number of following TK_CHAR tokens as argc.
-The *start token is included in argc.
-The redirection token and the TK_CHAR token follows the redirection token
-will not be included in argc.
+/* Count the number of following TK_CHAR tokens as argc. The *start token is 
+included in argc. The redirection token and the TK_CHAR token follows the 
+redirection token will not be included in argc.
 */
 static int	_count_argc(t_token *start, t_token *end)
 {

@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 23:28:39 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/10 20:31:27 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/11 07:44:40 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef enum e_state
 {
 	S_NORMAL,
 	S_DQUOTE,
-	S_SQUOTE
+	S_SQUOTE,
 }	t_state;
 
 // Token kind
@@ -41,6 +41,7 @@ struct s_token
 	t_tkind		tk;
 	char		*data;
 	t_token		*next;
+	t_state		state;
 };
 
 struct s_lexer
@@ -52,11 +53,9 @@ struct s_lexer
 	t_token		*tail;
 };
 
-// lexer
 t_token	*extract_symbol_token(t_lexer *lex);
-//int			extract_word_token(t_lexer *lex);
+
 t_token	*extract_word_token(t_lexer *lex);
-//t_token		*upsert_token(t_lexer *lex, t_tkind tk, char *start, int len);
 int		upsert_token(t_lexer *lex, t_tkind tk, int start, int end);
 void	extend_lexer_tokens(t_lexer *lex, t_token *new_token);
 t_token	*tokenize(char *input);
