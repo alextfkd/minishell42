@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 10:58:17 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/10 20:28:50 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/11 02:07:53 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@ static t_token	*_extract_pipe_token(t_lexer *lex);
 static t_token	*_extract_redirect_in_token(t_lexer *lex);
 static t_token	*_extract_redirect_out_token(t_lexer *lex);
 
+/* Create a symbol token from the word from t_lexer->line. */
+/* Examples: */
+/* 	'|' as TK_PIPE token. */
+/* 	'<<' as TK_RED_HEREDOC token. */
+/* 	'<' as TK_RED_IN token. */
+/* 	'>>' as TK_RED_APPEND token. */
+/* 	'>' as TK_RED_OUT token. */
+/* 	Otherwise returns NULL. */
 t_token	*extract_symbol_token(t_lexer *lex)
 {
 	t_token	*token;
@@ -33,6 +41,7 @@ t_token	*extract_symbol_token(t_lexer *lex)
 	return (NULL);
 }
 
+/* '|' as TK_PIPE token. */
 static t_token	*_extract_pipe_token(t_lexer *lex)
 {
 	t_token	*token;
@@ -52,6 +61,8 @@ static t_token	*_extract_pipe_token(t_lexer *lex)
 	return (token);
 }
 
+/* '<<' as TK_RED_HEREDOC token. */
+/* '<' as TK_RED_IN token. */
 static t_token	*_extract_redirect_in_token(t_lexer *lex)
 {
 	t_token	*token;
@@ -81,6 +92,8 @@ static t_token	*_extract_redirect_in_token(t_lexer *lex)
 	return (token);
 }
 
+/* '>>' as TK_RED_APPEND token. */
+/* '>' as TK_RED_OUT token. */
 static t_token	*_extract_redirect_out_token(t_lexer *lex)
 {
 	t_token	*token;
