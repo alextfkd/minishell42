@@ -42,6 +42,21 @@ void	exec_line(t_shell *shell, char **envp)
 		*status = 1;
 }
 
+static	int	_is_executable(char *rl_buf)
+{
+	t_token	*token;
+	token = tokenize(rl_buf);
+	if (token == NULL)
+		return (-1);
+	if (token->state == S_NORMAL)
+	{
+		free_tokens(token);
+		return (1);
+	}
+	free_tokens(token);
+	return (0);
+}
+
 static void	exec_line_1(t_ms_buf *ms_buf, char **envp, t_loglevel log_level,
 		t_status *status)
 {
@@ -53,6 +68,12 @@ static void	exec_line_1(t_ms_buf *ms_buf, char **envp, t_loglevel log_level,
 		return ;
 	}
 	free_tmp_buf(ms_buf);
+	if (_is_executable(ms_buf->sh_buf) == 0)
+	{
+		ms_buf->tmp_buf = ft_strdup(ms_buf->sh_buf);
+		free_shell_buf(ms_buf);
+		return ;
+	}
 	*status = execute_cmd(ms_buf->sh_buf, envp, log_level);
 	free_shell_buf(ms_buf);
 }
@@ -81,6 +102,12 @@ static void	exec_line_2(t_ms_buf *ms_buf, char **envp, t_loglevel log_level,
 			return ;
 		}
 		return (free_shell_buf(ms_buf));
+	}
+	if (_is_executable(ms_buf->sh_buf) == 0)
+	{
+		ms_buf->tmp_buf = ft_strdup(ms_buf->sh_buf);
+		free_shell_buf(ms_buf);
+		return ;
 	}
 	*status = execute_cmd(ms_buf->sh_buf, envp, log_level);
 	free_shell_buf(ms_buf);
@@ -117,6 +144,12 @@ static void	exec_line_4(t_ms_buf *ms_buf, char **envp, t_loglevel log_level,
 	log_debug("4-2. Executing rl_input", log_level);
 	log_debug(ms_buf->rl_buf, log_level);
 	add_history(ms_buf->rl_buf);
+	if (_is_executable(ms_buf->rl_buf) == 0)
+	{
+		ms_buf->tmp_buf = ft_strdup(ms_buf->rl_buf);
+		free_readline_buf(ms_buf);
+		return ;
+	}
 	*status = execute_cmd(ms_buf->rl_buf, envp, log_level);
 	free_readline_buf(ms_buf);
 }

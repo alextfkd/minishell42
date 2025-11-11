@@ -6,13 +6,13 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/04 23:47:56 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/11 07:04:24 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	_exec_cmd_test(char *input, t_app *app, t_loglevel log_level);
+static int	_exec_cmd_test(char *input, t_app *app, t_loglevel log_level);
 
 int	execute_cmd(char *input, char **envp, t_loglevel log_level)
 {
@@ -26,7 +26,7 @@ int	execute_cmd(char *input, char **envp, t_loglevel log_level)
 	return (0);
 }
 
-static void	_exec_cmd_test(char *input, t_app *app, t_loglevel log_level)
+static int	_exec_cmd_test(char *input, t_app *app, t_loglevel log_level)
 {
 	t_token		*head_token;
 	t_astree	*ast_root;
@@ -35,6 +35,8 @@ static void	_exec_cmd_test(char *input, t_app *app, t_loglevel log_level)
 	log_debug_show_input("running _exec_cmd_test()", log_level);
 	log_debug_show_input(input, log_level);
 	head_token = tokenize(input);
+	if (head_token->state != S_NORMAL)
+		return (0);
 	log_debug_show_token(head_token, log_level);
 	if (head_token)
 	{
@@ -48,6 +50,7 @@ static void	_exec_cmd_test(char *input, t_app *app, t_loglevel log_level)
 		}
 	}
 	free_tokens(head_token);
+	return (0);
 }
 
 int	interactive_shell(t_shell *shell, char **envp)

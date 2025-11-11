@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 23:26:50 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/10 20:30:07 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/11 07:44:53 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,12 @@ t_token	*tokenize(char *input)
 	}
 	if (lex.state != S_NORMAL)
 	{
-		log_debug("minishell: syntax error: unclosed quote", LOG_DEBUG);
-		return (free_tokens(lex.head), NULL);
+		//log_debug("minishell: syntax error: unclosed quote", LOG_DEBUG);
+		lex.head->state = lex.state;
+		return (lex.head);
+		//return (free_tokens(lex.head), NULL);
 	}
+	lex.head->state = lex.state;
 	return (lex.head);
 }
 
