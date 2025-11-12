@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/10 20:28:28 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/12 13:53:06 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define HERE_DOC_PROMPT "> "
 # define ERR_SYNTAX_TOKEN "minishell: syntax error near unexpected token"
 
+// auxiliary structure of redirection (Singly linked list).
 typedef struct s_red	t_red;
 typedef struct s_cmd	t_cmd;
 typedef struct s_astree	t_astree;
@@ -58,7 +59,6 @@ struct	s_astree
 	t_astree	*right;
 };
 
-// auxiliary structure of redirection
 struct	s_red
 {
 	t_tkind	tk;
@@ -93,9 +93,10 @@ struct	s_app
 
 // command parser
 void			clear_cmd(t_cmd *cmd);
-int				count_argc(t_token *start, t_token *end);
-int				handle_argv(t_cmd *cmd, t_token *start, t_token *end);
-t_astree		*parse_command(t_token **tokens_head);
+//int				count_argc(t_token *start, t_token *end);
+int				set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end);
+//t_astree		*tokens2cmd(t_token **tokens_head);
+t_cmd			*tokens2cmd(t_token **tokens_head);
 
 // pipeline perser
 t_astree		*parse_pipeline(t_token **tokens_head);
@@ -103,16 +104,15 @@ t_astree		*parse_pipeline(t_token **tokens_head);
 // redirection parser
 int				is_red(t_tkind tk);
 void			clear_red(t_red *head_red);
-t_red			*create_red_node(t_tkind tk, char *data);
+//t_red			*create_red_node(t_tkind tk, char *data);
 void			red_add_back(t_red **head_red, t_red *new);
-int				handle_red(t_cmd *cmd, t_token **current);
+int				append_red_to_cmd(t_cmd *cmd, t_token *current);
 
-// create AST
-t_astree		*create_ast_node(t_node type, t_cmd *cmd, t_astree *left,
-					t_astree *right);
+//t_astree		*astree_create_node(t_node type, t_cmd *cmd, t_astree *left,
+					//t_astree *right);
 void			astree_add_branch(t_astree *root, t_astree *left,
 					t_astree *right);
-void			clear_astree(t_astree *node);
+void			astree_clear(t_astree *node);
 
 // execute
 t_builtin_type	get_builtin_type(t_cmd *cmd);

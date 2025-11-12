@@ -3,88 +3,109 @@
 /*                                                        :::      ::::::::   */
 /*   extract_symbol_token.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 10:58:17 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/10/30 10:29:58 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/10 20:28:50 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "minishell.h"
 
-static int	_extract_pipe_token(t_lexer *lex)
+static t_token	*_extract_pipe_token(t_lexer *lex);
+static t_token	*_extract_redirect_in_token(t_lexer *lex);
+static t_token	*_extract_redirect_out_token(t_lexer *lex);
+
+t_token	*extract_symbol_token(t_lexer *lex)
 {
-	char	*start;
+	t_token	*token;
+
+	token = _extract_pipe_token(lex);
+	if (token != NULL)
+		return (token);
+	token = _extract_redirect_in_token(lex);
+	if (token != NULL)
+		return (token);
+	token = _extract_redirect_out_token(lex);
+	if (token != NULL)
+		return (token);
+	return (NULL);
+}
+
+static t_token	*_extract_pipe_token(t_lexer *lex)
+{
+	t_token	*token;
+	char	*word_start;
+	int		idx;
 	int		len;
 
-	start = lex->line + lex->idx;
-	if (*start != '|')
-		return (1);
+	idx = lex->idx;
+	word_start = lex->line + idx;
 	len = 1;
-	if (upsert_token(lex, TK_PIPE, start, len) == NULL)
-		return (1);
+	if (*word_start != '|')
+		return (NULL);
+	token = create_new_token(lex, TK_PIPE, idx, idx + len);
+	if (token == NULL)
+		return (NULL);
 	lex->idx += len;
-	return (0);
+	return (token);
 }
 
-static int	_extract_redirect_in_token(t_lexer *lex)
+static t_token	*_extract_redirect_in_token(t_lexer *lex)
 {
-	char		*start;
-	t_tkind		tk;
-	int			len;
+	t_token	*token;
+	char	*word_start;
+	int		idx;
+	int		len;
 
-	start = lex->line + lex->idx;
-	if (*start != '<')
-		return (1);
-	if (*(start + 1) == '<')
+	idx = lex->idx;
+	word_start = lex->line + idx;
+	if (*word_start == '<' && *(word_start + 1) == '<')
 	{
-		tk = TK_RED_HEREDOC;
 		len = 2;
+		token = create_new_token(lex, TK_RED_HEREDOC, idx, idx + len);
+	}
+	else if (*word_start == '<' && *(word_start + 1) != '<')
+	{
+		len = 1;
+		token = create_new_token(lex, TK_RED_IN, idx, idx + len);
 	}
 	else
 	{
-		tk = TK_RED_IN;
-		len = 1;
+		return (NULL);
 	}
-	if (upsert_token(lex, tk, start, len) == NULL)
-		return (1);
+	if (token == NULL)
+		return (NULL);
 	lex->idx += len;
-	return (0);
+	return (token);
 }
 
-static int	_extract_redirect_out_token(t_lexer *lex)
+static t_token	*_extract_redirect_out_token(t_lexer *lex)
 {
-	char		*start;
-	t_tkind		tk;
-	int			len;
+	t_token	*token;
+	char	*word_start;
+	int		idx;
+	int		len;
 
-	start = lex->line + lex->idx;
-	if (*start != '>')
-		return (1);
-	if (*(start + 1) == '>')
+	idx = lex->idx;
+	word_start = lex->line + idx;
+	if (*word_start == '>' && *(word_start + 1) == '>')
 	{
-		tk = TK_RED_APPEND;
 		len = 2;
+		token = create_new_token(lex, TK_RED_APPEND, idx, idx + len);
+	}
+	else if (*word_start == '>' && *(word_start + 1) != '>')
+	{
+		len = 1;
+		token = create_new_token(lex, TK_RED_OUT, idx, idx + len);
 	}
 	else
 	{
-		tk = TK_RED_OUT;
-		len = 1;
+		return (NULL);
 	}
-	if (upsert_token(lex, tk, start, len) == NULL)
-		return (1);
+	if (token == NULL)
+		return (NULL);
 	lex->idx += len;
-	return (0);
-}
-
-int	extract_symbol_token(t_lexer *lex)
-{
-	if (_extract_pipe_token(lex) == 0)
-		return (0);
-	if (_extract_redirect_in_token(lex) == 0)
-		return (0);
-	if (_extract_redirect_out_token(lex) == 0)
-		return (0);
-	return (1);
+	return (token);
 }

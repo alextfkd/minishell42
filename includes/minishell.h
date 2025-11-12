@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/09 20:25:43 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/12 13:54:25 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int			execute_cmd(char *inpt, char **envp, t_loglevel log_level);
 void		exec_line(t_shell *shell, char **envp);
 t_shell		*create_t_shell(int argc, char **argv);
 t_status	free_t_shell(t_shell *shell);
+int			set_cmd_redirection(t_cmd *cmd, t_token **current);
 
 // app utils
 int			free_app(t_app *app);
@@ -117,5 +118,7 @@ t_env		*env_new_node(const char *envp_line);
 size_t		env_list_size(t_env *env_list);
 void		env_list_add_back(t_env **env_list, t_env *new_node);
 t_env		*env_last_list(t_env *env_list);
+t_astree	*astree_create_cmd_node(t_token **tokens_head);
+t_astree	*astree_create_pipe_node(t_astree *left, t_astree *right);
 
 #endif
