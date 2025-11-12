@@ -3,6 +3,24 @@
 
 volatile sig_atomic_t	g_sig_received = 0;
 
+void	test_empty(char *target)
+{
+	t_token	*token;
+	t_token	*head;
+	int		status;
+
+	status = 0;
+	token = tokenize(target);
+	head = token;
+	if (token != NULL)
+		status = 1;
+	free_tokens(head);
+	if (status)
+		printf("[%s] -> ERROR\n", target);
+	else
+		printf("[%s] -> PASS\n", target);
+}
+
 void	test_cat(char *target)
 {
 	t_token	*token;
@@ -47,9 +65,12 @@ void	test_binls(char *target)
 
 int	main(void)
 {
-	t_token *token;
-	token = tokenize("  ");
-	log_debug_show_token(token, LOG_DEBUG);
+	//t_token *token;
+	//token = tokenize("  ");
+	//log_debug_show_token(token, LOG_DEBUG);
+	test_empty("");
+	test_empty("           ");
+	test_empty("    \n       ");
 	test_cat("cat");
 	test_cat("   cat   ");
 	test_cat("cat      ");

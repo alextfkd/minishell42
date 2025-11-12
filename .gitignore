@@ -10,3 +10,4 @@ objs/*/*.o
 
 libft/objs/*.o
 objs/*.o
+lexer_test
