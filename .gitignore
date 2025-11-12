@@ -9,3 +9,4 @@ objs/main.o
 objs/*/*.o
 
 libft/objs/*.o
+objs/*.o

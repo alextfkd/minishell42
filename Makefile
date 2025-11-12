@@ -37,6 +37,11 @@ FILES += $(addprefix $(BUILTIN_DIR)/,$(BUILTIN_FILES))
 SRCS = $(addprefix $(SRCDIR)/, $(FILES))
 OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o,$(SRCS))
 
+
+lexer_test: $(LIBFT) $(OBJS)
+	$(GCC) $(CFLAGS) $(IFLAGS) -c srcs/lexer_test.c -o objs/lexer_test.o
+	$(GCC) $(CFLAGS) $(IFLAGS) $(filter-out objs/main.o, $(OBJS)) objs/lexer_test.o -o $@ $(LFLAGS) $(LIBFLAGS)
+
 all: $(NAME)
 
 $(OBJDIR):

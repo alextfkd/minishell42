@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 23:28:39 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/11 07:44:40 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/12 00:41:13 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,12 @@ struct s_lexer
 	t_token		*tail;
 };
 
-t_token	*extract_symbol_token(t_lexer *lex);
-
-t_token	*extract_word_token(t_lexer *lex);
-int		upsert_token(t_lexer *lex, t_tkind tk, int start, int end);
-void	extend_lexer_tokens(t_lexer *lex, t_token *new_token);
 t_token	*tokenize(char *input);
+
 t_token	*create_new_token(t_lexer *lex, t_tkind tk, int start, int end);
 void	free_tokens(t_token *head);
+
+t_token	*extract_symbol_token(t_lexer *lex);
+t_token	*extract_word_token(t_lexer *lex);
 
 #endif

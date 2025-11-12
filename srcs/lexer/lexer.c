@@ -6,13 +6,13 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 23:26:50 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/11 07:44:53 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/12 01:24:24 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token		*_tokenize(t_lexer *lex);
+static t_token		*_tokenize(t_lexer *lex);
 static void	_extend_lexer_tokens(t_lexer *lex, t_token *new_token);
 
 t_token	*tokenize(char *input)
@@ -20,6 +20,8 @@ t_token	*tokenize(char *input)
 	t_lexer	lex;
 	t_token	*token;
 
+	if (input == NULL)
+		return (NULL);
 	ft_bzero(&lex, sizeof(t_lexer));
 	lex.line = input;
 	while (lex.line[lex.idx] != '\0')
@@ -45,7 +47,7 @@ t_token	*tokenize(char *input)
 	return (lex.head);
 }
 
-t_token	*_tokenize(t_lexer *lex)
+static t_token	*_tokenize(t_lexer *lex)
 {
 	t_token	*new_token;
 
