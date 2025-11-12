@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 09:40:06 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/09 18:45:32 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/11 06:49:21 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	free_env_list(t_env *env_list)
 
 /**
  * @brief Creates and allocates memory for a new t_env node
- * from an environment string.
+ * from an environment string (PATH="/usr/bin" etc.).
  *
  * @param envp_line
  * @return t_env*

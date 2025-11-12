@@ -6,11 +6,11 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 09:09:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/09 18:34:56 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/11 06:47:18 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
 /**
  * @brief Combines a key and a value to create an environment variable string
@@ -21,7 +21,7 @@
  * @return char
  *
 **/
-static char	*_format_to_envp(char *key, char *value)
+static char	*_format_to_envp(char *key, char *value) //変更必要 is_set対応
 {
 	char	*line;
 	size_t	len;
@@ -37,7 +37,7 @@ static char	*_format_to_envp(char *key, char *value)
 		perror("minishell: format envp failed");
 		return (NULL);
 	}
-	ft_memcpy(line, key, ft_strlen(key));
+	ft_memcpy(line, key, key_len);
 	line[key_len] = '=';
 	ft_memcpy(line + key_len + 1, value, value_len);
 	return (line);
@@ -87,7 +87,7 @@ char	**env_list_to_envp(t_env *env_list)
 	t_env	*current;
 	size_t	i;
 
-	envp_size = env_list_size(env_list);
+	envp_size = env_list_size(env_list); // is_set対応が必要
 	envp = (char **)ft_calloc(envp_size + 1, sizeof(char *));
 	if (!envp)
 		return (perror("minishel:envp allocation failed"), NULL);
@@ -95,7 +95,7 @@ char	**env_list_to_envp(t_env *env_list)
 	current = env_list;
 	while (current)
 	{
-		envp[i] = _format_to_envp(current->key, current->value);
+		envp[i] = _format_to_envp(current->key, current->value); // is_set対応が必要。
 		if (!envp[i])
 		{
 			perror("minishell:envp allocation failed");
@@ -133,10 +133,7 @@ char	**update_envp(t_env *env_list, char **current_envp)
 	free(current_envp);
 	new_envp = env_list_to_envp(env_list);
 	if (!new_envp)
-	{
-		perror("minishell: envp update failed");
-		return (NULL);
-	}
+	{	return(perror("minishell: envp update failed"), NULL);
 	return (new_envp);
 }
 
