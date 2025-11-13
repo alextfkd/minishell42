@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 10:58:17 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/11 02:07:53 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/13 14:35:43 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 static t_token	*_extract_pipe_token(t_lexer *lex);
 static t_token	*_extract_redirect_in_token(t_lexer *lex);
 static t_token	*_extract_redirect_out_token(t_lexer *lex);
+static t_token	*_extract_backslash_newline_token(t_lexer *lex);
 
 /* Create a symbol token from the word from t_lexer->line. */
 /* Examples: */
@@ -112,6 +113,32 @@ static t_token	*_extract_redirect_out_token(t_lexer *lex)
 	{
 		len = 1;
 		token = create_new_token(lex, TK_RED_OUT, idx, idx + len);
+	}
+	else
+	{
+		return (NULL);
+	}
+	if (token == NULL)
+		return (NULL);
+	lex->idx += len;
+	return (token);
+}
+
+static t_token	*_extract_backslash_newline_token(t_lexer *lex)
+{
+	t_token	*token;
+	char	*word_start;
+	int		idx;
+	int		len;
+
+	idx = lex->idx;
+	word_start = lex->line + idx;
+	if (lex->state != S_NORMAL)
+		return (NULL);
+	if (*word_start == '\\' && *(word_start + 1) == '\n')
+	{
+		len = 2;
+		token = create_new_token(lex, TK_ESCAPED_NL, idx, idx + len);
 	}
 	else
 	{

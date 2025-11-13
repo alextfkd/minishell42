@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 23:28:39 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/12 00:41:13 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/13 14:23:53 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ typedef enum e_tkind
 	TK_RED_OUT,
 	TK_RED_APPEND,
 	TK_RED_IN,
-	TK_RED_HEREDOC
+	TK_RED_HEREDOC,
+	TK_ESCAPED_NL
 }	t_tkind;
 
 //  Decomposed into token kind and value only
