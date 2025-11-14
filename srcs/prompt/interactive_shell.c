@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/14 14:27:12 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/15 04:28:26 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,11 @@
 
 static void	_exec_cmd_test(char *input, t_app *app, t_loglevel log_level);
 
-int	execute_cmd(char *input, char **envp, t_loglevel log_level)
+int	execute_cmd(char *input, t_app *app, t_loglevel log_level)
 {
-	t_app	app;
-
 	(void)log_level;
 	log_debug_show_input(input, LOG_QUIET);
-	setup_app(&app, envp);
-	_exec_cmd_test(input, &app, log_level);
-	free_app(&app);
+	_exec_cmd_test(input, app, log_level);
 	return (0);
 }
 
@@ -43,14 +39,15 @@ static void	_exec_cmd_test(char *input, t_app *app, t_loglevel log_level)
 		{
 			log_debug_show_ast(ast_root, log_level);
 			execute_pipeline(ast_root, app);
-			reset_stdio(app);
 			astree_clear(ast_root);
 		}
+		else
+			free_tokens(head_token);
 	}
-	free_tokens(head_token);
+	reset_stdio(app);
 }
 
-int	interactive_shell(t_shell *shell, char **envp)
+int	interactive_shell(t_shell *shell)
 {
 	t_ms_buf	*ms_buf;
 	t_status	status;
@@ -64,7 +61,7 @@ int	interactive_shell(t_shell *shell, char **envp)
 	{
 		log_debug_ms_buf(shell);
 		ms_buf->rl_buf = readline(FT_PROMPT);
-		exec_line(shell, envp);
+		exec_line(shell);
 		if (status != 0)
 			break ;
 	}

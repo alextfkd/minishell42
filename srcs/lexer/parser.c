@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 15:35:22 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/06 07:44:08 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/15 04:39:25 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ static t_astree	*_handle_pipe_sequence(
 t_astree	*parse_pipeline(t_token **tokens_head)
 {
 	t_astree	*root_node;
+	t_token		*original_head;
 
+	original_head = *tokens_head;
 	root_node = astree_create_cmd_node(tokens_head);
 	if (!root_node)
 		return (NULL);
@@ -27,8 +29,10 @@ t_astree	*parse_pipeline(t_token **tokens_head)
 	{
 		root_node = _handle_pipe_sequence(tokens_head, root_node);
 		if (!root_node)
-			return (NULL);
+			return (astree_clear(root_node), NULL);
 	}
+	free_tokens(original_head);
+	*tokens_head = NULL;
 	return (root_node);
 }
 

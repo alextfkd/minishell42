@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 09:40:06 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/14 17:30:49 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/15 04:56:49 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,49 @@ char	**rebuild_envp(t_env *env_list, char **current_envp)
 }
 
 /**
- * @brief Extracts and allocates memory
- * for the environment variable name (key) from an "KEY=VALUE" string.
+ * @brief Parses an environment line ("KEY=VALUE" or "KEY"), extracts the key
+ * and value,and creates a dynamically allocated t_env node.It handles all
+ * memory allocation and cleanup internally upon failure.
+ *
+ * * @param env_line The environment string (e.g., "PATH=/bin" or "MYVAR").
+ * @return t_env* A newly allocated t_env node, or NULL if parsing or
+ *  allocation fails.
+ */
+t_env	*get_env_from_env_line(const char *env_line)
+{
+	char	*key;
+	char	*value;
+	int		is_set;
+	t_env	*new_node;
+
+	key = get_key_env_line(env_line);
+	if (!key)
+		return (NULL);
+	value = get_value_env_line(env_line);
+	if (ft_strchr(env_line, '=') != NULL)
+	{
+		is_set = ENV_SET;
+		if (!value)
+			return (free(key), NULL);
+	}
+	else
+		is_set = ENV_UNSET;
+	new_node = env_new_node(key, value, is_set);
+	if (!new_node)
+	{
+		free(key);
+		if (value)
+			return (free(value), NULL);
+	}
+	return (new_node);
+}
+
+/**
+ * @brief Extracts and allocates memory for the environment variable name (key)
+ * from an "KEY=VALUE" string, or just "KEY" if no equals sign is prese
+ *
+ * This function handles two main cases: "KEY=VALUE" and "KEY". It dynamically
+ * allocates and returns a null-terminated string containing only the key.
  *
  * @param envp_line
  * @return char*
@@ -53,18 +94,23 @@ char	*get_key_env_line(const char *envp_line)
 
 	equal_pos = ft_strchr(envp_line, '=');
 	if (!equal_pos)
+		key_size = ft_strlen(envp_line);
+	else
+		key_size = equal_pos - envp_line;
+	if (key_size == 0)
 		return (NULL);
-	key_size = equal_pos - envp_line;
 	key = (char *)ft_calloc(key_size + 1, sizeof(char));
 	if (!key)
 		return (perror("minishell: key allocation failed"), NULL);
-	ft_strlcpy(key, envp_line, key_size);
+	ft_strlcpy(key, envp_line, key_size + 1);
 	return (key);
 }
 
 /**
  * @brief Extracts and allocates memory
  * for the environment variable value from an "KEY=VALUE" string.
+ * if '=' is not found return NULL, if value is an empty string,set it
+ * to ft_strdup("").
  *
  * @param envp_line
  * @return char*
@@ -81,6 +127,8 @@ char	*get_value_env_line(const char *envp_line)
 		return (NULL);
 	start_idx = equal_pos + 1 - envp_line;
 	value_size = ft_strlen(equal_pos + 1);
+	if (value_size == 0)
+		return (ft_strdup(""));
 	value = ft_substr(envp_line, start_idx, value_size);
 	if (!value)
 		return (perror("minishell: value allocation failed"), NULL);

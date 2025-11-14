@@ -6,13 +6,14 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 09:09:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/14 17:42:41 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/15 04:51:05 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char		*_format_to_envp(char *key, char *value);
+static char	*_format_to_envp(char *key, char *value);
+static void	_free_envp(char **envp, size_t size);
 
 /**
  * @brief nitializes the minishell's environment by duplicating the main
@@ -53,38 +54,12 @@ char	**dup_env(char **main_envp)
 }
 
 /**
- * @brief Combines a key and a value to create an environment variable string
- * in "KEY=VALUE\0" format.
+ * @brief Converts the standard external environment array (char** envp) into
+ * the internal environment linked list (t_env*).
  *
- * @param key
- * @param value
- * @return char
- *
-**/
-static char	*_format_to_envp(char *key, char *value)
-{
-	char	*line;
-	size_t	len;
-	size_t	key_len;
-	size_t	value_len;
-
-	key_len = ft_strlen(key);
-	value_len = ft_strlen(value);
-	len = key_len + value_len + 2;
-	line = (char *)ft_calloc(sizeof(char), len);
-	if (!line)
-	{
-		perror("minishell: format envp failed");
-		return (NULL);
-	}
-	ft_memcpy(line, key, key_len);
-	line[key_len] = '=';
-	ft_memcpy(line + key_len + 1, value, value_len);
-	return (line);
-}
-
-/**
- * @brief Converts the standard envp into an internal enviroment list
+ * This function iterates through the null-terminated 'envp' array, using
+ * get_env_from_env_line to parse each "KEY=VALUE" string and create a
+ * corresponding t_env node. Nodes are then added to the end of the list.
  *
  * @param envp
  * @return t_env*
@@ -101,7 +76,7 @@ t_env	*envp_to_env_list(char **envp)
 	env_list = NULL;
 	while (envp[i])
 	{
-		new_node = env_new_node(envp[i]);
+		new_node = get_env_from_env_line(envp[i]);
 		if (!new_node)
 		{
 			free_env_list(env_list);
@@ -145,7 +120,7 @@ char	**env_list_to_envp(t_env *env_list)
 			if (!envp[i])
 			{
 				perror("minishell:envp allocation failed");
-				return (free_envp(envp, i), NULL);
+				return (_free_envp(envp, i), NULL);
 			}
 			i++;
 		}
@@ -156,13 +131,44 @@ char	**env_list_to_envp(t_env *env_list)
 }
 
 /**
+ * @brief Combines a key and a value to create an environment variable string
+ * in "KEY=VALUE\0" format.
+ *
+ * @param key
+ * @param value
+ * @return char
+ *
+**/
+static char	*_format_to_envp(char *key, char *value)
+{
+	char	*line;
+	size_t	len;
+	size_t	key_len;
+	size_t	value_len;
+
+	key_len = ft_strlen(key);
+	value_len = ft_strlen(value);
+	len = key_len + value_len + 2;
+	line = (char *)ft_calloc(sizeof(char), len);
+	if (!line)
+	{
+		perror("minishell: format envp failed");
+		return (NULL);
+	}
+	ft_memcpy(line, key, key_len);
+	line[key_len] = '=';
+	ft_memcpy(line + key_len + 1, value, value_len);
+	return (line);
+}
+
+/**
  * @brief free the minishell enviroment variables.
  *
  * @param envp
  * @param size
  *
  * */
-void	free_envp(char **envp, size_t size)
+static void	_free_envp(char **envp, size_t size)
 {
 	size_t	i;
 

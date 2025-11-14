@@ -6,13 +6,11 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:34:42 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/14 17:48:55 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/15 03:03:26 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*_get_current_dir(void);
 
 /**
  * @brief Prints the current working directory to standard output.
@@ -24,7 +22,7 @@ int	ft_pwd(void)
 {
 	char	*path;
 
-	path = _get_current_dir();
+	path = get_current_dir();
 	if (!path)
 		return (1);
 	printf("%s\n", path);
@@ -37,7 +35,7 @@ int	ft_pwd(void)
  *
  * @return char* Pointer to the current working string,or NULL on error.
  */
-static char	*_get_current_dir(void)
+char	*get_current_dir(void)
 {
 	char	path[PATH_MAX];
 

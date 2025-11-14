@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/14 17:11:04 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/15 01:31:03 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,11 @@ typedef struct s_shell
 	t_ms_buf					*ms_buf;
 	t_loglevel					loglevel;
 	t_status					status;
+	t_app						*app;
 }								t_shell;
 
-int			interactive_shell(t_shell *shell, char **envp);
-int			non_interactive_shell(t_shell *shell, char **envp);
+int			interactive_shell(t_shell *shell);
+int			non_interactive_shell(t_shell *shell);
 
 void		log_debug(char *msg, t_loglevel log_level);
 void		log_debug_show_input(char *msg,
@@ -91,15 +92,15 @@ void		free_tmp_buf(t_ms_buf *ms_buf);
 void		free_shell_buf(t_ms_buf *ms_buf);
 void		free_readline_buf(t_ms_buf *ms_buf);
 
-int			execute_cmd(char *inpt, char **envp, t_loglevel log_level);
-void		exec_line(t_shell *shell, char **envp);
-t_shell		*create_t_shell(int argc, char **argv);
+int			execute_cmd(char *inpt, t_app *app, t_loglevel log_level);
+void		exec_line(t_shell *shell);
+t_shell		*create_t_shell(int argc, char **argv, char **envp);
 t_status	free_t_shell(t_shell *shell);
 int			set_cmd_redirection(t_cmd *cmd, t_token **current);
 
 // app utils
-int			free_app(t_app *app);
-int			setup_app(t_app *app, char **envp);
+void		free_app(t_app *app);
+t_app		*setup_app(char **envp);
 void		reset_stdio(t_app *app);
 
 // env utils
@@ -107,15 +108,15 @@ void		reset_stdio(t_app *app);
 t_env		*envp_to_env_list(char **envp);
 char		**env_list_to_envp(t_env *env_list);
 char		**rebuild_envp(t_env *env_list, char **current_envp);
-void		free_envp(char **envp, size_t size);
 char		*get_key_env_line(const char *envp_line);
 char		*get_value_env_line(const char *envp_line);
+t_env		*get_env_from_env_line(const char *env_line);
 char		**dup_env(char **main_envp);
 char		*get_env_value(t_env *env_list, const char *key);
 
 //env list util
 void		free_env_list(t_env *env_list);
-t_env		*env_new_node(const char *envp_line);
+t_env		*env_new_node(char *key, char *value, int is_set);
 size_t		env_list_size(t_env *env_list, int mode);
 void		env_list_add_back(t_env **env_list, t_env *new_node);
 t_env		*env_last_list(t_env *env_list);
