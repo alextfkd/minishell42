@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 02:49:44 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/12 02:54:42 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/12 23:25:15 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,6 +286,27 @@ void	test_unclosed_double_quote(char *target)
 	if (token->state != S_DQUOTE)
 		status = 1;
 	free_tokens(token);
+	if (status)
+		printf("[%s] -> ERROR\n", target);
+	else
+		printf("[%s] -> PASS\n", target);
+}
+
+void	test_single_red_in(char *target)
+{
+	t_token	*token;
+	int		status;
+	t_token	*head;
+
+	status = 0;
+	token = tokenize(target);
+	head = token;
+	if (strcmp(token->data, ">") != 0 && token->tk == TK_RED_IN)
+		status = 1;
+	token = token->next;
+	if (token != NULL)
+		status = 1;
+	free_tokens(head);
 	if (status)
 		printf("[%s] -> ERROR\n", target);
 	else
