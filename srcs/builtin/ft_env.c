@@ -6,11 +6,13 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 02:36:24 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/06 09:05:35 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/15 01:49:50 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	_print_envp(char **envp);
 
 /**
  * @brief Prints all environment variables to standard output
@@ -21,15 +23,20 @@
  */
 int	ft_env(t_app *app)
 {
-	int	i;
-
-	if (!app->envp)
+	if (!app || !app->envp)
 		return (1);
+	_print_envp(app->envp);
+	return (0);
+}
+
+static void	_print_envp(char **envp)
+{
+	size_t	i;
+
 	i = 0;
-	while (app->envp[i] != NULL)
+	while (envp[i] != NULL)
 	{
-		printf("%s\n", app->envp[i]);
+		printf("%s\n", envp[i]);
 		i++;
 	}
-	return (0);
 }

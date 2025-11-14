@@ -6,13 +6,13 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 15:09:57 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/10/30 11:27:18 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/15 04:49:40 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_shell	*create_t_shell(int argc, char **argv)
+t_shell	*create_t_shell(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
 
@@ -26,6 +26,9 @@ t_shell	*create_t_shell(int argc, char **argv)
 	shell->argv = argv;
 	shell->loglevel = LOGLEVEL;
 	shell->status = SHELL_SUCCESS;
+	shell->app = setup_app(envp);
+	if (shell->app == NULL)
+		return (NULL);
 	return (shell);
 }
 
@@ -35,6 +38,7 @@ t_status	free_t_shell(t_shell *shell)
 
 	res = shell->status;
 	free_ms_buf(shell->ms_buf);
+	free_app(shell->app);
 	free(shell);
 	return (res);
 }
