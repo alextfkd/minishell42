@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 15:35:22 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/06 07:44:08 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/14 10:17:18 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static t_astree	*_handle_pipe_sequence(
 					t_token **tokens_head,
 					t_astree *current_pipe_root);
 
-t_astree	*parse_pipeline(t_token **tokens_head)
+t_astree	*create_astree_from_tokens(t_token **tokens_head)
 {
 	t_astree	*root_node;
 

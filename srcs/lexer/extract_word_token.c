@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 10:58:17 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/14 09:42:58 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/14 10:34:25 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ t_token	*extract_word_token(t_lexer *lex)
 	char	c;
 	int		start;
 	int		idx;
-	t_token	*token;
 
 	start = lex->idx;
 	idx = start;

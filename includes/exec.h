@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/12 00:40:26 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/14 10:36:42 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int				set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end);
 t_cmd			*tokens2cmd(t_token **tokens_head);
 
 // pipeline perser
-t_astree		*parse_pipeline(t_token **tokens_head);
+t_astree		*create_astree_from_tokens(t_token **tokens_head);
 
 int				is_red(t_tkind tk);
 void			clear_red(t_red *head_red);
@@ -123,15 +123,15 @@ int				set_exit_status(int status);
 void			execute_single_cmd(t_cmd *cmd, t_app *app);
 void			clear_residual_fds(void);
 
-t_cmd	*tokens2cmd(t_token **tokens_head);
-void	clear_cmd(t_cmd *cmd);
+t_cmd			*tokens2cmd(t_token **tokens_head);
+void			clear_cmd(t_cmd *cmd);
 
-int		set_cmd_redirection(t_cmd *cmd, t_token **current);
+int				set_cmd_redirection(t_cmd *cmd, t_token **current);
 
-int		is_red(t_tkind tk);
-t_red	*find_last_red(t_red *red);
-void	red_add_back(t_red **head_red, t_red *new);
-void	clear_red(t_red *head_red);
+int				is_red(t_tkind tk);
+t_red			*find_last_red(t_red *red);
+void			red_add_back(t_red **head_red, t_red *new);
+void			clear_red(t_red *head_red);
 
-int		set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end);
+int				set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end);
 #endif
