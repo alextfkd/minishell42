@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/10 23:05:02 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/15 06:20:14 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,12 @@
 # define MAX_FD 1024
 # define MAX_PID 100
 # define MAX_ARGV 100
-# define BUILTIN_ON 0
+# define BUILTIN_ON 1
+# define ENV_SET 1
+# define ENV_UNSET 0
+# define ENV_ALL -1
+# define FIRST_CHAR 1
+# define OTHER_CHAR 0
 # define HERE_DOC_PROMPT "> "
 # define ERR_SYNTAX_TOKEN "minishell: syntax error near unexpected token"
 
@@ -79,6 +84,7 @@ struct s_env
 {
 	char	*key;
 	char	*value;
+	int		is_set;
 	t_env	*next;
 };
 
@@ -129,5 +135,17 @@ int				handle_redirections(t_red *red, t_app *app);
 int				set_exit_status(int status);
 void			execute_single_cmd(t_cmd *cmd, t_app *app);
 void			clear_residual_fds(void);
+
+// builtin command
+int				ft_pwd(void);
+char			*get_current_dir(void);
+int				ft_env(t_app *app);
+int				ft_unset(t_app *app, t_cmd *cmd);
+int				ft_export(t_app *app, t_cmd *cmd);
+int				is_validate_args(const char *args);
+int				append_args_to_env_list(const char *args, t_env **env_list);
+void			overwrite_and_free_node(t_env *current, t_env *new_node);
+int				print_env_attrib(const t_env *env_list);
+void			free_env_node(t_env *node);
 
 #endif
