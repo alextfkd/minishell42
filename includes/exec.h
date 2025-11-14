@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/15 03:18:59 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/15 06:20:14 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ char			*get_current_dir(void);
 int				ft_env(t_app *app);
 int				ft_unset(t_app *app, t_cmd *cmd);
 int				ft_export(t_app *app, t_cmd *cmd);
+int				is_validate_args(const char *args);
 int				append_args_to_env_list(const char *args, t_env **env_list);
 void			overwrite_and_free_node(t_env *current, t_env *new_node);
 int				print_env_attrib(const t_env *env_list);
