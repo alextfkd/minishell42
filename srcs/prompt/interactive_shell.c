@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interactive_shell.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/11/09 18:43:43 by htsutsum         ###   ########.fr       */
-=======
-/*   Updated: 2025/11/04 23:47:56 by tkatsuma         ###   ########.fr       */
->>>>>>> origin/main
+/*   Updated: 2025/11/14 14:27:12 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 10:58:24 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/09 18:40:43 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/14 17:19:16 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,9 @@ int	setup_app(t_app *app, char **envp)
 	app->original_stdin = dup(STDIN_FILENO);
 	app->original_stdout = dup(STDOUT_FILENO);
 	if (app->original_stdin == -1 || app->original_stdout == -1)
-	{
-		perror("minishell: dup stdio");
-		return (1);
-	}
-	app->envp = dup_envp(envp);
+		return (perror("minishell: dup stdio"), 1);
+	app->envp = dup_env(envp);
+	app->env_list = envp_to_env_list(app->envp);
 	if (!app->envp)
 	{
 		free_app(app);

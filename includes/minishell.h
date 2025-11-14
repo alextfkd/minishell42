@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/12 13:54:25 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/14 17:11:04 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,19 +103,20 @@ int			setup_app(t_app *app, char **envp);
 void		reset_stdio(t_app *app);
 
 // env utils
+
 t_env		*envp_to_env_list(char **envp);
 char		**env_list_to_envp(t_env *env_list);
-char		**update_envp(t_env *env_list, char **current_envp);
+char		**rebuild_envp(t_env *env_list, char **current_envp);
 void		free_envp(char **envp, size_t size);
 char		*get_key_env_line(const char *envp_line);
 char		*get_value_env_line(const char *envp_line);
-char		**dup_envp(char **main_envp);
-char		*env_get_value(t_env *env_list, const char *key);
+char		**dup_env(char **main_envp);
+char		*get_env_value(t_env *env_list, const char *key);
 
 //env list util
 void		free_env_list(t_env *env_list);
 t_env		*env_new_node(const char *envp_line);
-size_t		env_list_size(t_env *env_list);
+size_t		env_list_size(t_env *env_list, int mode);
 void		env_list_add_back(t_env **env_list, t_env *new_node);
 t_env		*env_last_list(t_env *env_list);
 t_astree	*astree_create_cmd_node(t_token **tokens_head);

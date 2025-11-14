@@ -1,16 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env_sub.c                                       :+:      :+:    :+:   */
+/*   ft_env_mng.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 09:40:06 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/09 14:44:00 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/14 17:30:49 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/**
+ * @brief  Rebuilds the shell's environment variable array (char**)
+ * from the internal linked list.
+ *
+ * This function first frees the existing environment variable array
+ * (`current_envp`) to prevent memory leaks. It then generates a new,
+ * dynamically allocated, null-terminated string array (char**) by converting
+ * the `env_list` contents.This new array is typically used when executing
+ * external programs (e.g., via `execve`).
+ *
+ * @param env_list
+ * @param current_envp
+ * @return char**
+*/
+char	**rebuild_envp(t_env *env_list, char **current_envp)
+{
+	char	**new_envp;
+
+	if (current_envp)
+		ft_free_tab(current_envp);
+	new_envp = env_list_to_envp(env_list);
+	if (!new_envp)
+		return (perror("minishell: envp update failed"), NULL);
+	return (new_envp);
+}
 
 /**
  * @brief Extracts and allocates memory
@@ -62,39 +88,6 @@ char	*get_value_env_line(const char *envp_line)
 }
 
 /**
- * @brief Duplicate the main enviroment variables for the minishell.
- *
- * @param envp  the main enviroment variables
- * @return char**
- */
-char	**dup_envp(char **main_envp)
-{
-	int		len;
-	int		i;
-	char	**new;
-
-	len = 0;
-	while (main_envp[len] != NULL)
-		len++;
-	new = (char **)ft_calloc(len + 1, sizeof(char *));
-	if (!new)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		new[i] = ft_strdup(main_envp[i]);
-		if (!new[i])
-		{
-			ft_free_tab(new);
-			return (NULL);
-		}
-		i++;
-	}
-	new[i] = NULL;
-	return (new);
-}
-
-/**
  * @brief Searches the environment list for a specific key
  * and returns its value.
  *
@@ -102,7 +95,7 @@ char	**dup_envp(char **main_envp)
  * @param key
  * @return char*
  */
-char	*env_get_value(t_env *env_list, const char *key)
+char	*get_env_value(t_env *env_list, const char *key)
 {
 	if (!env_list || !key)
 		return (NULL);

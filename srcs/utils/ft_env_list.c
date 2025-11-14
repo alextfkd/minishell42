@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 09:40:06 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/11 06:49:21 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/14 17:29:38 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,15 @@ t_env	*env_new_node(const char *envp_line)
 }
 
 /**
- * @brief Calculates the number of nodes in the environment linked list.
+ * @brief A flag to determine the counting behavior:
+ * 0 (or any other value): Count ALL nodes.
+ *
+ * ENV_SET: Count ONLY nodes where is_set == ENV_SET.
  *
  * @param env_list
  * @return size_t
  */
-size_t	env_list_size(t_env *env_list)
+size_t	env_list_size(t_env *env_list, int mode)
 {
 	size_t	size;
 
@@ -80,7 +83,13 @@ size_t	env_list_size(t_env *env_list)
 		return (size);
 	while (env_list)
 	{
-		size++;
+		if (mode == ENV_SET)
+		{
+			if (env_list->is_set == ENV_SET)
+				size++;
+		}
+		else
+			size++;
 		env_list = env_list->next;
 	}
 	return (size);
