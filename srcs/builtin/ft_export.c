@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:44:03 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/15 04:45:58 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/15 05:44:21 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	append_args_to_env_list(const char *args, t_env **env_list)
 	new_node = get_env_from_env_line(args);
 	if (!new_node)
 		return (perror("minishell:create env_node failed"), 1);
+	printf("ARGS key %s,value %s,is_set %d\n", new_node->key,new_node->value,new_node->is_set);
 	current = *env_list;
 	while (current)
 	{
@@ -99,15 +100,17 @@ void	overwrite_and_free_node(t_env *current, t_env *new_node)
 		free(current->value);
 	if (new_node->is_set == ENV_SET)
 	{
-		current->value = new_node->value;
+		current->value = ft_strdup(new_node->value);
+		if(!current->value)
+			perror("minishell: ft_strdup : Memory allocatoin failed");
 		current->is_set = ENV_SET;
+		printf("ENV_SET key %s,value %s,is_set %d\n", current->key,current->value,current->is_set);
 	}
 	else
 	{
 		current->is_set = ENV_UNSET;
 		current->value = NULL;
-		if (new_node->value)
-			free(new_node->value);
+		printf("ENV_SET key %s,value %s,is_set %d\n", current->key,current->value,current->is_set);
 	}
 	free_env_node(new_node);
 }

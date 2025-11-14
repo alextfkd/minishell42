@@ -44,6 +44,7 @@ $(NAME): $(LIBFT) $(OBJS)
 	$(GCC) $(CFLAGS) $(IFLAGS) $(OBJS) -o $@ $(LFLAGS) $(LIBFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADER) | $(OBJDIR)
+	@mkdir -p $(@D)
 	$(GCC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
 $(LIBFT):
