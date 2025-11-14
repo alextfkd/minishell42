@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/11 07:04:24 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/14 08:50:19 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	_exec_cmd_test(char *input, t_app *app, t_loglevel log_level)
 	log_debug_show_input("running _exec_cmd_test()", log_level);
 	log_debug_show_input(input, log_level);
 	head_token = tokenize(input);
-	if (head_token->state != S_NORMAL)
+	if (!head_token || head_token->state != S_NORMAL)
 		return (0);
 	log_debug_show_token(head_token, log_level);
 	if (head_token)
@@ -53,6 +53,24 @@ static int	_exec_cmd_test(char *input, t_app *app, t_loglevel log_level)
 	return (0);
 }
 
+static char	*readline_with_nl(char *prompt)
+{
+	char	*buf;
+	char	*tmp;
+
+	tmp = readline(prompt);
+	if (tmp == NULL)
+		return (NULL);
+	add_history(tmp);
+	buf = ft_strjoin(tmp, "\n");
+	free (tmp);
+	if (buf == NULL)
+	{
+		return (NULL);
+	}
+	return (buf);
+}
+
 int	interactive_shell(t_shell *shell, char **envp)
 {
 	t_ms_buf	*ms_buf;
@@ -66,7 +84,10 @@ int	interactive_shell(t_shell *shell, char **envp)
 	while (g_sig_received == 0)
 	{
 		log_debug_ms_buf(shell);
-		ms_buf->rl_buf = readline(FT_PROMPT);
+		if (ms_buf->tmp_buf == NULL)
+			ms_buf->rl_buf = readline_with_nl(FT_PROMPT);
+		else
+			ms_buf->rl_buf = readline_with_nl(">");
 		exec_line(shell, envp);
 		if (status != 0)
 			break ;

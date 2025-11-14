@@ -64,6 +64,10 @@ static int	_count_argc(t_token *start, t_token *end)
 		{
 			p_token = p_token->next->next;
 		}
+		else if (p_token->tk == TK_ESCAPED_NL)
+		{
+			p_token = p_token->next;
+		}
 		else
 			return (-1);
 	}

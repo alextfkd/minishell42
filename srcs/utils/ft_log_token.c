@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 23:08:11 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/11 02:56:51 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/14 07:20:50 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ const char	*_get_token_kind(t_tkind tk)
 		return ("TK_RED_IN");
 	else if (tk == TK_RED_HEREDOC)
 		return ("TK_RED_HEREDOC");
+	else if (tk == TK_ESCAPED_NL)
+		return ("TK_ESCAPED_NL");
 	else
 		return ("UNKNOWN");
 }

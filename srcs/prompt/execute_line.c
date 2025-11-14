@@ -12,14 +12,15 @@
 
 #include "minishell.h"
 
-static void	exec_line_1(t_ms_buf *ms_buf, char **envp, t_loglevel log_level,
-				t_status *status);
-static void	exec_line_2(t_ms_buf *ms_buf, char **envp, t_loglevel log_level,
-				t_status *status);
-static void	exec_line_3(t_ms_buf *ms_buf, char **envp, t_loglevel log_level,
-				t_status *status);
-static void	exec_line_4(t_ms_buf *ms_buf, char **envp, t_loglevel log_level,
-				t_status *status);
+static	int	_is_executable(char *rl_buf);
+//static void	exec_line_1(t_ms_buf *ms_buf, char **envp, t_loglevel log_level,
+				//t_status *status);
+//static void	exec_line_2(t_ms_buf *ms_buf, char **envp, t_loglevel log_level,
+				//t_status *status);
+//static void	exec_line_3(t_ms_buf *ms_buf, char **envp, t_loglevel log_level,
+				//t_status *status);
+//static void	exec_line_4(t_ms_buf *ms_buf, char **envp, t_loglevel log_level,
+				//t_status *status);
 
 void	exec_line(t_shell *shell, char **envp)
 {
@@ -30,16 +31,37 @@ void	exec_line(t_shell *shell, char **envp)
 	ms_buf = shell->ms_buf;
 	status = &(shell->status);
 	log_level = shell->loglevel;
-	if (ms_buf->tmp_buf != NULL && ms_buf->rl_buf == NULL)
-		exec_line_1(ms_buf, envp, log_level, status);
-	else if (ms_buf->tmp_buf != NULL && ms_buf->rl_buf != NULL)
-		exec_line_2(ms_buf, envp, log_level, status);
-	else if (ms_buf->tmp_buf == NULL && ms_buf->rl_buf == NULL)
-		exec_line_3(ms_buf, envp, log_level, status);
-	else if (ms_buf->tmp_buf == NULL && ms_buf->rl_buf != NULL)
-		exec_line_4(ms_buf, envp, log_level, status);
+	if (ms_buf->tmp_buf == NULL)
+	{
+		ms_buf->sh_buf = ft_strdup(ms_buf->rl_buf);
+		free_readline_buf(ms_buf);
+	}
 	else
-		*status = 1;
+	{
+		ms_buf->sh_buf = ft_strjoin(ms_buf->tmp_buf, ms_buf->rl_buf);
+		free_tmp_buf(ms_buf);
+		free_readline_buf(ms_buf);
+	}
+	if (_is_executable(ms_buf->sh_buf) == 0)
+	{
+		ms_buf->tmp_buf = ft_strdup(ms_buf->sh_buf);
+		return (free_shell_buf(ms_buf));
+	}
+	*status = execute_cmd(ms_buf->sh_buf, envp, log_level);
+	free_shell_buf(ms_buf);
+}
+
+t_token	*get_token_tail(t_token *head)
+{
+	t_token	*tail;
+
+	tail = head;
+	while (tail != NULL && tail->next != NULL)
+	{
+		printf("X\n");
+		tail = tail->next;
+	}
+	return (tail);
 }
 
 static	int	_is_executable(char *rl_buf)
@@ -49,36 +71,22 @@ static	int	_is_executable(char *rl_buf)
 	token = tokenize(rl_buf);
 	if (token == NULL)
 		return (-1);
+	if (get_token_tail(token)->tk == TK_ESCAPED_NL)
+	{
+		printf("!!!");
+		free_tokens(token);
+		return (0);
+	}
 	if (token->state == S_NORMAL)
 	{
 		free_tokens(token);
 		return (1);
 	}
+	log_debug_show_token(get_token_tail(token), LOG_DEBUG);
 	free_tokens(token);
 	return (0);
 }
-
-static void	exec_line_1(t_ms_buf *ms_buf, char **envp, t_loglevel log_level,
-		t_status *status)
-{
-	log_debug("1. tmp_buf != NULL && rl_buf == NULL", log_level);
-	ms_buf->sh_buf = ft_strdup(ms_buf->tmp_buf);
-	if (ms_buf->sh_buf == NULL)
-	{
-		*status = 1;
-		return ;
-	}
-	free_tmp_buf(ms_buf);
-	if (_is_executable(ms_buf->sh_buf) == 0)
-	{
-		ms_buf->tmp_buf = ft_strdup(ms_buf->sh_buf);
-		free_shell_buf(ms_buf);
-		return ;
-	}
-	*status = execute_cmd(ms_buf->sh_buf, envp, log_level);
-	free_shell_buf(ms_buf);
-}
-
+/*
 static void	exec_line_2(t_ms_buf *ms_buf, char **envp, t_loglevel log_level,
 		t_status *status)
 {
@@ -113,16 +121,6 @@ static void	exec_line_2(t_ms_buf *ms_buf, char **envp, t_loglevel log_level,
 	free_shell_buf(ms_buf);
 }
 
-static void	exec_line_3(t_ms_buf *ms_buf, char **envp, t_loglevel log_level,
-		t_status *status)
-{
-	log_debug("3. tmp_buf == NULL && rl_buf == NULL", log_level);
-	(void)ms_buf;
-	(void)envp;
-	*status = 0;
-	exit_with_sigeof();
-}
-
 static void	exec_line_4(t_ms_buf *ms_buf, char **envp, t_loglevel log_level,
 		t_status *status)
 {
@@ -151,3 +149,37 @@ static void	exec_line_4(t_ms_buf *ms_buf, char **envp, t_loglevel log_level,
 	*status = execute_cmd(ms_buf->rl_buf, envp, log_level);
 	return (free_readline_buf(ms_buf));
 }
+*/
+/*
+static void	exec_line_3(t_ms_buf *ms_buf, char **envp, t_loglevel log_level,
+		t_status *status)
+{
+	log_debug("3. tmp_buf == NULL && rl_buf == NULL", log_level);
+	(void)ms_buf;
+	(void)envp;
+	*status = 0;
+	exit_with_sigeof();
+}
+
+static void	exec_line_1(t_ms_buf *ms_buf, char **envp, t_loglevel log_level,
+		t_status *status)
+{
+	log_debug("1. tmp_buf != NULL && rl_buf == NULL", log_level);
+	ms_buf->sh_buf = ft_strdup(ms_buf->tmp_buf);
+	if (ms_buf->sh_buf == NULL)
+	{
+		*status = 1;
+		return ;
+	}
+	free_tmp_buf(ms_buf);
+	if (_is_executable(ms_buf->sh_buf) == 0)
+	{
+		ms_buf->tmp_buf = ft_strdup(ms_buf->sh_buf);
+		free_shell_buf(ms_buf);
+		return ;
+	}
+	*status = execute_cmd(ms_buf->sh_buf, envp, log_level);
+	free_shell_buf(ms_buf);
+}
+
+*/
