@@ -47,7 +47,7 @@ void	exec_line(t_shell *shell)
 		ms_buf->tmp_buf = ft_strdup(ms_buf->sh_buf);
 		return (free_shell_buf(ms_buf));
 	}
-	*status = execute_cmd(ms_buf->sh_buf, envp, log_level);
+	*status = execute_cmd(ms_buf->sh_buf, shell->app, log_level);
 	free_shell_buf(ms_buf);
 }
 

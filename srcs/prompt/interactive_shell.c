@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/14 23:19:47 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/15 13:23:42 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static int	_exec_cmd_test(char *input, t_app *app, t_loglevel log_level)
 			free_tokens(head_token);
 	}
 	free_tokens(head_token);
+	reset_stdio(app);
 	return (0);
 }
 
@@ -85,7 +86,7 @@ int	interactive_shell(t_shell *shell)
 			ms_buf->rl_buf = readline_with_nl(FT_PROMPT);
 		else
 			ms_buf->rl_buf = readline_with_nl(">");
-		exec_line(shell, envp);
+		exec_line(shell);
 		if (status != 0)
 			break ;
 	}
