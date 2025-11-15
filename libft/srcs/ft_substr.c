@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 10:29:35 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/05/06 11:13:05 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/09 13:17:31 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	size_t	len_s;
 	char	*subs;
 
+	if (s == NULL)
+		return (NULL);
 	len_s = ft_strlen(s);
-	if (s == NULL || start > len_s || len == 0)
+	if (start >= len_s)
 		return (ft_strdup(""));
 	if (len > len_s - start)
 		len = len_s - start;
@@ -29,8 +31,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	i = 0;
 	while (i < len)
 	{
-		subs[i] = s[start];
-		start++;
+		subs[i] = s[start + i];
 		i++;
 	}
 	subs[i] = '\0';

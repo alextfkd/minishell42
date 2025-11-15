@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:13:40 by tkatsumata        #+#    #+#             */
-/*   Updated: 2025/10/25 15:11:05 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/15 01:31:19 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
 
-	shell = create_t_shell(argc, argv);
+	shell = create_t_shell(argc, argv, envp);
 	if (shell == NULL)
 		return (1);
 	if (shell->argc == 1)
-		shell->status = interactive_shell(shell, envp);
+		shell->status = interactive_shell(shell);
 	else if (shell->argc >= 2)
-		shell->status = non_interactive_shell(shell, envp);
+		shell->status = non_interactive_shell(shell);
 	else
 	{
 		shell->status = 1;

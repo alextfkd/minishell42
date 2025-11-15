@@ -22,7 +22,7 @@ static	int	_is_executable(char *rl_buf);
 //static void	exec_line_4(t_ms_buf *ms_buf, char **envp, t_loglevel log_level,
 				//t_status *status);
 
-void	exec_line(t_shell *shell, char **envp)
+void	exec_line(t_shell *shell)
 {
 	t_ms_buf	*ms_buf;
 	t_status	*status;
