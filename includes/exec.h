@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/15 12:53:01 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/15 13:20:23 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 
 # include "lexer.h"
 # include "libft.h"
+//# define BUILTIN_ON 1
+# define ENV_SET 1
+# define ENV_UNSET 0
+# define ENV_ALL -1
+# define FIRST_CHAR 1
+# define OTHER_CHAR 0
 
 # define MAX_FD 1024
 # define MAX_PID 100
@@ -80,6 +86,7 @@ struct s_env
 	char	*key;
 	char	*value;
 	t_env	*next;
+	int		is_set;
 };
 
 struct	s_app
