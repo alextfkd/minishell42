@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interactive_shell.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/17 00:40:15 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/17 15:35:48 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	_exec_cmd_test(char *input, t_app *app, t_loglevel log_level)
 	log_debug_show_input(input, log_level);
 	head_token = tokenize(input);
 	if (!head_token || head_token->state != S_NORMAL)
-		return (0);
+		return (0);e
 	log_debug_show_token(head_token, log_level);
 	if (head_token)
 	{
