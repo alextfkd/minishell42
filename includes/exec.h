@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/17 12:16:53 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/17 15:11:19 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@
 # include "lexer.h"
 # include "libft.h"
 
+# ifndef BUILTIN_ON
+#  define BUILTIN_ON 0
+# endif
+
+# define MAX_FD 1024
+# define MAX_PID 100
+# define MAX_ARGV 100
 # define ENV_SET 1
 # define ENV_UNSET 0
 # define ENV_ALL -1
 # define FIRST_CHAR 1
 # define OTHER_CHAR 0
-
-# define MAX_FD 1024
-# define MAX_PID 100
-# define MAX_ARGV 100
-#ifndef BUILTIN_ON
-# define BUILTIN_ON 0
-#endif
 # define HERE_DOC_PROMPT "> "
 # define ERR_SYNTAX_TOKEN "minishell: syntax error near unexpected token"
 
@@ -103,7 +103,7 @@ struct	s_app
 
 struct	s_builtin_map
 {
-	const char	*name;
+	const char		*name;
 	t_builtin_type	type;
 };
 

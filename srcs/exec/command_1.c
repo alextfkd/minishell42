@@ -42,16 +42,17 @@ t_builtin_type	get_builtin_type(t_cmd *cmd)
 {
 	const char					*name;
 	int							i;
-	static const t_builtin_map 	builtin_map[] = {
-		{"cd", BT_CD},
-		{"export", BT_EXPORT},
-		{"unset", BT_UNSET},
-		{"exit", BT_EXIT},
-		{"echo", BT_ECHO},
-		{"pwd", BT_PWD},
-		{"env", BT_ENV},
-		{NULL, BT_NOT_BULTIN}
+	static const t_builtin_map	builtin_map[] = {
+	{"cd", BT_CD},
+	{"export", BT_EXPORT},
+	{"unset", BT_UNSET},
+	{"exit", BT_EXIT},
+	{"echo", BT_ECHO},
+	{"pwd", BT_PWD},
+	{"env", BT_ENV},
+	{NULL, BT_NOT_BULTIN}
 	};
+
 	if (!cmd || !cmd->argv || !cmd->argv[0])
 		return (BT_NOT_BULTIN);
 	name = cmd->argv[0];
