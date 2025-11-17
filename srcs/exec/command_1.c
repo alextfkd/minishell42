@@ -32,7 +32,12 @@ int	execute_builtin_parent(t_cmd *cmd, t_app *app)
 	return (status);
 }
 
-// get the types of bultin command.t_builtin_type get_builtin_type(t_cmd *cmd)
+/**
+ * @brief Get the builtin type object
+ *
+ * @param cmd
+ * @return t_builtin_type
+ */
 t_builtin_type	get_builtin_type(t_cmd *cmd)
 {
 	const char					*name;
@@ -59,6 +64,7 @@ t_builtin_type	get_builtin_type(t_cmd *cmd)
 	}
 	return (BT_NOT_BULTIN);
 }
+
 static void	_reset_std_fd(int tmp_stdin, int tmp_stdout)
 {
 	dup2(tmp_stdin, STDIN_FILENO);
