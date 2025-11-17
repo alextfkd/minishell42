@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/17 00:26:44 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/17 12:05:26 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,12 @@ typedef struct s_ms_buf
 	char						*sh_buf;
 }								t_ms_buf;
 
+/*
 typedef enum e_shell_status
 {
 	SHELL_SUCCESS = 0,
 }								t_status;
+*/
 
 typedef struct s_shell
 {
@@ -66,7 +68,7 @@ typedef struct s_shell
 	char						**argv;
 	t_ms_buf					*ms_buf;
 	t_loglevel					loglevel;
-	t_status					status;
+	int							status;
 	t_app						*app;
 }								t_shell;
 
@@ -95,12 +97,13 @@ void		free_readline_buf(t_ms_buf *ms_buf);
 int			execute_cmd(char *inpt, t_app *app, t_loglevel log_level);
 void		exec_line(t_shell *shell);
 t_shell		*create_t_shell(int argc, char **argv, char **envp);
-t_status	free_t_shell(t_shell *shell);
+int			free_t_shell(t_shell *shell);
 int			set_cmd_redirection(t_cmd *cmd, t_token **current);
 
 // app utils
 void		free_app(t_app *app);
-t_app		*setup_app(char **envp);
+//t_app		*setup_app(char **envp);
+t_app		*setup_app(char **envp, int *shell_status);
 void		reset_stdio(t_app *app);
 
 // env utils

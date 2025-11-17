@@ -25,7 +25,7 @@ static	int	_is_executable(char *rl_buf);
 void	exec_line(t_shell *shell)
 {
 	t_ms_buf	*ms_buf;
-	t_status	*status;
+	int			*status;
 	t_loglevel	log_level;
 
 	ms_buf = shell->ms_buf;
