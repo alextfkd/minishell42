@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 08:54:40 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/10 20:30:32 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/16 01:25:25 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,11 @@ void	free_tokens(t_token *head)
 		tmp = head;
 		head = head->next;
 		if (tmp->data)
+		{
 			free(tmp->data);
+			tmp->data = NULL;
+		}
 		free(tmp);
+		tmp = NULL;
 	}
 }

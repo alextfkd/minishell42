@@ -3,31 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   ft_log_astree.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 05:25:43 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/07 04:18:25 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/16 12:44:13 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// get node type
-static const char	*_get_node_type(t_node type)
+static void			_print_ast_indent(t_astree *node, int level);
+static void			_print_ast_node(t_astree *node, int level);
+static const char	*_get_node_type(t_node type);
+
+void	log_debug_show_ast(t_astree *root, t_loglevel log_level)
 {
-	if (type == NODE_CMD)
-		return ("NODE_CMD");
-	else if (type == NODE_PIPE)
-		return ("NODE_PIPE");
+	log_debug("--- Abstract Syntax Tree Start ---", log_level);
+	if (root == NULL)
+	{
+		log_debug("AST is NULL (Parse Error or Empty Input)", log_level);
+	}
 	else
-		return ("UNKNOWN_NODE");
+	{
+		if (log_level <= LOG_DEBUG)
+			_print_ast_indent(root, 0);
+	}
+	log_debug("---- Abstract Syntax Tree End ----", log_level);
 }
 
-static void	_print_ast_node(t_astree *node)
+static void	_print_ast_indent(t_astree *node, int level)
 {
 	int	i;
 
-	printf("├── %s", _get_node_type(node->type));
+	if (node == NULL)
+		return ;
+	i = 0;
+	while (i < level - 1)
+	{
+		printf("│   ");
+		i++;
+	}
+	_print_ast_node(node, level);
+	printf("\n");
+	_print_ast_indent(node->left, level + 1);
+	_print_ast_indent(node->right, level + 1);
+}
+
+static void	_print_ast_node(t_astree *node, int level)
+{
+	int	i;
+
+	if (level == 0)
+		printf("%s (root)", _get_node_type(node->type));
+	else
+		printf("└── %s", _get_node_type(node->type));
 	if (node->type == NODE_CMD)
 	{
 		printf(" [argc: %d]", node->cmd->argc);
@@ -46,35 +75,13 @@ static void	_print_ast_node(t_astree *node)
 	}
 }
 
-static void	_print_ast_indent(t_astree *node, int level)
+// get node type
+static const char	*_get_node_type(t_node type)
 {
-	int	i;
-
-	if (node == NULL)
-		return ;
-	i = 0;
-	while (i < level)
-	{
-		printf("│   ");
-		i++;
-	}
-	_print_ast_node(node);
-	printf("\n");
-	_print_ast_indent(node->left, level + 1);
-	_print_ast_indent(node->right, level + 1);
-}
-
-void	log_debug_show_ast(t_astree *root, t_loglevel log_level)
-{
-	log_debug("--- Abstract Syntax Tree Start ---", log_level);
-	if (root == NULL)
-	{
-		log_debug("AST is NULL (Parse Error or Empty Input)", log_level);
-	}
+	if (type == NODE_CMD)
+		return ("NODE_CMD");
+	else if (type == NODE_PIPE)
+		return ("NODE_PIPE");
 	else
-	{
-		if (log_level <= LOG_DEBUG)
-			_print_ast_indent(root, 0);
-	}
-	log_debug("---- Abstract Syntax Tree End ----", log_level);
+		return ("UNKNOWN_NODE");
 }

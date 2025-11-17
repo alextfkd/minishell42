@@ -24,7 +24,7 @@ UTILS_FILES = ft_log.c ft_shell.c ft_sig_handler.c ft_log_token.c ft_app.c ft_lo
 
 PROMPT_FILES = interactive_shell.c noninteractive_shell.c shell_buffer.c shell_buf_free.c execute_line.c
 
-PARSER_FILES = astree.c parser.c
+PARSER_FILES = astree.c parser.c param_expansion.c
 
 EXEC_FILES = find_cmd_path.c command.c command_1.c pipeline.c pipeline_1.c redirect_io.c redirect_in.c redirect_out.c heredoc.c heredoc_1.c builtin_cmd.c
 
