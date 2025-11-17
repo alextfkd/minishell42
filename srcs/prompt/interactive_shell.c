@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/17 00:40:15 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/17 06:17:58 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static int	_exec_cmd_test(char *input, t_app *app, t_loglevel log_level)
 	t_token		*head_token;
 	t_astree	*ast_root;
 
-	ast_root = NULL;
 	log_debug_show_input("running _exec_cmd_test()", log_level);
 	log_debug_show_input(input, log_level);
 	head_token = tokenize(input);
@@ -87,7 +86,8 @@ int	interactive_shell(t_shell *shell)
 			ms_buf->rl_buf = readline_with_nl(FT_PROMPT);
 		else
 			ms_buf->rl_buf = readline_with_nl(">");
-		exec_line(shell);
+		if (ms_buf->rl_buf)
+			exec_line(shell);
 		if (status != 0)
 			break ;
 	}
