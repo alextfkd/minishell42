@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/15 13:20:23 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/17 12:16:53 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "lexer.h"
 # include "libft.h"
-//# define BUILTIN_ON 1
+
 # define ENV_SET 1
 # define ENV_UNSET 0
 # define ENV_ALL -1
@@ -25,16 +25,19 @@
 # define MAX_FD 1024
 # define MAX_PID 100
 # define MAX_ARGV 100
+#ifndef BUILTIN_ON
 # define BUILTIN_ON 0
+#endif
 # define HERE_DOC_PROMPT "> "
 # define ERR_SYNTAX_TOKEN "minishell: syntax error near unexpected token"
 
 // auxiliary structure of redirection (Singly linked list).
-typedef struct s_red	t_red;
-typedef struct s_cmd	t_cmd;
-typedef struct s_astree	t_astree;
-typedef struct s_app	t_app;
-typedef struct s_env	t_env;
+typedef struct s_red			t_red;
+typedef struct s_cmd			t_cmd;
+typedef struct s_astree			t_astree;
+typedef struct s_app			t_app;
+typedef struct s_env			t_env;
+typedef struct s_builtin_map	t_builtin_map;
 
 // type of a bulitin command
 typedef enum e_bultin_type
@@ -96,6 +99,12 @@ struct	s_app
 	int		exit_status;
 	int		original_stdin;
 	int		original_stdout;
+};
+
+struct	s_builtin_map
+{
+	const char	*name;
+	t_builtin_type	type;
 };
 
 void			clear_cmd(t_cmd *cmd);

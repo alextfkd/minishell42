@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:44:03 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/15 02:37:36 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/17 11:49:57 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	print_env_attrib(const t_env *env_list)
 		value = "";
 		if (env_list->is_set == ENV_SET)
 		{
-			if (env_list->value)
+			if (env_list->value )
 				value = env_list->value;
 			printf("declare -x %s=\"%s\"\n", env_list->key, value);
 		}
