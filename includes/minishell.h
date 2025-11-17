@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/15 01:31:03 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/17 00:26:44 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,4 +123,5 @@ t_env		*env_last_list(t_env *env_list);
 t_astree	*astree_create_cmd_node(t_token **tokens_head);
 t_astree	*astree_create_pipe_node(t_astree *left, t_astree *right);
 
+int			parameter_expansion(t_app *app, t_astree *root);
 #endif

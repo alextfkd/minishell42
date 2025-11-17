@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/15 13:23:42 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/17 00:40:15 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static int	_exec_cmd_test(char *input, t_app *app, t_loglevel log_level)
 		ast_root = create_astree_from_tokens(&head_token);
 		if (ast_root)
 		{
+			parameter_expansion(app, ast_root);
 			log_debug_show_ast(ast_root, log_level);
 			execute_pipeline(ast_root, app);
 			astree_clear(ast_root);
