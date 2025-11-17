@@ -31,17 +31,14 @@ void	exec_line(t_shell *shell)
 	ms_buf = shell->ms_buf;
 	status = &(shell->status);
 	log_level = shell->loglevel;
+	if (ms_buf->rl_buf == NULL)
+		return ;
 	if (ms_buf->tmp_buf == NULL)
-	{
 		ms_buf->sh_buf = ft_strdup(ms_buf->rl_buf);
-		free_readline_buf(ms_buf);
-	}
 	else
-	{
 		ms_buf->sh_buf = ft_strjoin(ms_buf->tmp_buf, ms_buf->rl_buf);
-		free_tmp_buf(ms_buf);
-		free_readline_buf(ms_buf);
-	}
+	free_tmp_buf(ms_buf);
+	free_readline_buf(ms_buf);
 	if (_is_executable(ms_buf->sh_buf) == 0)
 	{
 		ms_buf->tmp_buf = ft_strdup(ms_buf->sh_buf);
