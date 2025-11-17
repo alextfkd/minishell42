@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_shell.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 15:09:57 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/15 04:49:40 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/17 12:05:48 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@ t_shell	*create_t_shell(int argc, char **argv, char **envp)
 	shell->argc = argc;
 	shell->argv = argv;
 	shell->loglevel = LOGLEVEL;
-	shell->status = SHELL_SUCCESS;
-	shell->app = setup_app(envp);
+	shell->status = 0;
+	shell->app = setup_app(envp, &(shell->status));
 	if (shell->app == NULL)
 		return (NULL);
 	return (shell);
 }
 
-t_status	free_t_shell(t_shell *shell)
+int	free_t_shell(t_shell *shell)
 {
-	t_status	res;
+	int	res;
 
 	res = shell->status;
 	free_ms_buf(shell->ms_buf);
