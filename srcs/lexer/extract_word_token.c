@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 10:58:17 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/14 10:34:25 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/16 00:03:56 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,13 @@
 
 static int	_is_break_point(char c);
 static int	_update_quote_state(t_lexer *lex, char c);
-//static int	_handle_char_and_quote_state(t_lexer *lex, char c);
 
+/**
+ * @brief  Create a TK_CHAR token from lex->line.
+ * 
+ * @param lex 
+ * @return t_token* 
+ */
 t_token	*extract_word_token(t_lexer *lex)
 {
 	char	c;
@@ -33,8 +38,6 @@ t_token	*extract_word_token(t_lexer *lex)
 			break ;
 		if (_is_break_point(c) && lex->state == S_NORMAL)
 			break ;
-		if (c == '\0')
-			break ;
 		idx++;
 	}
 	if (start == idx)
@@ -42,12 +45,6 @@ t_token	*extract_word_token(t_lexer *lex)
 	lex->idx = idx;
 	return (create_new_token(lex, TK_CHAR, start, idx));
 }
-/*
-	if (!token)
-		return (NULL);
-	return (token);
-}
-*/
 
 /* Returns 1 if c is a character break point (isspace(), |<>;\0) */
 static int	_is_break_point(char c)
