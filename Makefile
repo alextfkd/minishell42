@@ -69,6 +69,10 @@ $(LIBFT):
 libft_clean:
 	@make --directory ./libft/ clean
 
+lexer_test: $(LIBFT) $(OBJS)
+	$(GCC) $(CFLAGS) $(IFLAGS) -c test/lexer_test.c -o objs/lexer_test.o
+	$(GCC) $(CFLAGS) $(IFLAGS) $(filter-out objs/main.o, $(OBJS)) objs/lexer_test.o -o $@ $(LFLAGS) $(LIBFLAGS)
+
 clean: libft_clean
 	@rm -f $(OBJS)
 	@rm -rf $(OBJDIR)
