@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 09:40:06 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/09 18:45:32 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/15 04:51:35 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,44 +34,40 @@ void	free_env_list(t_env *env_list)
 }
 
 /**
- * @brief Creates and allocates memory for a new t_env node
- * from an environment string.
+ * @brief Creates and allocates memory for a new t_env node,
+ *  setting its properties.
+ *
+ * This function takes ownership of the 'key' and 'value' pointers.
+ * The caller must ensure they were dynamically allocated.
  *
  * @param envp_line
  * @return t_env*
  */
-t_env	*env_new_node(const char *envp_line)
+
+t_env	*env_new_node(char *key, char *value, int is_set)
 {
 	t_env	*new_node;
 
-	if (!envp_line)
-		return (NULL);
 	new_node = (t_env *)ft_calloc(1, sizeof(t_env));
 	if (!new_node)
 		return (perror("minishell: create new env_node failed"), NULL);
-	new_node->key = get_key_env_line(envp_line);
-	if (!new_node->key)
-	{
-		free(new_node);
-		return (NULL);
-	}
-	new_node->value = get_value_env_line(envp_line);
-	if (!new_node->value)
-	{
-		free(new_node->key);
-		free(new_node);
-		return (NULL);
-	}
+	new_node->key = key;
+	new_node->value = value;
+	new_node->is_set = is_set;
+	new_node->next = NULL;
 	return (new_node);
 }
 
 /**
- * @brief Calculates the number of nodes in the environment linked list.
+ * @brief A flag to determine the counting behavior:
+ * 0 (or any other value): Count ALL nodes.
+ *
+ * ENV_SET: Count ONLY nodes where is_set == ENV_SET.
  *
  * @param env_list
  * @return size_t
  */
-size_t	env_list_size(t_env *env_list)
+size_t	env_list_size(t_env *env_list, int mode)
 {
 	size_t	size;
 
@@ -80,7 +76,8 @@ size_t	env_list_size(t_env *env_list)
 		return (size);
 	while (env_list)
 	{
-		size++;
+		if (mode == ENV_ALL || env_list->is_set == mode)
+			size++;
 		env_list = env_list->next;
 	}
 	return (size);

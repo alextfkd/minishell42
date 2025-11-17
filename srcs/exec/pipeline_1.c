@@ -6,11 +6,13 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:35:43 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/03 04:27:08 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/17 15:36:01 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	_execute_builtin_child(t_cmd *cmd, t_app *app);
 
 void	_execve_exit_error(void)
 {
@@ -18,14 +20,6 @@ void	_execve_exit_error(void)
 		exit(126);
 	else
 		exit(127);
-}
-
-static int	_execute_builtin_child(t_cmd *cmd, t_app *app)
-{
-	int	status;
-
-	status = execute_builtin_cmd(cmd, app);
-	return (status);
 }
 
 void	execute_single_cmd(t_cmd *cmd, t_app *app)
@@ -57,4 +51,12 @@ int	set_exit_status(int status)
 	else if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
 	return (0);
+}
+
+static int	_execute_builtin_child(t_cmd *cmd, t_app *app)
+{
+	int	status;
+
+	status = execute_builtin_cmd(cmd, app);
+	return (status);
 }

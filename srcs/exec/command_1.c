@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_1.c                                        :+:      :+:    :+:   */
+/*   cmd_args.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,38 +12,7 @@
 
 #include "minishell.h"
 
-// get the types of bultin command.
-t_builtin_type	get_builtin_type(t_cmd *cmd)
-{
-	const char	*name;
-
-	if (!cmd || !cmd->argv || !cmd->argv[0])
-		return (1);
-	name = cmd->argv[0];
-	if (ft_strcmp(name, "cd") == 0)
-		return (BT_CD);
-	if (ft_strcmp(name, "export") == 0)
-		return (BT_EXPORT);
-	if (ft_strcmp(name, "unset") == 0)
-		return (BT_UNSET);
-	if (ft_strcmp(name, "exit") == 0)
-		return (BT_EXIT);
-	if (ft_strcmp(name, "echo") == 0)
-		return (BT_ECHO);
-	if (ft_strcmp(name, "pwd") == 0)
-		return (BT_PWD);
-	if (ft_strcmp(name, "env") == 0)
-		return (BT_ENV);
-	return (BT_NOT_BULTIN);
-}
-
-static void	_reset_std_fd(int tmp_stdin, int tmp_stdout)
-{
-	dup2(tmp_stdin, STDIN_FILENO);
-	dup2(tmp_stdout, STDOUT_FILENO);
-	close(tmp_stdin);
-	close(tmp_stdout);
-}
+static void	_reset_std_fd(int tmp_stdin, int tmp_stdout);
 
 int	execute_builtin_parent(t_cmd *cmd, t_app *app)
 {
@@ -61,6 +30,48 @@ int	execute_builtin_parent(t_cmd *cmd, t_app *app)
 	status = execute_builtin_cmd(cmd, app);
 	_reset_std_fd(tmp_stdin, tmp_stdout);
 	return (status);
+}
+
+/**
+ * @brief Get the builtin type object
+ *
+ * @param cmd
+ * @return t_builtin_type
+ */
+t_builtin_type	get_builtin_type(t_cmd *cmd)
+{
+	const char					*name;
+	int							i;
+	static const t_builtin_map	builtin_map[] = {
+	{"cd", BT_CD},
+	{"export", BT_EXPORT},
+	{"unset", BT_UNSET},
+	{"exit", BT_EXIT},
+	{"echo", BT_ECHO},
+	{"pwd", BT_PWD},
+	{"env", BT_ENV},
+	{NULL, BT_NOT_BULTIN},
+	};
+
+	if (!cmd || !cmd->argv || !cmd->argv[0])
+		return (BT_NOT_BULTIN);
+	name = cmd->argv[0];
+	i = 0;
+	while (builtin_map[i].name != NULL)
+	{
+		if (ft_strcmp(name, builtin_map[i].name) == 0)
+			return (builtin_map[i].type);
+		i++;
+	}
+	return (BT_NOT_BULTIN);
+}
+
+static void	_reset_std_fd(int tmp_stdin, int tmp_stdout)
+{
+	dup2(tmp_stdin, STDIN_FILENO);
+	dup2(tmp_stdout, STDOUT_FILENO);
+	close(tmp_stdin);
+	close(tmp_stdout);
 }
 
 void	clear_residual_fds(void)

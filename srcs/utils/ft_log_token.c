@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_log_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 23:08:11 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/03 07:17:37 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/14 07:20:50 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ const char	*_get_token_kind(t_tkind tk)
 		return ("TK_RED_IN");
 	else if (tk == TK_RED_HEREDOC)
 		return ("TK_RED_HEREDOC");
+	else if (tk == TK_ESCAPED_NL)
+		return ("TK_ESCAPED_NL");
 	else
 		return ("UNKNOWN");
 }
@@ -35,10 +37,18 @@ void	log_debug_show_token(t_token *head, t_loglevel log_level)
 	t_token	*current;
 	int		i;
 
-	current = head;
 	log_debug("--- Token List Start ---", log_level);
 	if (head == NULL)
-		log_debug("Token list empyt or NULL", log_level);
+	{
+		log_debug("The token list is NULL.", log_level);
+		return ;
+	}
+	if (head->data == NULL)
+	{
+		log_debug("The token_head->data == NULL", log_level);
+		return ;
+	}
+	current = head;
 	i = 0;
 	while (current != NULL)
 	{

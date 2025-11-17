@@ -6,23 +6,87 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 07:30:30 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/09 20:32:54 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/17 21:49:03 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// delete valiables of key
-int	env_unset_variable(t_env **env_list, const char *key)
+static int	_remove_env_node(t_env **head_env_list, const char *key);
+
+/**
+ * @brief The built-in unset command to remove environment variables.
+ *
+ * This function iterates through arguments, validates the keys, and
+ * removes the corresponding node from the application's environment list.
+ * If any variable is successfully removed, the execve-ready envp array
+ * is rebuilt.
+ *
+ * @param app
+ * @param cmd
+ * @return int
+ */
+int	ft_unset(t_app *app, t_cmd *cmd)
 {
-	(void)env_list;
-	(void)key;
+	int		i;
+	int		update;
+	char	*args;
+	char	**old_envp;
+
+	i = 1;
+	update = 0;
+	while (i < cmd->argc)
+	{
+		args = cmd->argv[i];
+		if (!is_validate_args(args) || ft_strchr(args, '=') != NULL)
+			return (1);
+		else
+		{
+			_remove_env_node(&app->env_list, args);
+			update++;
+		}
+		i++;
+	}
+	if (update > 0)
+	{
+		old_envp = app->envp;
+		app->envp = rebuild_envp(app->env_list, old_envp);
+	}
 	return (0);
 }
 
-int	ft_unset(t_app *app, t_cmd *cmd)
+/**
+ * @brief Removes a single environment node with the specified key
+ *  from the list.
+ *
+ * This static helper function searches the linked list pointed
+ * to by *head_env_list for a matching key. If found, it unlinks
+ * the node and frees its memory using free_env_node.
+ *
+ * @param head_env_list
+ * @param key
+ * @return int
+ */
+static int	_remove_env_node(t_env **head_env_list, const char *key)
 {
-	(void)app;
-	printf("unset %s\n", cmd->argv[0]);
+	t_env	*current;
+	t_env	*prev;
+
+	current = *head_env_list;
+	prev = NULL;
+	while (current)
+	{
+		if (ft_strcmp(current->key, key) == 0)
+		{
+			if (prev == NULL)
+				*head_env_list = current->next;
+			else
+				prev->next = current->next;
+			free_env_node(current);
+			return (0);
+		}
+		prev = current;
+		current = current->next;
+	}
 	return (0);
 }
