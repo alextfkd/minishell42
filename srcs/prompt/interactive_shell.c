@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/17 12:06:04 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/18 09:05:44 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ static char	*readline_with_nl(char *prompt)
 
 	tmp = readline(prompt);
 	if (tmp == NULL)
+	{
 		return (NULL);
+	}
 	add_history(tmp);
 	buf = ft_strjoin(tmp, "\n");
 	free (tmp);
@@ -69,29 +71,37 @@ static char	*readline_with_nl(char *prompt)
 	return (buf);
 }
 
+static int	_is_eof(t_ms_buf *t_ms_buf)
+{
+	if (!t_ms_buf)
+		return (-1);
+	if (!(t_ms_buf->rl_buf))
+		return (1);
+	return (0);
+}
+
 int	interactive_shell(t_shell *shell)
 {
-	t_ms_buf	*ms_buf;
-	int			status;
+	t_ms_buf			*ms_buf;
 
 	log_debug("MINISHELL INTERACTIVE MODE", shell->loglevel);
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
+	set_sigaction(shell);
 	ms_buf = shell->ms_buf;
-	status = shell->status;
-	while (g_sig_received == 0)
+	while (1)
 	{
 		log_debug_ms_buf(shell);
 		if (ms_buf->tmp_buf == NULL)
 			ms_buf->rl_buf = readline_with_nl(FT_PROMPT);
 		else
 			ms_buf->rl_buf = readline_with_nl(">");
-		if (ms_buf->rl_buf)
-			exec_line(shell);
-		if (status != 0)
+		if (_is_eof(ms_buf))
+		{
+			free_readline_buf(ms_buf);
 			break ;
+		}
+		exec_line(shell);
 	}
-	log_debug("5. EXIT", shell->loglevel);
+	write(1, "exit\n", 5);
 	rl_clear_history();
-	return (status);
+	return (shell->status);
 }

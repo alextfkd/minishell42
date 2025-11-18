@@ -8,6 +8,7 @@ UTILS_DIR = utils
 PROMT_DIR = prompt
 EXEC_DIR = exec
 LEXER_DIR = lexer
+SIGNAL_DIR = signal
 SHELL_DIR = shell
 PARSER_DIR = parser
 BUILTIN_DIR = builtin
@@ -21,7 +22,10 @@ LFLAGS = -Llibft
 LIBFLAGS = -lft -lreadline
 
 MAIN_FILE = main.c
-UTILS_FILES = ft_log.c ft_sig_handler.c ft_log_token.c ft_app.c ft_log_astree.c ft_log_astree_sub.c ft_env_conv.c ft_env_mng.c ft_env_list.c
+
+UTILS_FILES = ft_log.c ft_log_token.c ft_app.c ft_log_astree.c ft_log_astree_sub.c ft_env_conv.c ft_env_mng.c ft_env_list.c
+
+SIGNAL_FILES = sig_handler.c sigaction.c
 
 PROMPT_FILES = interactive_shell.c noninteractive_shell.c execute_line.c
 
@@ -39,6 +43,7 @@ BUILTIN_FILES = ft_pwd.c ft_env.c ft_export.c ft_unset.c ft_export_util.c
 FILES = $(MAIN_FILE)
 FILES += $(addprefix $(UTILS_DIR)/,$(UTILS_FILES))
 FILES += $(addprefix $(PROMT_DIR)/,$(PROMPT_FILES))
+FILES += $(addprefix $(SIGNAL_DIR)/,$(SIGNAL_FILES))
 FILES += $(addprefix $(EXEC_DIR)/,$(EXEC_FILES))
 FILES += $(addprefix $(SHELL_DIR)/,$(SHELL_FILES))
 FILES += $(addprefix $(LEXER_DIR)/,$(LEXER_FILES))
