@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/18 09:05:44 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/18 09:11:11 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ int	interactive_shell(t_shell *shell)
 			ms_buf->rl_buf = readline_with_nl(FT_PROMPT);
 		else
 			ms_buf->rl_buf = readline_with_nl(">");
+		if (g_sig_received == 2)
+			shell->status = 130;
 		if (_is_eof(ms_buf))
 		{
 			free_readline_buf(ms_buf);
