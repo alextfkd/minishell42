@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 08:19:27 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/18 02:34:29 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/18 03:11:37 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@ int	free_shell(t_shell *shell)
 	return (res);
 }
 
-// Delete the t_ms_buf memory and the all attributes inside.
+/**
+ * @brief Delete the t_ms_buf memory and the all attributes inside.
+ * 
+ * @param ms_buf 
+ */
 void	free_ms_buf(t_ms_buf *ms_buf)
 {
 	if (ms_buf == NULL)
@@ -45,6 +49,7 @@ void	free_ms_buf(t_ms_buf *ms_buf)
 	free(ms_buf);
 }
 
+// Delete and NULL clear t_ms_buf->tmp_buf.
 void	free_tmp_buf(t_ms_buf *ms_buf)
 {
 	if (ms_buf && ms_buf->tmp_buf)
@@ -54,6 +59,7 @@ void	free_tmp_buf(t_ms_buf *ms_buf)
 	}
 }
 
+// Delete and NULL clear t_ms_buf->sh_buf.
 void	free_shell_buf(t_ms_buf *ms_buf)
 {
 	if (ms_buf && ms_buf->sh_buf)
@@ -63,6 +69,7 @@ void	free_shell_buf(t_ms_buf *ms_buf)
 	}
 }
 
+// Delete and NULL clear t_ms_buf->rl_buf.
 void	free_readline_buf(t_ms_buf *ms_buf)
 {
 	if (ms_buf && ms_buf->rl_buf)
