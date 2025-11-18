@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 15:09:57 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/18 02:36:39 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/18 02:40:07 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_shell	*create_t_shell(int argc, char **argv, char **envp)
 	shell->ms_buf = _create_input_buffer();
 	if (shell->ms_buf == NULL)
 	{
-
 		return (free(shell), NULL);
 	}
 	shell->argc = argc;
