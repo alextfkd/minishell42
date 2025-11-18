@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:13:40 by tkatsumata        #+#    #+#             */
-/*   Updated: 2025/11/15 01:31:19 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/18 02:37:48 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(int argc, char **argv, char **envp)
 	else
 	{
 		shell->status = 1;
-		return (free_t_shell(shell));
+		return (free_shell(shell));
 	}
-	return (free_t_shell(shell));
+	return (free_shell(shell));
 }

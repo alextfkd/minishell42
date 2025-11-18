@@ -1,16 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_buf_free.c                                   :+:      :+:    :+:   */
+/*   shell_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 08:19:27 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/25 14:58:06 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/18 02:34:29 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/**
+ * @brief Free t_shell object and returns t_shell->status.
+ * 
+ * @param shell 
+ * @return int t_shell->status.
+ */
+int	free_shell(t_shell *shell)
+{
+	int	res;
+
+	if (shell == NULL)
+		return (-1);
+	res = shell->status;
+	free_ms_buf(shell->ms_buf);
+	free_app(shell->app);
+	free(shell);
+	return (res);
+}
 
 // Delete the t_ms_buf memory and the all attributes inside.
 void	free_ms_buf(t_ms_buf *ms_buf)

@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/17 12:05:26 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/18 02:37:32 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int			exit_with_sigeof(void);
 t_ms_buf	*create_ms_buf(void);
 void		log_debug_ms_buf(t_shell *shell);
 
+int			free_shell(t_shell *shell);
 void		free_ms_buf(t_ms_buf *ms_buf);
 void		free_tmp_buf(t_ms_buf *ms_buf);
 void		free_shell_buf(t_ms_buf *ms_buf);
