@@ -6,13 +6,13 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/18 09:39:43 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/19 01:28:32 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*readline_with_nl(char *prompt);
+static char	*readline_with_nl(char *prompt1, char *prompt2, t_shell *shell);
 static int	_is_eof(t_ms_buf *t_ms_buf);
 
 int	interactive_shell(t_shell *shell)
@@ -25,10 +25,7 @@ int	interactive_shell(t_shell *shell)
 	while (1)
 	{
 		log_debug_ms_buf(shell);
-		if (ms_buf->tmp_buf == NULL)
-			ms_buf->rl_buf = readline_with_nl(FT_PROMPT);
-		else
-			ms_buf->rl_buf = readline_with_nl(">");
+		ms_buf->rl_buf = readline_with_nl(FT_PROMPT, ">", shell);
 		if (g_sig_received == 2)
 			shell->status = 130;
 		if (_is_eof(ms_buf))
@@ -36,21 +33,31 @@ int	interactive_shell(t_shell *shell)
 			free_readline_buf(ms_buf);
 			break ;
 		}
-		exec_line(shell);
+		ms_buf->sh_buf = integrate_input_buffer(shell);
+		if (ms_buf->sh_buf)
+			pipeline_executor(shell);
+		else
+			continue ;
 	}
 	write(1, "exit\n", 5);
 	rl_clear_history();
 	return (shell->status);
 }
 
-static char	*readline_with_nl(char *prompt)
+static char	*readline_with_nl(char *prompt1, char *prompt2, t_shell *shell)
 {
-	char	*buf;
-	char	*tmp;
+	t_ms_buf	*ms_buf;
+	char		*buf;
+	char		*tmp;
 
-	tmp = readline(prompt);
+	ms_buf = shell->ms_buf;
+	if (ms_buf->tmp_buf == NULL)
+		tmp = readline(prompt1);
+	else
+		tmp = readline(prompt2);
 	if (tmp == NULL)
 	{
+		shell->status = 1;
 		return (NULL);
 	}
 	add_history(tmp);
@@ -58,6 +65,7 @@ static char	*readline_with_nl(char *prompt)
 	free (tmp);
 	if (buf == NULL)
 	{
+		shell->status = 1;
 		return (NULL);
 	}
 	return (buf);
