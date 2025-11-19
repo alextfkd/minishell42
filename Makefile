@@ -27,7 +27,7 @@ UTILS_FILES = ft_log.c ft_log_token.c ft_app.c ft_log_astree.c ft_log_astree_sub
 
 SIGNAL_FILES = sig_handler.c sigaction.c
 
-PROMPT_FILES = interactive_shell.c noninteractive_shell.c execute_line.c
+PROMPT_FILES = interactive_shell.c noninteractive_shell.c pipeline_executor.c integrate_input_buffer.c
 
 LEXER_FILES = extract_symbol_token.c extract_word_token.c lexer.c tokenizer_utils.c
 
