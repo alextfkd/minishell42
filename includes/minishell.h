@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/17 00:26:44 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/19 01:27:55 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,12 @@ typedef struct s_ms_buf
 	char						*sh_buf;
 }								t_ms_buf;
 
+/*
 typedef enum e_shell_status
 {
 	SHELL_SUCCESS = 0,
 }								t_status;
+*/
 
 typedef struct s_shell
 {
@@ -66,7 +68,7 @@ typedef struct s_shell
 	char						**argv;
 	t_ms_buf					*ms_buf;
 	t_loglevel					loglevel;
-	t_status					status;
+	int							status;
 	t_app						*app;
 }								t_shell;
 
@@ -81,26 +83,33 @@ void		log_info(char *msg, t_loglevel log_level);
 void		log_debug_show_token(t_token *token_head, t_loglevel log_level);
 void		log_debug_show_ast(t_astree *ast_root, t_loglevel log_level);
 void		print_redirections(t_red *red);
+
+int			set_sigaction(t_shell *shell);
 void		sigint_handler(int signal);
+void		sigquit_handler(int signal);
 int			exit_with_sigeof(void);
 
 t_ms_buf	*create_ms_buf(void);
 void		log_debug_ms_buf(t_shell *shell);
 
+int			free_shell(t_shell *shell);
 void		free_ms_buf(t_ms_buf *ms_buf);
 void		free_tmp_buf(t_ms_buf *ms_buf);
 void		free_shell_buf(t_ms_buf *ms_buf);
 void		free_readline_buf(t_ms_buf *ms_buf);
 
+char		*integrate_input_buffer(t_shell *shell);
 int			execute_cmd(char *inpt, t_app *app, t_loglevel log_level);
 void		exec_line(t_shell *shell);
 t_shell		*create_t_shell(int argc, char **argv, char **envp);
-t_status	free_t_shell(t_shell *shell);
+int			free_t_shell(t_shell *shell);
 int			set_cmd_redirection(t_cmd *cmd, t_token **current);
+int			pipeline_executor(t_shell *shell);
 
 // app utils
 void		free_app(t_app *app);
-t_app		*setup_app(char **envp);
+//t_app		*setup_app(char **envp);
+t_app		*setup_app(char **envp, int *shell_status);
 void		reset_stdio(t_app *app);
 
 // env utils

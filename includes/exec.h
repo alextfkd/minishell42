@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/17 21:55:50 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/19 15:32:01 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ struct	s_app
 	char	**envp;
 	t_env	*env_list;
 	int		exit_status;
+	int		*shell_status;
 	int		original_stdin;
 	int		original_stdout;
 };
