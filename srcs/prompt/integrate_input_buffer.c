@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 static char		*_integrate_buffers(t_ms_buf *ms_buf);
-static	int		_is_executable(char *rl_buf);
+static	int		_is_executable(char *rl_buf, int *status);
 static t_token	*get_token_tail(t_token *head);
 
 char	*integrate_input_buffer(t_shell *shell)
@@ -28,7 +28,7 @@ char	*integrate_input_buffer(t_shell *shell)
 		free_ms_buf(ms_buf);
 		return (NULL);
 	}
-	if (_is_executable(ms_buf->sh_buf) == 0)
+	if (_is_executable(ms_buf->sh_buf, &(shell->status)) == 0)
 	{
 		ms_buf->tmp_buf = ft_strdup(ms_buf->sh_buf);
 		free_shell_buf(ms_buf);
@@ -58,11 +58,11 @@ static char	*_integrate_buffers(t_ms_buf *ms_buf)
 	return (integrated_buf);
 }
 
-static	int	_is_executable(char *rl_buf)
+static	int	_is_executable(char *rl_buf, int *status)
 {
 	t_token	*token;
 
-	token = tokenize(rl_buf);
+	token = tokenize(rl_buf, status);
 	if (token == NULL)
 		return (-1);
 	if (get_token_tail(token)->tk == TK_ESCAPED_NL)

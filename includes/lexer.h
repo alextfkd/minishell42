@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 23:28:39 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/13 14:23:53 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/19 02:24:25 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,10 @@ struct s_lexer
 	t_state		state;
 	t_token		*head;
 	t_token		*tail;
+	int			status;
 };
 
-t_token	*tokenize(char *input);
+t_token	*tokenize(char *input, int *status);
 
 t_token	*create_new_token(t_lexer *lex, t_tkind tk, int start, int end);
 void	free_tokens(t_token *head);
