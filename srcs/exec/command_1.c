@@ -50,7 +50,7 @@ t_builtin_type	get_builtin_type(t_cmd *cmd)
 	{"echo", BT_ECHO},
 	{"pwd", BT_PWD},
 	{"env", BT_ENV},
-	{NULL, BT_NOT_BULTIN}
+	{NULL, BT_NOT_BULTIN},
 	};
 
 	if (!cmd || !cmd->argv || !cmd->argv[0])

@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/17 15:11:19 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/17 21:55:50 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ typedef struct s_astree			t_astree;
 typedef struct s_app			t_app;
 typedef struct s_env			t_env;
 typedef struct s_builtin_map	t_builtin_map;
+typedef	struct s_builtin_entry	t_builtin_entry;
+typedef int(*t_builtin_func)(t_app *app, t_cmd *s_cmd);
 
 // type of a bulitin command
 typedef enum e_bultin_type
@@ -107,6 +109,12 @@ struct	s_builtin_map
 	t_builtin_type	type;
 };
 
+struct s_builtin_entry
+{
+	t_builtin_type	type;
+	t_builtin_func	func;
+};
+
 void			clear_cmd(t_cmd *cmd);
 int				set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end);
 t_cmd			*tokens2cmd(t_token **tokens_head);
@@ -151,9 +159,9 @@ void			clear_red(t_red *head_red);
 
 int				set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end);
 // builtin command
-int				ft_pwd(void);
+int				ft_pwd(t_app *app, t_cmd *cmd);
 char			*get_current_dir(void);
-int				ft_env(t_app *app);
+int				ft_env(t_app *app, t_cmd *cmd);
 int				ft_unset(t_app *app, t_cmd *cmd);
 int				ft_export(t_app *app, t_cmd *cmd);
 int				is_validate_args(const char *args);
