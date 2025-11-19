@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/17 12:05:26 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/19 01:27:55 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,22 +83,28 @@ void		log_info(char *msg, t_loglevel log_level);
 void		log_debug_show_token(t_token *token_head, t_loglevel log_level);
 void		log_debug_show_ast(t_astree *ast_root, t_loglevel log_level);
 void		print_redirections(t_red *red);
+
+int			set_sigaction(t_shell *shell);
 void		sigint_handler(int signal);
+void		sigquit_handler(int signal);
 int			exit_with_sigeof(void);
 
 t_ms_buf	*create_ms_buf(void);
 void		log_debug_ms_buf(t_shell *shell);
 
+int			free_shell(t_shell *shell);
 void		free_ms_buf(t_ms_buf *ms_buf);
 void		free_tmp_buf(t_ms_buf *ms_buf);
 void		free_shell_buf(t_ms_buf *ms_buf);
 void		free_readline_buf(t_ms_buf *ms_buf);
 
+char		*integrate_input_buffer(t_shell *shell);
 int			execute_cmd(char *inpt, t_app *app, t_loglevel log_level);
 void		exec_line(t_shell *shell);
 t_shell		*create_t_shell(int argc, char **argv, char **envp);
 int			free_t_shell(t_shell *shell);
 int			set_cmd_redirection(t_cmd *cmd, t_token **current);
+int			pipeline_executor(t_shell *shell);
 
 // app utils
 void		free_app(t_app *app);

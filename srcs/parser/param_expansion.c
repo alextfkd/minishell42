@@ -6,14 +6,15 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:23:38 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/17 06:18:52 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/19 01:26:13 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	_expand_child_nodes(t_app *app, t_astree *root);
-static char	*_create_env_key_candidate(char *argv);
+static char	*_create_env_key_candidate(char *argv, int *status);
+static int	_overwrite_argv(char **argv_i, char *new_argv);
 
 /**
  * @brief 
@@ -24,33 +25,41 @@ static char	*_create_env_key_candidate(char *argv);
  */
 int	parameter_expansion(t_app *app, t_astree *root)
 {
+	int	right;
+	int	left;
+
+	right = _expand_child_nodes(app, root->right);
+	left = _expand_child_nodes(app, root->left);
+	return (right + left);
+}
+
+static int	_expand_child_nodes(t_app *app, t_astree *root)
+{
 	char	*key_unquoted;
 	char	*new_argv_i;
-	char	*old_argv_i;
+	int		status;
 	int		i;
 
 	if (root == NULL)
 		return (0);
 	if (root->type == NODE_PIPE)
-		return (_expand_child_nodes(app, root));
+		return (parameter_expansion(app, root));
 	i = 0;
 	while (i < root->cmd->argc)
 	{
-		key_unquoted = _create_env_key_candidate(root->cmd->argv[i]);
+		key_unquoted = _create_env_key_candidate(root->cmd->argv[i], &status);
 		new_argv_i = get_env_value(app->env_list, key_unquoted);
+		if (new_argv_i)
+			status += _overwrite_argv(&(root->cmd->argv[i]), new_argv_i);
 		if (key_unquoted)
 			free(key_unquoted);
 		if (new_argv_i)
-		{
-			old_argv_i = root->cmd->argv[i];
-			root->cmd->argv[i] = ft_strdup(new_argv_i);
-			free(old_argv_i);
-			if (root->cmd->argv[i] == NULL)
-				return (1);
-		}
+			free(new_argv_i);
+		if (status != 0)
+			return (1);
 		i++;
 	}
-	return (_expand_child_nodes(app, root));
+	return (parameter_expansion(app, root));
 }
 
 /**
@@ -65,27 +74,39 @@ int	parameter_expansion(t_app *app, t_astree *root)
  * @param argv Argv[i] which is contained in t_astree->cmd->argv.
  * @return char* 
  */
-static char	*_create_env_key_candidate(char *argv)
+static char	*_create_env_key_candidate(char *argv, int *status)
 {
 	char	*key_candidate;
 	size_t	len;
 
+	*status = 0;
 	if (!argv)
+	{
+		*status = 1;
 		return (NULL);
+	}
 	len = ft_strlen(argv);
-	key_candidate = NULL;
 	if (ft_strncmp(argv, "$", 1) == 0)
 		key_candidate = ft_substr(argv, 1, len - 1);
 	else if (ft_strncmp(argv, "\"$", 2) == 0 && argv[len - 1] == '\"')
 		key_candidate = ft_substr(argv, 2, len - 3);
 	else
-		key_candidate = NULL;
+		return (NULL);
+	if (key_candidate == NULL)
+	{
+		*status = 1;
+		return (NULL);
+	}
 	return (key_candidate);
 }
 
-static int	_expand_child_nodes(t_app *app, t_astree *root)
+static int	_overwrite_argv(char **argv_i, char *new_argv)
 {
-	parameter_expansion(app, root->right);
-	parameter_expansion(app, root->left);
+	if (argv_i == NULL || *argv_i == NULL)
+		return (1);
+	free(*argv_i);
+	*argv_i = ft_strdup(new_argv);
+	if (*argv_i == NULL)
+		return (1);
 	return (0);
 }

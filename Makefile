@@ -8,6 +8,8 @@ UTILS_DIR = utils
 PROMT_DIR = prompt
 EXEC_DIR = exec
 LEXER_DIR = lexer
+SIGNAL_DIR = signal
+SHELL_DIR = shell
 PARSER_DIR = parser
 BUILTIN_DIR = builtin
 INCLUDE = includes
@@ -20,13 +22,18 @@ LFLAGS = -Llibft
 LIBFLAGS = -lft -lreadline
 
 MAIN_FILE = main.c
-UTILS_FILES = ft_log.c ft_shell.c ft_sig_handler.c ft_log_token.c ft_app.c ft_log_astree.c ft_log_astree_sub.c ft_env_conv.c ft_env_mng.c ft_env_list.c
 
-PROMPT_FILES = interactive_shell.c noninteractive_shell.c shell_buffer.c shell_buf_free.c execute_line.c
+UTILS_FILES = ft_log.c ft_log_token.c ft_app.c ft_log_astree.c ft_log_astree_sub.c ft_env_conv.c ft_env_mng.c ft_env_list.c
+
+SIGNAL_FILES = sig_handler.c sigaction.c
+
+PROMPT_FILES = interactive_shell.c noninteractive_shell.c pipeline_executor.c integrate_input_buffer.c
 
 LEXER_FILES = extract_symbol_token.c extract_word_token.c lexer.c tokenizer_utils.c
 
 PARSER_FILES = astree.c parser.c param_expansion.c tokens2cmd.c cmd_args.c cmd_redirection.c redirect_utils.c 
+
+SHELL_FILES = ft_shell.c shell_free.c ft_log_shell.c
 
 EXEC_FILES = find_cmd_path.c command.c command_1.c pipeline.c pipeline_1.c redirect_io.c redirect_in.c redirect_out.c heredoc.c heredoc_1.c builtin_cmd.c
 
@@ -36,7 +43,9 @@ BUILTIN_FILES = ft_pwd.c ft_env.c ft_export.c ft_unset.c ft_export_util.c
 FILES = $(MAIN_FILE)
 FILES += $(addprefix $(UTILS_DIR)/,$(UTILS_FILES))
 FILES += $(addprefix $(PROMT_DIR)/,$(PROMPT_FILES))
+FILES += $(addprefix $(SIGNAL_DIR)/,$(SIGNAL_FILES))
 FILES += $(addprefix $(EXEC_DIR)/,$(EXEC_FILES))
+FILES += $(addprefix $(SHELL_DIR)/,$(SHELL_FILES))
 FILES += $(addprefix $(LEXER_DIR)/,$(LEXER_FILES))
 FILES += $(addprefix $(PARSER_DIR)/,$(PARSER_FILES))
 FILES += $(addprefix $(BUILTIN_DIR)/,$(BUILTIN_FILES))
