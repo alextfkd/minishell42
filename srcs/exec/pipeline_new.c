@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:35:43 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 00:11:04 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/21 02:29:28 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ int execute_pipeline(t_astree *node, t_app *app)
 	if (cmd_count == 1)
 	{
 		cmd = (t_cmd *)cmd_list->content;
-		if (get_builtin_type(cmd) != BT_NOT_BULTIN)
+		if (get_builtin_type(cmd) != BT_NOT_BULTIN && BUILTIN_ON)
 		{
 			last_status = execute_builtin_parent(cmd, app);
 			free_list(&cmd_list);
@@ -233,7 +233,7 @@ int execute_pipeline(t_astree *node, t_app *app)
 				dup2(pipe_fds[1], STDOUT_FILENO);
 				close(pipe_fds[1]);
 			}
-			if (get_builtin_type(cmd) != BT_NOT_BULTIN)
+			if (get_builtin_type(cmd) != BT_NOT_BULTIN && BUILTIN_ON)
 			{
 				if (handle_redirections(cmd->red, app) != 0)
 					exit(1);
