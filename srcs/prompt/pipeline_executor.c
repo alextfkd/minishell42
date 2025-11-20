@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/19 02:29:19 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/20 01:11:19 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	pipeline_executor(t_shell *shell)
 	if (!head_token || head_token->state != S_NORMAL || shell->status != 0)
 		return (0);
 	log_debug_show_token(head_token, shell->loglevel);
-	ast_root = create_astree_from_tokens(&head_token);
+	ast_root = create_astree_from_tokens(&head_token, &(shell->status));
 	if (ast_root == NULL)
 		return (_status_1_return(shell, head_token, ast_root));
 	log_debug_show_ast(ast_root, shell->loglevel);

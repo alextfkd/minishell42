@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 06:30:16 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/15 13:16:14 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/20 00:42:03 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void			clear_cmd(t_cmd *cmd);
 This function will automatically set command redirection and args
 to the newly created t_cmd. Returns NULL if failed.
 */
-t_cmd	*tokens2cmd(t_token **tokens_head)
+t_cmd	*tokens2cmd(t_token **tokens_head, int *status)
 {
 	t_cmd		*cmd;
 	t_token		*current;
@@ -31,11 +31,23 @@ t_cmd	*tokens2cmd(t_token **tokens_head)
 	current = *tokens_head;
 	cmd = _create_empty_cmd_node();
 	if (!cmd)
+	{
+		*status = 1;
 		return (perror("minishell: t_cmd memory allocated error"), NULL);
+	}
 	if (set_cmd_redirection(cmd, &current) != 0)
-		log_debug("No redirection found.", LOG_DEBUG);
+	{
+		*status = 1;
+		clear_cmd(cmd);
+		return (perror("minishell: set_cmd_redirection() error"), NULL);
+	}
 	if (set_cmd_argv(cmd, head, current) != 0)
-		return (clear_cmd(cmd), NULL);
+	{
+		*status = 1;
+		clear_cmd(cmd);
+		return (perror("minishell: set_cmd_argv() error"), NULL);
+	}
+	*status = 0;
 	*tokens_head = current;
 	return (cmd);
 }

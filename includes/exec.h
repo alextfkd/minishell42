@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/17 12:02:17 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/20 01:10:30 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,10 @@ struct	s_app
 
 void			clear_cmd(t_cmd *cmd);
 int				set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end);
-t_cmd			*tokens2cmd(t_token **tokens_head);
+t_cmd			*tokens2cmd(t_token **tokens_head, int *status);
 
 // pipeline perser
-t_astree		*create_astree_from_tokens(t_token **tokens_head);
+t_astree		*create_astree_from_tokens(t_token **tokens_head, int *status);
 
 int				is_red(t_tkind tk);
 void			clear_red(t_red *head_red);
@@ -131,8 +131,6 @@ int				set_exit_status(int status);
 void			execute_single_cmd(t_cmd *cmd, t_app *app);
 void			clear_residual_fds(void);
 
-t_cmd			*tokens2cmd(t_token **tokens_head);
-void			clear_cmd(t_cmd *cmd);
 
 int				set_cmd_redirection(t_cmd *cmd, t_token **current);
 
