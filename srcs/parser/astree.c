@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:38:27 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 01:32:29 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/20 01:33:42 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,11 @@ t_astree	*astree_create_cmd_node(t_token **tokens_head, int *status)
 	return (node);
 }
 
-t_astree	*astree_create_pipe_node(t_astree *left, t_astree *right, int *status)
+t_astree	*astree_create_pipe_node(
+	t_astree *left,
+	t_astree *right,
+	int *status
+)
 {
 	t_astree	*pipe_node;
 

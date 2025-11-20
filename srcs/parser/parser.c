@@ -6,14 +6,15 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 15:35:22 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 01:30:04 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/20 02:02:32 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int		_if_no_pipe_token(t_token *tokens_head);
-static t_astree	*_astree_attach_right(t_astree *root, t_token **tokens_head, int *status);
+static t_astree	*_astree_attach_right(
+					t_astree *root, t_token **tokens_head, int *status);
 
 t_astree	*create_astree_from_tokens(t_token **tokens_head, int *status)
 {
@@ -24,10 +25,7 @@ t_astree	*create_astree_from_tokens(t_token **tokens_head, int *status)
 	original_head = *tokens_head;
 	astree_root = astree_create_cmd_node(tokens_head, status);
 	if (!astree_root)
-	{
-		*status = 1;
 		return (NULL);
-	}
 	if (_if_no_pipe_token(original_head))
 		return (free_tokens(original_head), astree_root);
 	while (*tokens_head != NULL && (*tokens_head)->tk == TK_PIPE)
@@ -46,13 +44,18 @@ t_astree	*create_astree_from_tokens(t_token **tokens_head, int *status)
 	return (astree_root);
 }
 
-static t_astree	*_astree_attach_right(t_astree *root, t_token **tokens_head, int *status)
+static t_astree	*_astree_attach_right(
+	t_astree *root,
+	t_token **tokens_head,
+	int *status
+)
 {
 	t_astree	*new_root;
 
 	new_root = astree_create_pipe_node(root, NULL, status);
 	if (new_root == NULL)
 	{
+		*status = 1;
 		return (NULL);
 	}
 	*tokens_head = (*tokens_head)->next;

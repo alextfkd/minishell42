@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/20 00:46:48 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/20 01:45:10 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int			execute_cmd(char *inpt, t_app *app, t_loglevel log_level);
 void		exec_line(t_shell *shell);
 t_shell		*create_t_shell(int argc, char **argv, char **envp);
 int			free_t_shell(t_shell *shell);
-int			set_cmd_redirection(t_cmd *cmd, t_token **current);
+int			set_cmd_redirection(t_cmd *cmd, t_token **current, int *status);
 int			pipeline_executor(t_shell *shell);
 
 // app utils

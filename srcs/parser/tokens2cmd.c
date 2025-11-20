@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 06:30:16 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 00:42:03 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/20 02:09:08 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,8 @@ t_cmd	*tokens2cmd(t_token **tokens_head, int *status)
 		*status = 1;
 		return (perror("minishell: t_cmd memory allocated error"), NULL);
 	}
-	if (set_cmd_redirection(cmd, &current) != 0)
+	if (set_cmd_redirection(cmd, &current, status) != 0)
 	{
-		*status = 1;
 		clear_cmd(cmd);
 		return (perror("minishell: set_cmd_redirection() error"), NULL);
 	}

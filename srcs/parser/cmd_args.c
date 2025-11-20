@@ -53,7 +53,7 @@ static int	_count_argc(t_token *start, t_token *end)
 
 	argc = 0;
 	p_token = start;
-	while (p_token != end)
+	while (p_token != end || p_token != NULL)
 	{
 		if (p_token->tk == TK_CHAR)
 		{
