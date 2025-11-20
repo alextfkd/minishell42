@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 22:49:41 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/16 16:29:36 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/19 15:40:51 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ char	*find_cmd_path(char *av0)
 	return (cmd_path);
 }
 
+/**
+ * @brief
+ *
+ * @param path
+ * @param cmd
+ * @return char*
+ */
 static char	*_append_cmd_to_path(char *path, char *cmd)
 {
 	char	*part_path;

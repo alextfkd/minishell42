@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:48:20 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/17 15:39:49 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/20 11:25:19 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,5 @@ static int	_set_exit_status(int status)
 		return (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
-	return (0);
+	return (1);
 }

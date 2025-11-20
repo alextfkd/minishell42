@@ -6,27 +6,21 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/07 05:24:41 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/19 15:55:47 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	_print_heredoc_error(char *delimiter)
-{
-	ft_putstr_fd("minishell: warning: here-document at line", 1);
-	ft_putstr_fd(" delimited by end-of-file (wanted \'", 1);
-	ft_putstr_fd(delimiter, 2);
-	ft_putendl_fd("\')", 2);
-}
+static void	_print_heredoc_error(char *delimiter);
 
-static void	_heredoc_loop(char *delimiter, int *pipe_fds)
+
+static void	_heredoc_routine(char *delimiter, int *pipe_fds)
 {
 	char	*line;
 
 	while (1)
 	{
-		fflush(stdout);
 		line = readline(HERE_DOC_PROMPT);
 		if (!line)
 		{
@@ -71,7 +65,7 @@ static void	_heredoc_child(char *delimiter, int *pipe_fds, t_app *app)
 		exit(1);
 	}
 	close(pipe_fds[0]);
-	_heredoc_loop(delimiter, pipe_fds);
+	_heredoc_routine(delimiter, pipe_fds);
 	close(pipe_fds[1]);
 	exit(0);
 }
@@ -98,4 +92,12 @@ int	handle_heredoc(t_red *red, t_app *app)
 	if (pid == 0)
 		_heredoc_child(red->file, pipe_fds, app);
 	return (_wait_for_heredoc(pid, pipe_fds));
+}
+
+static void	_print_heredoc_error(char *delimiter)
+{
+	ft_putstr_fd("minishell: warning: here-document at line", 1);
+	ft_putstr_fd(" delimited by end-of-file (wanted \'", 1);
+	ft_putstr_fd(delimiter, 2);
+	ft_putendl_fd("\')", 2);
 }
