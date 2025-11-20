@@ -30,6 +30,7 @@ int	set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end)
 	argc = _count_argc(start, end);
 	if (argc < 0)
 	{
+		ft_putstr_fd("error(33)", 2);
 		return (ft_putendl_fd(ERR_SYNTAX_TOKEN, 2), 1);
 	}
 	cmd->argv = _aquire_argv(start, argc);
@@ -61,13 +62,9 @@ static int	_count_argc(t_token *start, t_token *end)
 			argc++;
 		}
 		else if (_is_valid_redirection_token(p_token))
-		{
 			p_token = p_token->next->next;
-		}
 		else if (p_token->tk == TK_ESCAPED_NL)
-		{
 			p_token = p_token->next;
-		}
 		else
 			return (-1);
 	}
@@ -118,13 +115,9 @@ static void	_free_argv(char **argv)
 
 static int	_is_valid_redirection_token(t_token *token)
 {
-	if (token == NULL)
+	if (token == NULL || token->next == NULL)
 		return (0);
-	if (is_red(token->tk) != 0)
-		return (0);
-	if (token->next == NULL)
-		return (0);
-	if (token->next->tk == TK_CHAR)
+	if (is_red(token->tk) != 0 && token->next->tk == TK_CHAR)
 		return (1);
 	else
 		return (0);
