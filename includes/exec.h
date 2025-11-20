@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 19:25:05 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:49:44 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "lexer.h"
 # include "libft.h"
-# include  "minishell.h"
 
 # ifndef BUILTIN_ON
 #  define BUILTIN_ON 0
@@ -39,8 +38,8 @@ typedef struct s_app			t_app;
 typedef struct s_astree			t_astree;
 typedef struct s_env			t_env;
 typedef struct s_builtin_map	t_builtin_map;
-typedef	struct s_builtin_entry	t_builtin_entry;
-typedef int(*t_builtin_func)(t_app *app, t_cmd *s_cmd);
+typedef struct s_builtin_entry	t_builtin_entry;
+typedef int						(*t_builtin_func)(t_app *app, t_cmd *s_cmd);
 
 // type of a bulitin command
 typedef enum e_bultin_type
@@ -99,7 +98,7 @@ struct s_env
 
 struct	s_app
 {
-	t_shell *shell;
+	t_shell	*shell;
 	char	**envp;
 	t_env	*env_list;
 	int		exit_status;
@@ -167,5 +166,8 @@ int				append_args_to_env_list(const char *args, t_env **env_list);
 void			overwrite_and_free_node(t_env *current, t_env *new_node);
 int				print_env_attrib(const t_env *env_list);
 void			free_env_node(t_env *node);
+int				ft_cd(t_app *app, t_cmd *cmd);
+int				ft_echo(t_app *app, t_cmd *cmd);
+int				ft_exit(t_app *app, t_cmd *cmd);
 
 #endif

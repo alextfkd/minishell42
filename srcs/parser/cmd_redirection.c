@@ -6,13 +6,13 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:44:01 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 19:29:40 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:38:21 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_red	*_create_red_node(t_tkind tk, char *file);
+static t_red	*_create_red_node(t_tkind tk, char *file, int is_quoted);
 static int		_validate_red_target(t_token *target);
 static int		_append_red_to_cmd(t_cmd *cmd, t_token *current);
 static int		_is_red_target_quoted(t_token *target);
@@ -72,7 +72,7 @@ static int	_append_red_to_cmd(t_cmd *cmd, t_token *current)
 	redirection_node = _create_red_node(
 			operator->tk,
 			target_data,
-			is_red_target_quoted(target));
+			_is_red_target_quoted(target));
 	if (!redirection_node)
 		return (perror("minishell: t_red memory allocated error"), 1);
 	else if (cmd->red == NULL)

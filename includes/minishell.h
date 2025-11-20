@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/20 17:03:22 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:45:05 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # define _POSIX_C_SOURCE 200809L
 # define _XOPEN_SOURCE 700
 
-typedef struct s_shell t_shell;
+typedef struct s_shell	t_shell;
 
 # include "exec.h"
 # include "libft.h"

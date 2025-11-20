@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 15:36:39 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:34:39 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int handle_heredoc(t_red *red, t_app *app)
 		return (1);
 	}
 	if (pid == 0)
-		_heredoc_child(red->file, pipe_fds, red->quote, app);
+		_heredoc_child(red->file, pipe_fds, red->is_quoted, app);
 
 	if (_wait_for_heredoc(pid, pipe_fds, app) == 0)
 	{

@@ -1,43 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/06 02:36:24 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 19:46:30 by htsutsum         ###   ########.fr       */
+/*   Created: 2025/11/07 07:30:03 by htsutsum          #+#    #+#             */
+/*   Updated: 2025/11/20 19:55:42 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	_print_envp(char **envp);
-
 /**
- * @brief Prints all environment variables to standard output
+ * @brief The empty cd func,we have to program it correctly
  *
- * @param app Pointer to the application context containing the environment.
- * @return 0 on success. 1 if the enviroment is not available.
- *
+ * @param app
+ * @param cmd
+ * @return int
  */
-int	ft_env(t_app *app, t_cmd *cmd)
+int	ft_echo(t_app *app, t_cmd *cmd)
 {
+	(void)app;
 	(void)cmd;
-	if (!app || !app->envp)
-		return (1);
-	_print_envp(app->envp);
+	printf("buitlin echo\n");
 	return (0);
-}
-
-static void	_print_envp(char **envp)
-{
-	size_t	i;
-
-	i = 0;
-	while (envp[i] != NULL)
-	{
-		printf("%s\n", envp[i]);
-		i++;
-	}
 }
