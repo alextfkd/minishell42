@@ -32,11 +32,11 @@ PROMPT_FILES = interactive_shell.c noninteractive_shell.c pipeline_executor.c in
 
 LEXER_FILES = extract_symbol_token.c extract_word_token.c lexer.c tokenizer_utils.c
 
-PARSER_FILES = astree.c parser.c param_expansion.c tokens2cmd.c cmd_args.c cmd_redirection.c redirect_utils.c 
+PARSER_FILES = astree.c parser.c param_expansion.c tokens2cmd.c cmd_args.c cmd_redirection.c redirect_utils.c
 
 SHELL_FILES = ft_shell.c shell_free.c ft_log_shell.c
 
-EXEC_FILES = find_cmd_path.c command.c command_1.c pipeline.c pipeline_1.c redirect_io.c redirect_in.c redirect_out.c heredoc.c heredoc_signal.c builtin_cmd.c
+EXEC_FILES = find_cmd_path.c command.c command_1.c pipeline_new.c pipeline_1.c redirect_io.c redirect_in.c redirect_out.c heredoc.c heredoc_signal.c builtin_cmd.c
 
 BUILTIN_FILES = ft_pwd.c ft_env.c ft_export.c ft_unset.c ft_export_util.c
 

@@ -6,15 +6,61 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:35:43 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 14:02:40 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/20 14:18:45 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-static t_list	_astree2cmdlist(t_astree *node);
+static t_list	*_astree2cmdlist(t_astree *node);
 static void	free_list(t_list **list);
+static void	_execve_exit_error(void);
+static int	_set_exit_status(int status);
+static void	_execute_child_process(t_cmd *cmd, t_app *app);
+static void cleanup_pipeline(t_list *cmd_list, pid_t *pids, int count);
+
+static void	_execute_child_process(t_cmd *cmd, t_app *app)
+{
+	char	*cmd_path;
+
+	if (handle_redirections(cmd->red, app) != 0)
+		exit(1);
+	if (cmd->argv == NULL || cmd->argv[0] == NULL)
+		exit(0);
+	cmd_path = find_cmd_path(cmd->argv[0]);
+	if (!cmd_path)
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+        ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
+        ft_putstr_fd(": command not found\n", STDERR_FILENO);
+		exit(127);
+	}
+	clear_residual_fds();
+	if (execve(cmd_path, cmd->argv, app->envp) == -1)
+	{
+		perror("minishell: execve failed");
+		free(cmd_path);
+		_execve_exit_error();
+	}
+}
+
+static void	_execve_exit_error(void)
+{
+	if (errno == EACCES)
+		exit(126);
+	else
+		exit(127);
+}
+
+static int	_set_exit_status(int status)
+{
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	return (1);
+}
 
 static t_list	*_astree2cmdlist(t_astree *node)
 {
@@ -73,20 +119,6 @@ static void cleanup_pipeline(t_list *cmd_list, pid_t *pids, int count)
 	}
 	free(pids);
 	free_list(&cmd_list);
-}
-
-static void cleanup_pipeline(t_list *cmd_list, pid_t *pids, int count)
-{
-    int i;
-
-    i = 0;
-    while (i < count)
-    {
-        waitpid(pids[i], NULL, 0);
-        i++;
-    }
-    free(pids);
-    free_list(&cmd_list);
 }
 
 /**

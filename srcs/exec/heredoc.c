@@ -6,16 +6,27 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/19 15:55:47 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/20 15:22:16 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	_print_heredoc_error(char *delimiter);
+static char *expand_heredoc_line(char *line, t_app *app)
+{
+	(void)app;
+	return (line);
+}
 
+static void	_print_heredoc_error(char *delimiter)
+{
+	ft_putstr_fd("minishell: warning: here-document", 2);
+	ft_putstr_fd(" delimited by end-of-file (wanted \'", 2);
+	ft_putstr_fd(delimiter, 2);
+	ft_putendl_fd("\')", 2);
+}
 
-static void	_heredoc_routine(char *delimiter, int *pipe_fds)
+static void	_heredoc_routine(char *delimiter, int *pipe_fds,int do_expand, t_app *app)
 {
 	char	*line;
 
@@ -32,72 +43,93 @@ static void	_heredoc_routine(char *delimiter, int *pipe_fds)
 			free(line);
 			break ;
 		}
+		if(do_expand)
+			line = expand_heredoc_line(line, app);
 		write(pipe_fds[1], line, ft_strlen(line));
 		write(pipe_fds[1], "\n", 1);
 		free(line);
 	}
 }
 
-static int	_wait_for_heredoc(pid_t pid, int pipe_fds[2])
+static void _heredoc_child(char *delimiter, int *pipe_fds, int quote_flag, t_app *app)
 {
-	int	status;
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
 
-	close(pipe_fds[1]);
-	while (waitpid(pid, &status, 0) == -1)
+	if (app->original_stdout != -1)
 	{
-		if (errno == EINTR)
-			continue ;
-		perror("minishell: pid heredoc waitpid");
-		return (1);
-	}
-	set_exit_status(status);
-	return (0);
-}
-
-static void	_heredoc_child(char *delimiter, int *pipe_fds, t_app *app)
-{
-	(void)app;
-	set_heredoc_signals();
-	if (dup2(app->original_stdout, STDOUT_FILENO) == -1)
-	{
-		close(pipe_fds[0]);
-		close(pipe_fds[1]);
-		exit(1);
+		if (dup2(app->original_stdout, STDOUT_FILENO) == -1)
+		{
+			perror("minishell: dup2");
+			close(pipe_fds[0]);
+			close(pipe_fds[1]);
+			exit(1);
+		}
 	}
 	close(pipe_fds[0]);
-	_heredoc_routine(delimiter, pipe_fds);
+	//: !quote_flag と app の改善が必要になる。
+	_heredoc_routine(delimiter, pipe_fds, !quote_flag, app);
 	close(pipe_fds[1]);
 	exit(0);
 }
 
-int	handle_heredoc(t_red *red, t_app *app)
+static int  _wait_for_heredoc(pid_t pid, int pipe_fds[2], t_app *app)
 {
-	int		pid;
-	int		pipe_fds[2];
+	int status;
+
+	(void)app;
+	close(pipe_fds[1]);
+	signal(SIGINT, SIG_IGN);
+
+	while (waitpid(pid, &status, 0) == -1)
+	{
+		if (errno == EINTR)
+			continue ;
+		perror("minishell: heredoc waitpid");
+		close(pipe_fds[0]);
+		return (1);
+	}
+
+	// 親プロセスのシグナルハンドラに戻す必要あり。
+	// set_sigaction(app);
+
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	{
+		close(pipe_fds[0]);
+		write(STDOUT_FILENO, "\n", 1);
+		return (1);
+	}
+	return (0);
+}
+
+int handle_heredoc(t_red *red, t_app *app)
+{
+	int	pid;
+	int	pipe_fds[2];
 
 	if (pipe(pipe_fds) == -1)
 	{
 		perror("heredoc pipe error");
 		return (1);
 	}
-	red->fd = pipe_fds[0];
 	pid = fork();
 	if (pid == -1)
 	{
 		close(pipe_fds[0]);
 		close(pipe_fds[1]);
-		perror("minishell: heredoc pipe error");
-		exit(1);
+		perror("minishell: heredoc fork error");
+		return (1);
 	}
 	if (pid == 0)
-		_heredoc_child(red->file, pipe_fds, app);
-	return (_wait_for_heredoc(pid, pipe_fds));
-}
+		_heredoc_child(red->file, pipe_fds, red->quote, app);
 
-static void	_print_heredoc_error(char *delimiter)
-{
-	ft_putstr_fd("minishell: warning: here-document at line", 1);
-	ft_putstr_fd(" delimited by end-of-file (wanted \'", 1);
-	ft_putstr_fd(delimiter, 2);
-	ft_putendl_fd("\')", 2);
+	if (_wait_for_heredoc(pid, pipe_fds, app) == 0)
+	{
+		red->fd = pipe_fds[0];
+		return (0);
+	}
+	else
+	{
+		return (1);
+	}
 }
