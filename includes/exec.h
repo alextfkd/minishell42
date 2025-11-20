@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 17:08:44 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:25:05 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,12 @@ struct	s_astree
 	t_astree	*right;
 };
 
+// redirection list
 struct	s_red
 {
 	t_tkind	tk;
 	int		fd;
-	int		quote;
+	int		is_quoted;
 	char	*file;
 	t_red	*next;
 };

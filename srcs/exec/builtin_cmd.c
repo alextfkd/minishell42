@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 06:27:07 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 13:57:34 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/20 18:39:33 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ int	execute_builtin_cmd(t_cmd *cmd, t_app *app)
 		{ BT_ENV,    ft_env },
 		{ BT_EXPORT, ft_export },
 		{ BT_UNSET,  ft_unset },
+		{ BT_CD,	 ft_cd },
+		{ BT_ECHO,   ft_echo},
+		{ BT_EXIT,   ft_exit},
 		{ BT_NOT_BULTIN, NULL },
 	};
 	status = -1;
