@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:35:43 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 14:18:45 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/21 00:11:04 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 
 static t_list	*_astree2cmdlist(t_astree *node);
-static void	free_list(t_list **list);
-static void	_execve_exit_error(void);
-static int	_set_exit_status(int status);
-static void	_execute_child_process(t_cmd *cmd, t_app *app);
-static void cleanup_pipeline(t_list *cmd_list, pid_t *pids, int count);
+static void		free_list(t_list **list);
+static void		_execve_exit_error(void);
+static int		_set_exit_status(int status);
+static void		_execute_child_process(t_cmd *cmd, t_app *app);
+static void 	_cleanup_pipeline(t_list *cmd_list, pid_t *pids, int count);
 
 static void	_execute_child_process(t_cmd *cmd, t_app *app)
 {
@@ -62,6 +62,16 @@ static int	_set_exit_status(int status)
 	return (1);
 }
 
+/**
+ * @brief Recursively converts a pipeline represented in an Abstract Syntax Tree (AST)
+ * into a simple linked list of command structures (t_list).
+ * * This function processes nodes of type NODE_PIPE and NODE_CMD. It uses a
+ * depth-first approach to traverse the left side (which contains the start of the
+ * pipeline) and then appends the command from the right side.
+ *
+ * @param node
+ * @return t_list*
+ */
 static t_list	*_astree2cmdlist(t_astree *node)
 {
 	t_list *cmd_list;
@@ -88,6 +98,11 @@ static t_list	*_astree2cmdlist(t_astree *node)
 	return (NULL);
 }
 
+/**
+ * @brief free cmd list
+ *
+ * @param list
+ */
 static void	free_list(t_list **list)
 {
 	t_list *current;
@@ -106,7 +121,15 @@ static void	free_list(t_list **list)
 	*list = NULL;
 }
 
-static void cleanup_pipeline(t_list *cmd_list, pid_t *pids, int count)
+/**
+ * @brief Cleans up a pipeline execution by terminating and waiting for child processes,
+ * then freeing allocated memory.
+ *
+ * @param cmd_list
+ * @param pids
+ * @param count
+ */
+static void	_cleanup_pipeline(t_list *cmd_list, pid_t *pids, int count)
 {
 	int i;
 
@@ -178,7 +201,7 @@ int execute_pipeline(t_astree *node, t_app *app)
 			perror("minishell: pipe");
 			if (prev_fd != STDIN_FILENO)
 				close(prev_fd);
-			cleanup_pipeline(cmd_list, pids, i);
+			_cleanup_pipeline(cmd_list, pids, i);
 			return (1);
 		}
 
@@ -193,7 +216,7 @@ int execute_pipeline(t_astree *node, t_app *app)
 			}
 			if (prev_fd != STDIN_FILENO)
 				close(prev_fd);
-			cleanup_pipeline(cmd_list, pids, i);
+			_cleanup_pipeline(cmd_list, pids, i);
 			return (1);
 		}
 		if (pids[i] == 0)

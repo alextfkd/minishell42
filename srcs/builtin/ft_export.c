@@ -6,13 +6,11 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:44:03 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/15 06:44:02 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/20 22:39:47 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	_is_env_char(char c, int mode);
 
 /**
  * @brief Register the arrguments with the export attribute,
@@ -143,7 +141,7 @@ int	is_validate_args(const char *args)
 	{
 		if (i != 0)
 			mode = OTHER_CHAR;
-		if (!_is_env_char(args[i], mode))
+		if (!is_env_char(args[i], mode))
 			return (0);
 		i++;
 	}
@@ -158,7 +156,7 @@ int	is_validate_args(const char *args)
  * @param mode Determines the character position (FIRST_CHAR or OTHER_CHAR)
  * @return int
  */
-static int	_is_env_char(char c, int mode)
+int	is_env_char(char c, int mode)
 {
 	if (mode == FIRST_CHAR)
 		return (ft_isalpha(c) || c == '_');

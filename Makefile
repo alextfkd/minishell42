@@ -36,7 +36,7 @@ PARSER_FILES = astree.c parser.c param_expansion.c tokens2cmd.c cmd_args.c cmd_r
 
 SHELL_FILES = ft_shell.c shell_free.c ft_log_shell.c
 
-EXEC_FILES = find_cmd_path.c command.c command_1.c pipeline_new.c pipeline_1.c redirect_io.c redirect_in.c redirect_out.c heredoc.c builtin_cmd.c
+EXEC_FILES = find_cmd_path.c pipeline_new.c command_1.c redirect_io.c redirect_in.c redirect_out.c heredoc.c heredoc_util.c builtin_cmd.c
 
 BUILTIN_FILES = ft_pwd.c ft_env.c ft_export.c ft_cd.c ft_echo.c ft_exit.c ft_unset.c ft_export_util.c
 

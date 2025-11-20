@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 06:27:07 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 18:39:33 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/21 00:03:50 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,30 @@
 
 int	execute_builtin_cmd(t_cmd *cmd, t_app *app)
 {
-	int						status;
-	t_builtin_type			type;
-	const t_builtin_entry	*entry;
-
-	static const t_builtin_entry map[] = {
-		{ BT_PWD,    ft_pwd },
-		{ BT_ENV,    ft_env },
-		{ BT_EXPORT, ft_export },
-		{ BT_UNSET,  ft_unset },
-		{ BT_CD,	 ft_cd },
-		{ BT_ECHO,   ft_echo},
-		{ BT_EXIT,   ft_exit},
-		{ BT_NOT_BULTIN, NULL },
+	int								status;
+	const t_builtin_entry			*entry;
+	static const t_builtin_entry	map[] = {
+	{BT_PWD, ft_pwd},
+	{BT_ENV, ft_env},
+	{BT_EXPORT, ft_export},
+	{BT_UNSET, ft_unset},
+	{BT_CD, ft_cd},
+	{BT_ECHO, ft_echo},
+	{BT_EXIT, ft_exit},
+	{BT_NOT_BULTIN, NULL },
 	};
+
 	status = -1;
-	type = get_builtin_type(cmd);
 	entry = map;
-	while (entry->type != BT_NOT_BULTIN) {
-        if (entry->type == type && entry->func != NULL)
+	while (entry->type != BT_NOT_BULTIN)
+	{
+		if (entry->type == get_builtin_type(cmd) && entry->func != NULL)
 		{
-            status = entry->func(app, cmd);
-			break;
+			status = entry->func(app, cmd);
+			break ;
 		}
-        entry++;
-    }
-	if(status == -1)
-		printf("execute a builtin cmd -> %s\n", cmd->argv[0]);
+		entry++;
+	}
 	return (status);
 }
 
@@ -52,7 +49,6 @@ int	execute_builtin_cmd(t_cmd *cmd, t_app *app)
  */
 t_builtin_type	get_builtin_type(t_cmd *cmd)
 {
-	const char					*name;
 	int							i;
 	static const t_builtin_map	builtin_map[] = {
 	{"cd", BT_CD},
@@ -67,11 +63,10 @@ t_builtin_type	get_builtin_type(t_cmd *cmd)
 
 	if (!cmd || !cmd->argv || !cmd->argv[0])
 		return (BT_NOT_BULTIN);
-	name = cmd->argv[0];
 	i = 0;
 	while (builtin_map[i].name != NULL)
 	{
-		if (ft_strcmp(name, builtin_map[i].name) == 0)
+		if (ft_strcmp(cmd->argv[0], builtin_map[i].name) == 0)
 			return (builtin_map[i].type);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 09:09:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/15 04:51:05 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/20 21:48:39 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*_format_to_envp(char *key, char *value);
 static void	_free_envp(char **envp, size_t size);
 
 /**
- * @brief nitializes the minishell's environment by duplicating the main
+ * @brief Initializes the minishell's environment by duplicating the main
  * environment variables
  *
  * This function duplicates the system's `main_envp` (environ) into a new,

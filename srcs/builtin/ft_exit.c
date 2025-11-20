@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 07:29:47 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 19:58:01 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/20 23:48:52 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,5 @@ int	ft_exit(t_app *app, t_cmd *cmd)
 		perror("minishell: kill SIGINT error");
 		exit(1);
 	}
-	return(0);
+	return (0);
 }

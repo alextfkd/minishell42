@@ -11,3 +11,4 @@ norm.sh
 libft/objs/*.o
 objs/*.o
 lexer_test
+srcs/old/
