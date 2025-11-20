@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:35:43 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/17 15:36:01 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/20 13:06:05 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	set_exit_status(int status)
 static int	_execute_builtin_child(t_cmd *cmd, t_app *app)
 {
 	int	status;
-
 	status = execute_builtin_cmd(cmd, app);
 	return (status);
 }

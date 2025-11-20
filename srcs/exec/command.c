@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:48:20 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 11:25:19 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/20 13:20:59 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,14 @@ static void	_execute_child_process(t_cmd *cmd, t_app *app)
 
 	if (handle_redirections(cmd->red, app) != 0)
 		exit(1);
+	if (cmd->argv == NULL || cmd->argv[0] == NULL)
+		exit(0);
 	cmd_path = find_cmd_path(cmd->argv[0]);
 	if (!cmd_path)
 	{
-		printf("minshell: %s :command not found \n", cmd->argv[0]);
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+        ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
+        ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		exit(127);
 	}
 	clear_residual_fds();

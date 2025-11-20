@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 06:27:07 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/17 22:00:27 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/20 13:57:34 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,38 @@ int	execute_builtin_cmd(t_cmd *cmd, t_app *app)
 	if(status == -1)
 		printf("execute a builtin cmd -> %s\n", cmd->argv[0]);
 	return (status);
+}
+
+/**
+ * @brief Get the builtin type object
+ *
+ * @param cmd
+ * @return t_builtin_type
+ */
+t_builtin_type	get_builtin_type(t_cmd *cmd)
+{
+	const char					*name;
+	int							i;
+	static const t_builtin_map	builtin_map[] = {
+	{"cd", BT_CD},
+	{"export", BT_EXPORT},
+	{"unset", BT_UNSET},
+	{"exit", BT_EXIT},
+	{"echo", BT_ECHO},
+	{"pwd", BT_PWD},
+	{"env", BT_ENV},
+	{NULL, BT_NOT_BULTIN},
+	};
+
+	if (!cmd || !cmd->argv || !cmd->argv[0])
+		return (BT_NOT_BULTIN);
+	name = cmd->argv[0];
+	i = 0;
+	while (builtin_map[i].name != NULL)
+	{
+		if (ft_strcmp(name, builtin_map[i].name) == 0)
+			return (builtin_map[i].type);
+		i++;
+	}
+	return (BT_NOT_BULTIN);
 }
