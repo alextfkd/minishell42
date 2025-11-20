@@ -20,6 +20,7 @@ CFLAGS = -Wall -Wextra -Werror
 IFLAGS = -Iincludes -Ilibft/includes
 LFLAGS = -Llibft
 LIBFLAGS = -lft -lreadline
+BUILTINFLAGS = -DBUILTIN_ON=1
 
 MAIN_FILE = main.c
 
@@ -31,14 +32,13 @@ PROMPT_FILES = interactive_shell.c noninteractive_shell.c pipeline_executor.c in
 
 LEXER_FILES = extract_symbol_token.c extract_word_token.c lexer.c tokenizer_utils.c
 
-PARSER_FILES = astree.c parser.c param_expansion.c tokens2cmd.c cmd_args.c cmd_redirection.c redirect_utils.c 
+PARSER_FILES = astree.c parser.c param_expansion.c tokens2cmd.c cmd_args.c cmd_redirection.c redirect_utils.c
 
 SHELL_FILES = ft_shell.c shell_free.c ft_log_shell.c
 
-EXEC_FILES = find_cmd_path.c command.c command_1.c pipeline.c pipeline_1.c redirect_io.c redirect_in.c redirect_out.c heredoc.c heredoc_1.c builtin_cmd.c
+EXEC_FILES = find_cmd_path.c pipeline_new.c command_1.c redirect_io.c redirect_in.c redirect_out.c heredoc.c heredoc_util.c builtin_cmd.c
 
-BUILTIN_FILES = ft_pwd.c ft_env.c ft_export.c ft_unset.c ft_export_util.c
-
+BUILTIN_FILES = ft_pwd.c ft_env.c ft_export.c ft_cd.c ft_echo.c ft_exit.c ft_unset.c ft_export_util.c
 
 FILES = $(MAIN_FILE)
 FILES += $(addprefix $(UTILS_DIR)/,$(UTILS_FILES))
@@ -65,15 +65,18 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADER) | $(OBJDIR)
 	@mkdir -p $(@D)
 	$(GCC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
+lexer_test: $(LIBFT) $(OBJS)
+	$(GCC) $(CFLAGS) $(IFLAGS) -c test/lexer_test.c -o objs/lexer_test.o
+	$(GCC) $(CFLAGS) $(IFLAGS) $(filter-out objs/main.o, $(OBJS)) objs/lexer_test.o -o $@ $(LFLAGS) $(LIBFLAGS)
+
+builtin: fclean
+	$(MAKE) CFLAGS="$(CFLAGS) $(BUILTINFLAGS)" all
+
 $(LIBFT):
 	@make --directory ./libft/
 
 libft_clean:
 	@make --directory ./libft/ clean
-
-lexer_test: $(LIBFT) $(OBJS)
-	$(GCC) $(CFLAGS) $(IFLAGS) -c test/lexer_test.c -o objs/lexer_test.o
-	$(GCC) $(CFLAGS) $(IFLAGS) $(filter-out objs/main.o, $(OBJS)) objs/lexer_test.o -o $@ $(LFLAGS) $(LIBFLAGS)
 
 clean: libft_clean
 	@rm -f $(OBJS)
@@ -87,6 +90,6 @@ re: fclean all
 norminette:
 	bash ./norm.sh
 
-.PHONY: all clean fclean re bonus libft norminette
+.PHONY: all clean fclean re bonus norminette lexer_test builtin
 
 #norminette ./srcs ./includes ./libft

@@ -7,7 +7,8 @@ libft/*.o
 objs/main.o
 .env
 objs/*/*.o
-
+norm.sh
 libft/objs/*.o
 objs/*.o
 lexer_test
+srcs/old/

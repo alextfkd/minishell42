@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_redirection.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:44:01 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 05:34:21 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:38:21 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_red	*_create_red_node(t_tkind tk, char *file);
+static t_red	*_create_red_node(t_tkind tk, char *file, int is_quoted);
 static int		_validate_red_target(t_token *target);
 static int		_append_red_to_cmd(t_cmd *cmd, t_token *current);
+static int		_is_red_target_quoted(t_token *target);
 
 /* Create redirection node (t_red) and append on (or create) t_cmd->red.
 The new redirection node is created from the current token (operator) and
-the next token (redirection target). 
+the next token (redirection target).
 **current pointer will be moved to either NULL or TK_PIPE node.*/
 int	set_cmd_redirection(t_cmd *cmd, t_token **current, int *status)
 {
@@ -68,7 +69,10 @@ static int	_append_red_to_cmd(t_cmd *cmd, t_token *current)
 	target_data = ft_strdup(target->data);
 	if (!target_data)
 		return (perror("minishell: red->data memory allocation error"), 1);
-	redirection_node = _create_red_node(operator->tk, target_data);
+	redirection_node = _create_red_node(
+			operator->tk,
+			target_data,
+			_is_red_target_quoted(target));
 	if (!redirection_node)
 		return (perror("minishell: t_red memory allocated error"), 1);
 	else if (cmd->red == NULL)
@@ -79,7 +83,7 @@ static int	_append_red_to_cmd(t_cmd *cmd, t_token *current)
 }
 
 // Create a new redirection node (t_red).
-static t_red	*_create_red_node(t_tkind tk, char *file)
+static t_red	*_create_red_node(t_tkind tk, char *file, int is_quoted)
 {
 	t_red	*new;
 
@@ -90,6 +94,7 @@ static t_red	*_create_red_node(t_tkind tk, char *file)
 		return (NULL);
 	new->tk = tk;
 	new->file = file;
+	new->is_quoted = is_quoted;
 	new->next = NULL;
 	return (new);
 }
@@ -111,5 +116,14 @@ static int	_validate_red_target(t_token *target)
 		ft_putendl_fd(ERR_SYNTAX_TOKEN, 2);
 		return (1);
 	}
+	return (0);
+}
+
+static int	_is_red_target_quoted(t_token *target)
+{
+	if (!target || target->tk != TK_CHAR)
+		return (0);
+	if (target->state != S_NORMAL)
+		return (1);
 	return (0);
 }

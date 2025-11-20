@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 02:36:24 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/15 01:49:50 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:46:30 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ static void	_print_envp(char **envp);
  * @return 0 on success. 1 if the enviroment is not available.
  *
  */
-int	ft_env(t_app *app)
+int	ft_env(t_app *app, t_cmd *cmd)
 {
+	(void)cmd;
 	if (!app || !app->envp)
 		return (1);
 	_print_envp(app->envp);

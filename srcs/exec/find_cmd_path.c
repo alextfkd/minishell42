@@ -6,11 +6,43 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 22:49:41 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/05 15:45:19 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/20 21:34:54 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*_append_cmd_to_path(char *path, char *cmd);
+static char	*_check_cmd_path(char *av0);
+static char	**_get_path_dir(void);
+static char	*_search_paths(char **paths, char *av0);
+
+/**
+ * @brief search for the full path of the executable file form command name
+ *
+ * @param av0 command name to execute (e.g.,"ls")
+ * @return char* the full path to executable file. Return Null if not found.
+ */
+char	*find_cmd_path(char *av0)
+{
+	char	**paths;
+	char	*cmd_path;
+
+	cmd_path = _check_cmd_path(av0);
+	if (cmd_path != NULL)
+		return (cmd_path);
+	paths = _get_path_dir();
+	if (!paths)
+		return (NULL);
+	cmd_path = _search_paths(paths, av0);
+	if (!cmd_path)
+	{
+		ft_free_tab(paths);
+		return (NULL);
+	}
+	ft_free_tab(paths);
+	return (cmd_path);
+}
 
 static char	*_append_cmd_to_path(char *path, char *cmd)
 {
@@ -69,31 +101,4 @@ static char	*_search_paths(char **paths, char *av0)
 		i++;
 	}
 	return (NULL);
-}
-
-/**
- * @brief search for the full path of the executable file form command name
- *
- * @param av0 command name to execute (e.g.,"ls")
- * @return char* the full path to executable file. Return Null if not found.
- */
-char	*find_cmd_path(char *av0)
-{
-	char	**paths;
-	char	*cmd_path;
-
-	cmd_path = _check_cmd_path(av0);
-	if (cmd_path != NULL)
-		return (cmd_path);
-	paths = _get_path_dir();
-	if (!paths)
-		return (NULL);
-	cmd_path = _search_paths(paths, av0);
-	if (!cmd_path)
-	{
-		ft_free_tab(paths);
-		return (NULL);
-	}
-	ft_free_tab(paths);
-	return (cmd_path);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_shell.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 15:09:57 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/18 03:02:59 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/20 15:39:49 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ static t_ms_buf	*_create_input_buffer(void);
 
 /**
  * @brief Create a t shell object. Returns NULL if memory allocation failed.
- * 
+ *
  * @param argc
  * @param argv
  * @param envp
- * @return t_shell* 
+ * @return t_shell*
  */
 t_shell	*create_t_shell(int argc, char **argv, char **envp)
 {
@@ -39,7 +39,7 @@ t_shell	*create_t_shell(int argc, char **argv, char **envp)
 	shell->loglevel = LOGLEVEL;
 	shell->status = 0;
 	shell->ms_buf = _create_input_buffer();
-	shell->app = setup_app(envp, &(shell->status));
+	shell->app = setup_app(envp, shell);
 	if (shell->ms_buf == NULL || shell->app == NULL)
 	{
 		perror(BUF_APP_ALLOC_FAIL_MSG);
@@ -50,13 +50,13 @@ t_shell	*create_t_shell(int argc, char **argv, char **envp)
 
 /**
  * @brief Create t_ms_buf.
- * 
+ *
  * rl_buf: readline() buffer.
- * 
+ *
  * tmp_buf: tempolary buffer, used when the command is separated with \newline.
- * 
+ *
  * sh_buf: buffer passed to execute_shell().
- * 
+ *
  * @return t_ms_buf* (NULL if malloc failed.)
  */
 static t_ms_buf	*_create_input_buffer(void)
