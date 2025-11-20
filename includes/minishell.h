@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/20 01:45:10 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/20 04:29:41 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,8 @@ size_t		env_list_size(t_env *env_list, int mode);
 void		env_list_add_back(t_env **env_list, t_env *new_node);
 t_env		*env_last_list(t_env *env_list);
 t_astree	*astree_create_cmd_node(t_token **tokens_head, int *status);
-t_astree	*astree_create_pipe_node(t_astree *left, t_astree *right, int *status);
+t_astree	*astree_create_pipe_node(
+				t_astree *left, t_astree *right, int *status);
 
 int			parameter_expansion(t_app *app, t_astree *root);
 #endif

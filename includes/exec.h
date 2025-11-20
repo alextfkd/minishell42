@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 01:45:20 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/20 04:29:57 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,9 +130,6 @@ int				handle_redirections(t_red *red, t_app *app);
 int				set_exit_status(int status);
 void			execute_single_cmd(t_cmd *cmd, t_app *app);
 void			clear_residual_fds(void);
-
-
-//int			set_cmd_redirection(t_cmd *cmd, t_token **current);
 
 int				is_red(t_tkind tk);
 t_red			*find_last_red(t_red *red);
