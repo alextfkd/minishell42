@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 08:54:40 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/16 01:25:25 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/20 09:14:31 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,17 @@ t_token	*create_new_token(t_lexer *lex, t_tkind tk, int start, int end)
 	len = end - start;
 	data = (char *)ft_calloc(1, (len + 1) * sizeof(char));
 	if (!data)
+	{
+		lex->status = 1;
 		return (NULL);
+	}
 	ft_strlcpy(data, word_start, len + 1);
 	new_token = _create_new_token(tk, data);
 	if (!new_token)
+	{
+		lex->status = 1;
 		return (free(data), NULL);
+	}
 	return (new_token);
 }
 
