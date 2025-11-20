@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 19:49:44 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/20 20:33:14 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define HERE_DOC_PROMPT "> "
 # define ERR_SYNTAX_TOKEN "minishell: syntax error near unexpected token"
 
-// auxiliary structure of redirection (Singly linked list).
+
 typedef struct s_red			t_red;
 typedef struct s_cmd			t_cmd;
 typedef struct s_app			t_app;
@@ -70,7 +70,7 @@ struct	s_astree
 	t_astree	*right;
 };
 
-// redirection list
+// auxiliary structure of redirection (Singly linked list).
 struct	s_red
 {
 	t_tkind	tk;
@@ -117,21 +117,21 @@ struct s_builtin_entry
 	t_builtin_func	func;
 };
 
-void			clear_cmd(t_cmd *cmd);
-int				set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end);
-t_cmd			*tokens2cmd(t_token **tokens_head, int *status);
+void		clear_cmd(t_cmd *cmd);
+int			set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end);
+t_cmd		*tokens2cmd(t_token **tokens_head, int *status);
 
-// pipeline perser
-t_astree		*create_astree_from_tokens(t_token **tokens_head, int *status);
-
-int				is_red(t_tkind tk);
-void			clear_red(t_red *head_red);
-void			red_add_back(t_red **head_red, t_red *new);
+// perser
+t_astree	*create_astree_from_tokens(t_token **tokens_head, int *status);
 int				append_red_to_cmd(t_cmd *cmd, t_token *current);
-
 void			astree_add_branch(t_astree *root, t_astree *left,
 					t_astree *right);
 void			astree_clear(t_astree *node);
+int				is_red(t_tkind tk);
+t_red			*find_last_red(t_red *red);
+void			red_add_back(t_red **head_red, t_red *new);
+void			clear_red(t_red *head_red);
+int				set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end);
 
 // execute
 t_builtin_type	get_builtin_type(t_cmd *cmd);
@@ -149,13 +149,8 @@ int				set_exit_status(int status);
 void			execute_single_cmd(t_cmd *cmd, t_app *app);
 void			clear_residual_fds(void);
 
-int				is_red(t_tkind tk);
-t_red			*find_last_red(t_red *red);
-void			red_add_back(t_red **head_red, t_red *new);
-void			clear_red(t_red *head_red);
 
-int				set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end);
-// builtin command
+// builtin
 int				ft_pwd(t_app *app, t_cmd *cmd);
 char			*get_current_dir(void);
 int				ft_env(t_app *app, t_cmd *cmd);
