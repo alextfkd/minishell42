@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/19 15:32:01 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/20 16:10:51 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "lexer.h"
 # include "libft.h"
+# include  "minishell.h"
 
 # ifndef BUILTIN_ON
 #  define BUILTIN_ON 0
@@ -34,8 +35,8 @@
 // auxiliary structure of redirection (Singly linked list).
 typedef struct s_red			t_red;
 typedef struct s_cmd			t_cmd;
-typedef struct s_astree			t_astree;
 typedef struct s_app			t_app;
+typedef struct s_astree			t_astree;
 typedef struct s_env			t_env;
 typedef struct s_builtin_map	t_builtin_map;
 typedef	struct s_builtin_entry	t_builtin_entry;
@@ -74,6 +75,7 @@ struct	s_red
 {
 	t_tkind	tk;
 	int		fd;
+	int		quote;
 	char	*file;
 	t_red	*next;
 };
@@ -96,14 +98,13 @@ struct s_env
 
 struct	s_app
 {
+	t_shell *shell;
 	char	**envp;
 	t_env	*env_list;
 	int		exit_status;
-	int		*shell_status;
 	int		original_stdin;
 	int		original_stdout;
 };
-
 struct	s_builtin_map
 {
 	const char		*name;

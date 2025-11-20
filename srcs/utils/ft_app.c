@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_app.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 10:58:24 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/17 12:08:34 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/20 15:37:59 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  * @param envp
  * @return * int
  */
-t_app	*setup_app(char **envp, int *shell_status)
+t_app	*setup_app(char **envp, t_shell *shell)
 {
 	t_app		*app;
 	char		**old_envp;
@@ -29,8 +29,8 @@ t_app	*setup_app(char **envp, int *shell_status)
 	app = (t_app *)ft_calloc(1, sizeof(t_app));
 	if (!app)
 		return (NULL);
+	app->shell = shell;
 	app->exit_status = 0;
-	app->shell_status = shell_status;
 	app->original_stdin = dup(STDIN_FILENO);
 	app->original_stdout = dup(STDOUT_FILENO);
 	if (app->original_stdin == -1 || app->original_stdout == -1)

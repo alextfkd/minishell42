@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 15:22:16 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/20 15:36:39 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,8 @@ static int  _wait_for_heredoc(pid_t pid, int pipe_fds[2], t_app *app)
 		close(pipe_fds[0]);
 		return (1);
 	}
-
-	// 親プロセスのシグナルハンドラに戻す必要あり。
-	// set_sigaction(app);
-
+	if(app->shell)
+		set_sigaction(app->shell);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 	{
 		close(pipe_fds[0]);

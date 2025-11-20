@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/19 01:27:55 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/20 15:51:47 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # define MINISHELL_H
 # define _POSIX_C_SOURCE 200809L
 # define _XOPEN_SOURCE 700
+
+typedef struct s_shell t_shell;
 
 # include "exec.h"
 # include "libft.h"
@@ -62,15 +64,15 @@ typedef enum e_shell_status
 }								t_status;
 */
 
-typedef struct s_shell
+struct s_shell
 {
-	int							argc;
-	char						**argv;
-	t_ms_buf					*ms_buf;
-	t_loglevel					loglevel;
-	int							status;
-	t_app						*app;
-}								t_shell;
+	int				argc;
+	char			**argv;
+	t_ms_buf		*ms_buf;
+	t_loglevel		loglevel;
+	int				status;
+	t_app			*app;
+};
 
 int			interactive_shell(t_shell *shell);
 int			non_interactive_shell(t_shell *shell);
@@ -109,7 +111,7 @@ int			pipeline_executor(t_shell *shell);
 // app utils
 void		free_app(t_app *app);
 //t_app		*setup_app(char **envp);
-t_app		*setup_app(char **envp, int *shell_status);
+t_app		*setup_app(char **envp, t_shell *shell);
 void		reset_stdio(t_app *app);
 
 // env utils
