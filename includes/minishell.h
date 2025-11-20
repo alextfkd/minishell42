@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/19 01:27:55 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/20 04:29:41 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int			execute_cmd(char *inpt, t_app *app, t_loglevel log_level);
 void		exec_line(t_shell *shell);
 t_shell		*create_t_shell(int argc, char **argv, char **envp);
 int			free_t_shell(t_shell *shell);
-int			set_cmd_redirection(t_cmd *cmd, t_token **current);
+int			set_cmd_redirection(t_cmd *cmd, t_token **current, int *status);
 int			pipeline_executor(t_shell *shell);
 
 // app utils
@@ -129,8 +129,9 @@ t_env		*env_new_node(char *key, char *value, int is_set);
 size_t		env_list_size(t_env *env_list, int mode);
 void		env_list_add_back(t_env **env_list, t_env *new_node);
 t_env		*env_last_list(t_env *env_list);
-t_astree	*astree_create_cmd_node(t_token **tokens_head);
-t_astree	*astree_create_pipe_node(t_astree *left, t_astree *right);
+t_astree	*astree_create_cmd_node(t_token **tokens_head, int *status);
+t_astree	*astree_create_pipe_node(
+				t_astree *left, t_astree *right, int *status);
 
 int			parameter_expansion(t_app *app, t_astree *root);
 #endif
