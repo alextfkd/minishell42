@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:44:01 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/10 20:28:38 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/20 05:34:21 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,28 @@ static int		_append_red_to_cmd(t_cmd *cmd, t_token *current);
 The new redirection node is created from the current token (operator) and
 the next token (redirection target). 
 **current pointer will be moved to either NULL or TK_PIPE node.*/
-int	set_cmd_redirection(t_cmd *cmd, t_token **current)
+int	set_cmd_redirection(t_cmd *cmd, t_token **current, int *status)
 {
 	t_token	*p_token;
 	int		res;
 
-	if (!cmd)
+	if (!cmd || *status == 1)
+	{
+		*status = 1;
 		return (1);
+	}
 	p_token = *current;
 	while (p_token != NULL && p_token->tk != TK_PIPE)
 	{
 		if (is_red(p_token->tk))
 		{
+			printf("red ok");
 			res = _append_red_to_cmd(cmd, p_token);
 			if (res == 1)
+			{
+				*status = 1;
 				return (1);
+			}
 		}
 		p_token = p_token->next;
 	}
@@ -93,12 +100,14 @@ static int	_validate_red_target(t_token *target)
 {
 	if (target == NULL)
 	{
+		ft_putstr_fd("error(103)", 2);
 		ft_putstr_fd(ERR_SYNTAX_TOKEN, 2);
 		ft_putendl_fd(" \'newline\'", 2);
 		return (1);
 	}
 	if (target->tk != TK_CHAR)
 	{
+		ft_putstr_fd("error(110)", 2);
 		ft_putendl_fd(ERR_SYNTAX_TOKEN, 2);
 		return (1);
 	}

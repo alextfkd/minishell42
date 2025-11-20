@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 02:49:44 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/12 23:25:15 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/20 05:23:31 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,8 @@ void	test_empty(char *target)
 	int		status;
 
 	status = 0;
-	token = tokenize(target);
+	token = tokenize(target, &status);
 	head = token;
-	if (token != NULL)
-		status = 1;
 	free_tokens(head);
 	if (status)
 		printf("[%s] -> ERROR\n", target);
@@ -40,7 +38,7 @@ void	test_cat(char *target)
 	int		status;
 
 	status = 0;
-	token = tokenize(target);
+	token = tokenize(target, &status);
 	head = token;
 	if (strcmp(token->data, "cat") && token->tk == TK_CHAR)
 		status = 1;

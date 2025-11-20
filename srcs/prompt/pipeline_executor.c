@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/19 02:29:19 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/20 04:26:21 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,15 @@ int	pipeline_executor(t_shell *shell)
 {
 	t_token		*head_token;
 	t_astree	*ast_root;
+	t_astree	*ast_head;
 
 	log_debug_show_input(shell->ms_buf->sh_buf, shell->loglevel);
 	head_token = tokenize(shell->ms_buf->sh_buf, &(shell->status));
 	if (!head_token || head_token->state != S_NORMAL || shell->status != 0)
 		return (0);
 	log_debug_show_token(head_token, shell->loglevel);
-	ast_root = create_astree_from_tokens(&head_token);
+	ast_root = create_astree_from_tokens(&head_token, &(shell->status));
+	ast_head = ast_root;
 	if (ast_root == NULL)
 		return (_status_1_return(shell, head_token, ast_root));
 	log_debug_show_ast(ast_root, shell->loglevel);
@@ -32,7 +34,7 @@ int	pipeline_executor(t_shell *shell)
 	if (shell->status != 0)
 		return (_status_1_return(shell, head_token, ast_root));
 	shell->status = execute_pipeline(ast_root, shell->app);
-	astree_clear(ast_root);
+	astree_clear(ast_head);
 	free_tokens(head_token);
 	reset_stdio(shell->app);
 	return (0);
