@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env_mng.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 09:40:06 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/18 02:23:09 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/20 16:20:18 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ char	*get_env_value(t_env *env_list, const char *key)
 		return (NULL);
 	while (env_list)
 	{
-		if (ft_strcmp(env_list->key, key) == 0)
+		if (ft_strcmp(env_list->key, key) == 0 && env_list->is_set)
 			return (env_list->value);
 		env_list = env_list->next;
 	}
