@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/20 23:41:25 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/21 08:23:14 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,4 +145,7 @@ t_astree						*astree_create_pipe_node(t_astree *left,
 									t_astree *right, int *status);
 
 int								parameter_expansion(t_app *app, t_astree *root);
+char							*create_env_key_candidate(char *argv, int *status);
+int								overwrite_argv(char **argv_i, char *new_argv);
+int								trim_quotes(char **argv_i);
 #endif
