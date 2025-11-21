@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:35:43 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 02:29:28 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/21 15:17:13 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,10 +165,11 @@ int execute_pipeline(t_astree *node, t_app *app)
 	pid_t	*pids;
 	int		cmd_count;
 	int		i;
+	int		last_status;
 	int		status;
-	int		last_status = 0;
 	t_cmd	*cmd;
 
+	last_status = 0;
 	cmd_list = _astree2cmdlist(node);
 	if (!cmd_list)
 		return (1);
@@ -256,6 +257,8 @@ int execute_pipeline(t_astree *node, t_app *app)
 		current = current->next;
 		i++;
 	}
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	i = 0;
 	while (i < cmd_count)
 	{
@@ -265,6 +268,8 @@ int execute_pipeline(t_astree *node, t_app *app)
 			last_status = _set_exit_status(status);
 		i++;
 	}
+	if (app->shell)
+        set_sigaction(app->shell);
 	free(pids);
 	free_list(&cmd_list);
 	return (last_status);

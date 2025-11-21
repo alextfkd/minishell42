@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:44:03 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/20 22:39:27 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/21 17:18:00 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 /**
  * @brief Display all items registered in teh export attribute,
  * when no arguments are provided to the exprot commands.
+ * Free the array (do not destroy the line)
+ *
+ * Count the number of elements in the list.
+ * Allocate a pointer array with malloc for the number of elements.
+ * Copy the address of each node in the list into the array.
+ * Sort the array contents based on key (using bubble sort here for simplicity)
+ * Display the elements in sorted array order.
  *
  * @param env_list
  * @return int

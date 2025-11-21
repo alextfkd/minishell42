@@ -40,11 +40,9 @@ int	execute_builtin_parent(t_cmd *cmd, t_app *app)
 void	clear_residual_fds(void)
 {
 	int	fd;
-	int	max_fd;
 
 	fd = 3;
-	max_fd = MAX_FD;
-	while (fd < max_fd)
+	while (fd < MAX_FD)
 	{
 		close(fd);
 		fd++;

@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 01:33:24 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/21 17:07:14 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,8 @@ int					execute_builtin_parent(t_cmd *cmd, t_app *app);
 char				*find_cmd_path(char *av0);
 int					handle_heredoc(t_red *red, t_app *app);
 char				*expand_heredoc_line(char *line, t_app *app);
+void				close_heredoc_unused_fds(int *pipe_fds, t_app *app);
+void				restore_heredoc_std_io(t_app *app, int *pipe_fds);
 void				print_heredoc_error(char *delimiter);
 int					do_redirect_in(t_red *red, t_app *app);
 int					do_redirect_out(t_red *red);
