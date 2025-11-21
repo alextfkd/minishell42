@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 22:17:02 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/22 06:56:12 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	_heredoc_exit_handler(int sig);
 static void	_heredoc_routine(
 	char *delimiter,
 	int *pipe_fds,
-	int do_expand,
+	int is_quated,
 	t_app *app)
 {
 	char	*line;
@@ -48,7 +48,7 @@ static void	_heredoc_routine(
 			free(line);
 			break ;
 		}
-		if (do_expand)
+		if (!is_quated)
 			line = expand_heredoc_line(line, app);
 		write(pipe_fds[1], line, ft_strlen(line));
 		write(pipe_fds[1], "\n", 1);
@@ -68,7 +68,7 @@ static void	_heredoc_child(
 	restore_heredoc_std_io(app, pipe_fds);
 	close(pipe_fds[0]);
 	close_heredoc_unused_fds(pipe_fds, app);
-	_heredoc_routine(delimiter, pipe_fds, !is_quoted, app);
+	_heredoc_routine(delimiter, pipe_fds, is_quoted, app);
 	close(pipe_fds[1]);
 	if (g_sig_received)
 	{
