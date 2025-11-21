@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:44:01 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 02:36:29 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/21 03:09:32 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	set_cmd_redirection(t_cmd *cmd, t_token **current, int *status)
 			if (res == 1)
 			{
 				*status = 1;
-				clear_red(cmd->red);
 				return (1);
 			}
 		}
