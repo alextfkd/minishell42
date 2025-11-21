@@ -6,14 +6,14 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 00:12:53 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/21 16:53:05 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	_print_heredoc_error(char *delimiter);
-static int	_wait_for_heredoc(pid_t pid, int pipe_fds[2], t_app *app);
+static int	_wait_for_heredoc(pid_t pid, int pipe_fds[2]);
+static void	_heredoc_exit_handler(int sig);
 
 /**
  * @brief Handles the main routine for reading input in a heredoc operation.
@@ -38,7 +38,9 @@ static void	_heredoc_routine(
 		line = readline(HERE_DOC_PROMPT);
 		if (!line)
 		{
-			_print_heredoc_error(delimiter);
+			if (g_sig_received)
+				break ;
+			print_heredoc_error(delimiter);
 			break ;
 		}
 		if (ft_strcmp(line, delimiter) == 0)
@@ -60,22 +62,22 @@ static void	_heredoc_child(
 	int is_quoted,
 	t_app *app)
 {
-	signal(SIGINT, SIG_DFL);
+	signal(SIGINT, _heredoc_exit_handler);
 	signal(SIGQUIT, SIG_IGN);
-	if (app->original_stdout != -1)
-	{
-		if (dup2(app->original_stdout, STDOUT_FILENO) == -1)
-		{
-			perror("minishell: dup2");
-			close(pipe_fds[0]);
-			close(pipe_fds[1]);
-			exit(1);
-		}
-	}
+	g_sig_received = 0;
+	restore_heredoc_std_io(app, pipe_fds);
 	close(pipe_fds[0]);
+	close_heredoc_unused_fds(pipe_fds, app);
 	_heredoc_routine(delimiter, pipe_fds, !is_quoted, app);
 	close(pipe_fds[1]);
-	exit(0);
+	if (g_sig_received)
+	{
+		dup2(app->original_stdin, STDIN_FILENO);
+		rl_deprep_terminal();
+		exit(1);
+	}
+	else
+		exit(0);
 }
 
 int	handle_heredoc(t_red *red, t_app *app)
@@ -98,7 +100,7 @@ int	handle_heredoc(t_red *red, t_app *app)
 	}
 	if (pid == 0)
 		_heredoc_child(red->file, pipe_fds, red->is_quoted, app);
-	if (_wait_for_heredoc(pid, pipe_fds, app) == 0)
+	if (_wait_for_heredoc(pid, pipe_fds) == 0)
 	{
 		red->fd = pipe_fds[0];
 		return (0);
@@ -107,13 +109,13 @@ int	handle_heredoc(t_red *red, t_app *app)
 		return (1);
 }
 
-static int	_wait_for_heredoc(pid_t pid, int pipe_fds[2], t_app *app)
+static int	_wait_for_heredoc(pid_t pid, int pipe_fds[2])
 {
 	int	status;
 
-	(void)app ;
 	close(pipe_fds[1]);
 	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	while (waitpid(pid, &status, 0) == -1)
 	{
 		if (errno == EINTR)
@@ -122,21 +124,23 @@ static int	_wait_for_heredoc(pid_t pid, int pipe_fds[2], t_app *app)
 		close(pipe_fds[0]);
 		return (1);
 	}
-	if (app->shell)
-		set_sigaction(app->shell);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 	{
 		close(pipe_fds[0]);
-		write(STDOUT_FILENO, "\n", 1);
+		return (1);
+	}
+	if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
+	{
+		close(pipe_fds[0]);
 		return (1);
 	}
 	return (0);
 }
 
-static void	_print_heredoc_error(char *delimiter)
+static void	_heredoc_exit_handler(int sig)
 {
-	ft_putstr_fd("minishell: warning: here-document", 2);
-	ft_putstr_fd(" delimited by end-of-file (wanted \'", 2);
-	ft_putstr_fd(delimiter, 2);
-	ft_putendl_fd("\')", 2);
+	(void)sig;
+	g_sig_received = 1;
+	close(STDIN_FILENO);
+	write(1, "^C", 2);
 }
