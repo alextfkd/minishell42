@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 00:16:10 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/21 01:24:31 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,3 +96,12 @@ static char	*_get_value_after_doller(t_app *app, char *str, int *i)
 	free(key);
 	return (result);
 }
+
+void	print_heredoc_error(char *delimiter)
+{
+	ft_putstr_fd("minishell: warning: here-document", 2);
+	ft_putstr_fd(" delimited by end-of-file (wanted \'", 2);
+	ft_putstr_fd(delimiter, 2);
+	ft_putendl_fd("\')", 2);
+}
+
