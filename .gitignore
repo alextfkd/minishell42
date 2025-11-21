@@ -13,3 +13,4 @@ objs/*.o
 srcs/old/
 lexer_test
 parser_test
+expansion_test
