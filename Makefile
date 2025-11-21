@@ -8,6 +8,7 @@ UTILS_DIR = utils
 PROMT_DIR = prompt
 EXEC_DIR = exec
 LEXER_DIR = lexer
+EXPANSION_DIR = expansion
 SIGNAL_DIR = signal
 SHELL_DIR = shell
 PARSER_DIR = parser
@@ -32,7 +33,9 @@ PROMPT_FILES = interactive_shell.c noninteractive_shell.c pipeline_executor.c in
 
 LEXER_FILES = extract_symbol_token.c extract_word_token.c lexer.c tokenizer_utils.c
 
-PARSER_FILES = astree.c parser.c param_expansion.c tokens2cmd.c cmd_args.c cmd_redirection.c redirect_utils.c
+EXPANSION_FILES = param_expansion.c
+
+PARSER_FILES = astree.c parser.c tokens2cmd.c cmd_args.c cmd_redirection.c redirect_utils.c
 
 SHELL_FILES = ft_shell.c shell_free.c ft_log_shell.c
 
@@ -45,6 +48,7 @@ FILES += $(addprefix $(UTILS_DIR)/,$(UTILS_FILES))
 FILES += $(addprefix $(PROMT_DIR)/,$(PROMPT_FILES))
 FILES += $(addprefix $(SIGNAL_DIR)/,$(SIGNAL_FILES))
 FILES += $(addprefix $(EXEC_DIR)/,$(EXEC_FILES))
+FILES += $(addprefix $(EXPANSION_DIR)/,$(EXPANSION_FILES))
 FILES += $(addprefix $(SHELL_DIR)/,$(SHELL_FILES))
 FILES += $(addprefix $(LEXER_DIR)/,$(LEXER_FILES))
 FILES += $(addprefix $(PARSER_DIR)/,$(PARSER_FILES))
