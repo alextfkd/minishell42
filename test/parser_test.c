@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 02:49:44 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/21 01:46:22 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/21 02:04:22 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,15 @@ int	main(void)
 	);
 	status += test_cmd1_arg1_red1(
 		"ls ./ << heredoc", "ls", "./", "heredoc", TK_RED_HEREDOC
+	);
+	status += test_cmd1_arg1_red1(
+		"ls ./ > $OUT", "ls", "./", "$OUT", TK_RED_OUT
+	);
+	status += test_cmd1_arg1_red1(
+		"ls ./ > \'$OUT\'", "ls", "./", "\'$OUT\'", TK_RED_OUT
+	);
+	status += test_cmd1_arg1_red1(
+		"ls ./ > \"$OUT\"", "ls", "./", "\"$OUT\"", TK_RED_OUT
 	);
 	return (status);
 }
