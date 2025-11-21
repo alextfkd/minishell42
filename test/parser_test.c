@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 02:49:44 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/21 02:40:33 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/21 03:12:36 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ int	test_failure(char *input)
 	status = 0;
 	token = tokenize(input, &status);
 	astree = create_astree_from_tokens(&token, &status);
-	if (astree == NULL)
+	if (astree == NULL && status == 1)
 		printf("[%s] -> PASS (status: %d)\n", input, status);
 	else
 		printf("[%s] -> FAIL (status: %d)\n", input, status);
@@ -253,6 +253,7 @@ int	main(void)
 	);
 	status += test_failure( "ls ./ > > \"$OUT\"");
 	status += test_failure( "ls ./ > out > > out2");
+	status += test_failure( "> out > out2 << < ls");
 	return (status);
 }
 	//test_single_cmd(NULL, 0);
