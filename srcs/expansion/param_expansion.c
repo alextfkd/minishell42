@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   arg_expansion.c                                    :+:      :+:    :+:   */
+/*   param_expansion.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:23:38 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/21 11:11:27 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/21 11:21:30 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static int	_expand_redirection(t_app *app, t_astree *root)
 		new_red_file = get_env_value(app->env_list, key_unquoted);
 		if (new_red_file)
 			status += overwrite_argv(&(red->file), new_red_file);
+		status += trim_quotes(&(red->file));
 		if (key_unquoted)
 			free(key_unquoted);
 		if (status != 0)

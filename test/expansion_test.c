@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 02:49:44 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/21 11:12:38 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/21 11:56:51 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,31 @@ int	test_cmd1_arg1_red1(t_shell *shell, char *input, char *cmd1, char *arg1, cha
 	return (status);
 }
 
+int	test_cmd1_arg1_red2(t_shell *shell, char *input, char *cmd1, char *arg1, char *red1, char *red2)
+{
+	t_astree	*astree;
+	t_astree	*astree_head;
+	t_token		*token;
+	int			status;
+
+	status = 0;
+	token = tokenize(input, &status);
+	astree = create_astree_from_tokens(&token, &status);
+	astree_head = astree;
+	shell->status = parameter_expansion(shell->app, astree);
+	if (ft_assert_str(astree->cmd->argv[0], cmd1) &&
+		ft_assert_str(astree->cmd->argv[1], arg1) &&
+		ft_assert_str(astree->cmd->red->file, red1) &&
+		ft_assert_str(astree->cmd->red->next->file, red2)
+	)
+		printf("[%s] -> PASS (status: %d)\n", input, status);
+	else
+		printf("[%s] -> FAIL (status: %d)\n", input, status);
+	
+	astree_clear(astree_head);
+	return (status);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
@@ -93,6 +118,15 @@ int	main(int argc, char **argv, char **envp)
 	status += test_cmd1_arg1_red1(shell, "cat $LANG < $LANG", "cat", "en_US.UTF-8", "en_US.UTF-8");
 	status += test_cmd1_arg1_red1(shell, "cat $LANG << $LANG", "cat", "en_US.UTF-8", "en_US.UTF-8");
 	status += test_cmd1_arg1_red1(shell, "cat $LANG >> $LANG", "cat", "en_US.UTF-8", "en_US.UTF-8");
+	status += test_cmd1_arg1_red1(shell, "cat \'$LANG\' > \'$LANG\'", "cat", "$LANG", "$LANG");
+	status += test_cmd1_arg1_red1(shell, "cat \'$LANG\' < \'$LANG\'", "cat", "$LANG", "$LANG");
+	status += test_cmd1_arg1_red1(shell, "cat \'$LANG\' << \'$LANG\'", "cat", "$LANG", "$LANG");
+	status += test_cmd1_arg1_red1(shell, "cat \'$LANG\' >> \'$LANG\'", "cat", "$LANG", "$LANG");
+	status += test_cmd1_arg1_red1(shell, "cat \"$LANG\" > \"$LANG\"", "cat", "en_US.UTF-8", "en_US.UTF-8");
+	status += test_cmd1_arg1_red1(shell, "cat \"$LANG\" < \"$LANG\"", "cat", "en_US.UTF-8", "en_US.UTF-8");
+	status += test_cmd1_arg1_red1(shell, "cat \"$LANG\" << \"$LANG\"", "cat", "en_US.UTF-8", "en_US.UTF-8");
+	status += test_cmd1_arg1_red1(shell, "cat \"$LANG\" >> \"$LANG\"", "cat", "en_US.UTF-8", "en_US.UTF-8");
+	status += test_cmd1_arg1_red2(shell, "cat $LANG >> $LANG > $LANG", "cat", "en_US.UTF-8", "en_US.UTF-8", "en_US.UTF-8");
 	free_shell(shell);
 	return (status);
 }
