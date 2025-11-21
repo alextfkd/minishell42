@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 18:53:28 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/21 21:48:47 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ int					do_redirect_out(t_red *red);
 int					handle_redirections(t_red *red, t_app *app);
 int					set_exit_status(int status);
 void				execute_single_cmd(t_cmd *cmd, t_app *app);
-void				clear_residual_fds(void);
+void				close_unused_fds(void);
 
 // builtin
 int					ft_pwd(t_app *app, t_cmd *cmd);

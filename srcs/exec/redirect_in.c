@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 20:41:07 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/21 21:01:27 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,9 @@ static int	_setup_in(t_red *red)
 {
 	red->fd = open(red->file, O_RDONLY);
 	if (red->fd == -1)
-	{
-		perror(red->file);
-		return (1);
-	}
+		return(perror(red->file), 1);
 	if (dup2(red->fd, STDIN_FILENO) == -1)
-	{
-		perror("minishell: dup2 redirect in");
-		return (1);
-	}
+		return(perror("minishell: dup2 redirect in"), 1);
 	close(red->fd);
 	return (0);
 }
@@ -37,10 +31,7 @@ static int	_setup_heredoc(t_red *red, t_app *app)
 	if (status != 0)
 		return (status);
 	if (dup2(red->fd, STDIN_FILENO) == -1)
-	{
-		perror("minishell: dup2 redirect here-doc");
-		return (1);
-	}
+		return(perror("minishell: dup2 redirect here-doc"), 1);
 	close(red->fd);
 	return (0);
 }

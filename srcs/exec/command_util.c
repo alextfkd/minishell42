@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	clear_residual_fds(void)
+void	close_unused_fds(void)
 {
 	int	fd;
 
