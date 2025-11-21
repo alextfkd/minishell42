@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:23:38 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/19 01:26:13 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/21 07:01:05 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,7 @@ static int	_expand_child_nodes(t_app *app, t_astree *root);
 static char	*_create_env_key_candidate(char *argv, int *status);
 static int	_overwrite_argv(char **argv_i, char *new_argv);
 
-/**
- * @brief 
- * 
- * @param app 
- * @param root 
- * @return int 
- */
 int	parameter_expansion(t_app *app, t_astree *root)
-{
-	int	right;
-	int	left;
-
-	right = _expand_child_nodes(app, root->right);
-	left = _expand_child_nodes(app, root->left);
-	return (right + left);
-}
-
-static int	_expand_child_nodes(t_app *app, t_astree *root)
 {
 	char	*key_unquoted;
 	char	*new_argv_i;
@@ -59,7 +42,24 @@ static int	_expand_child_nodes(t_app *app, t_astree *root)
 			return (1);
 		i++;
 	}
-	return (parameter_expansion(app, root));
+	return (_expand_child_nodes(app, root));
+}
+
+/**
+ * @brief 
+ * 
+ * @param app 
+ * @param root 
+ * @return int 
+ */
+static int	_expand_child_nodes(t_app *app, t_astree *root)
+{
+	int	right;
+	int	left;
+
+	right = parameter_expansion(app, root->right);
+	left = parameter_expansion(app, root->left);
+	return (right + left);
 }
 
 /**
