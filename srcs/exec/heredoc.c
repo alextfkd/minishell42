@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 16:53:05 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/21 20:46:22 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	_heredoc_child(
 	{
 		dup2(app->original_stdin, STDIN_FILENO);
 		rl_deprep_terminal();
-		exit(1);
+		exit(130);
 	}
 	else
 		exit(0);
@@ -83,6 +83,7 @@ static void	_heredoc_child(
 int	handle_heredoc(t_red *red, t_app *app)
 {
 	int	pid;
+	int status;
 	int	pipe_fds[2];
 
 	if (pipe(pipe_fds) == -1)
@@ -100,18 +101,20 @@ int	handle_heredoc(t_red *red, t_app *app)
 	}
 	if (pid == 0)
 		_heredoc_child(red->file, pipe_fds, red->is_quoted, app);
-	if (_wait_for_heredoc(pid, pipe_fds) == 0)
+	status = _wait_for_heredoc(pid, pipe_fds);
+	if (status == 0)
 	{
 		red->fd = pipe_fds[0];
 		return (0);
 	}
 	else
-		return (1);
+		return (status);
 }
 
 static int	_wait_for_heredoc(pid_t pid, int pipe_fds[2])
 {
 	int	status;
+	int exit_status;
 
 	close(pipe_fds[1]);
 	signal(SIGINT, SIG_IGN);
@@ -124,15 +127,17 @@ static int	_wait_for_heredoc(pid_t pid, int pipe_fds[2])
 		close(pipe_fds[0]);
 		return (1);
 	}
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	if (WIFSIGNALED(status))
 	{
 		close(pipe_fds[0]);
-		return (1);
+		return (128 + WTERMSIG(status));
 	}
-	if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
+	else if (WIFEXITED(status))
 	{
-		close(pipe_fds[0]);
-		return (1);
+		exit_status = WEXITSTATUS(status);
+		if (exit_status != 0)
+			close(pipe_fds[0]);
+		return (exit_status);
 	}
 	return (0);
 }

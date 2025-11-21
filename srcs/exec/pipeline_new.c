@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:35:43 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 15:17:13 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/21 20:30:34 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@ static void 	_cleanup_pipeline(t_list *cmd_list, pid_t *pids, int count);
 static void	_execute_child_process(t_cmd *cmd, t_app *app)
 {
 	char	*cmd_path;
+	int		red_status;
 
-	if (handle_redirections(cmd->red, app) != 0)
-		exit(1);
+	red_status = handle_redirections(cmd->red, app);
+	if (red_status != 0)
+		exit(red_status);
 	if (cmd->argv == NULL || cmd->argv[0] == NULL)
 		exit(0);
 	cmd_path = find_cmd_path(cmd->argv[0]);
@@ -167,6 +169,7 @@ int execute_pipeline(t_astree *node, t_app *app)
 	int		i;
 	int		last_status;
 	int		status;
+	int		red_status;
 	t_cmd	*cmd;
 
 	last_status = 0;
@@ -182,6 +185,7 @@ int execute_pipeline(t_astree *node, t_app *app)
 		{
 			last_status = execute_builtin_parent(cmd, app);
 			free_list(&cmd_list);
+			log_debug(ft_itoa(last_status), LOG_DEBUG);
 			return (last_status);
 		}
 	}
@@ -236,13 +240,14 @@ int execute_pipeline(t_astree *node, t_app *app)
 			}
 			if (get_builtin_type(cmd) != BT_NOT_BULTIN && BUILTIN_ON)
 			{
-				if (handle_redirections(cmd->red, app) != 0)
-					exit(1);
+				red_status = handle_redirections(cmd->red, app);
+				if (red_status != 0)
+					exit(red_status);
 				exit(execute_builtin_cmd(cmd, app));
 			}
 			else
 				_execute_child_process(cmd, app);
-			exit(1);
+		//	exit(1);
 		}
 		if (prev_fd != STDIN_FILENO)
 			close(prev_fd);
@@ -272,5 +277,6 @@ int execute_pipeline(t_astree *node, t_app *app)
         set_sigaction(app->shell);
 	free(pids);
 	free_list(&cmd_list);
+	log_debug(ft_itoa(last_status),LOG_DEBUG);
 	return (last_status);
 }

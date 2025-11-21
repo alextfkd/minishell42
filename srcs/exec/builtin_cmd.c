@@ -6,11 +6,38 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 06:27:07 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 14:49:39 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/21 19:50:00 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	_reset_std_fd(int tmp_stdin, int tmp_stdout);
+
+int	execute_builtin_parent(t_cmd *cmd, t_app *app)
+{
+	int	status;
+	int	tmp_stdin;
+	int	tmp_stdout;
+	int red_status;
+
+	tmp_stdin = dup(STDIN_FILENO);
+	tmp_stdout = dup(STDOUT_FILENO);
+	if (tmp_stdin == -1 || tmp_stdout == -1)
+	{
+		perror("minishell: dup");
+		return (1);
+	}
+	red_status = handle_redirections(cmd->red, app);
+	if (red_status != 0)
+	{
+		_reset_std_fd(tmp_stdin, tmp_stdout);
+		return (red_status);
+	}
+	status = execute_builtin_cmd(cmd, app);
+	_reset_std_fd(tmp_stdin, tmp_stdout);
+	return (status);
+}
 
 int	execute_builtin_cmd(t_cmd *cmd, t_app *app)
 {
@@ -71,4 +98,12 @@ t_builtin_type	get_builtin_type(t_cmd *cmd)
 		i++;
 	}
 	return (BT_NOT_BULTIN);
+}
+
+static void	_reset_std_fd(int tmp_stdin, int tmp_stdout)
+{
+	dup2(tmp_stdin, STDIN_FILENO);
+	dup2(tmp_stdout, STDOUT_FILENO);
+	close(tmp_stdin);
+	close(tmp_stdout);
 }
