@@ -33,7 +33,7 @@ PROMPT_FILES = interactive_shell.c noninteractive_shell.c pipeline_executor.c in
 
 LEXER_FILES = extract_symbol_token.c extract_word_token.c lexer.c tokenizer_utils.c
 
-EXPANSION_FILES = expansion_utils.c arg_expansion.c red_expansion.c
+EXPANSION_FILES = expansion_utils.c param_expansion.c
 
 PARSER_FILES = astree.c parser.c tokens2cmd.c cmd_args.c cmd_redirection.c redirect_utils.c
 
