@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 02:49:44 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/21 02:23:22 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/21 02:40:33 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,6 +252,7 @@ int	main(void)
 		"ls ./ > \"$OUT\"", "ls", "./", "\"$OUT\"", TK_RED_OUT
 	);
 	status += test_failure( "ls ./ > > \"$OUT\"");
+	status += test_failure( "ls ./ > out > > out2");
 	return (status);
 }
 	//test_single_cmd(NULL, 0);
