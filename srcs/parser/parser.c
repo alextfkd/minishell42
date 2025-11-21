@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 15:35:22 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 02:02:32 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/21 00:33:13 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ t_astree	*create_astree_from_tokens(t_token **tokens_head, int *status)
 	t_astree	*new_root;
 	t_token		*original_head;
 
+	if (!tokens_head || !(*tokens_head))
+		return (NULL);
 	original_head = *tokens_head;
 	astree_root = astree_create_cmd_node(tokens_head, status);
 	if (!astree_root)
