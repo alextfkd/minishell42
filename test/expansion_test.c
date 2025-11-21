@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 02:49:44 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/21 07:02:07 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/21 07:08:45 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	main(int argc, char **argv, char **envp)
 	status = 0;
 	//status += test_single_cmd(NULL);
 	status += test_single_cmd(shell, "cat $LANG", "cat", "en_US.UTF-8");
+	status += test_single_cmd(shell, "cat \'$LANG\'", "cat", "$LANG");
+	status += test_single_cmd(shell, "cat \"$LANG\"", "cat", "en_US.UTF-8");
 	free_shell(shell);
 	return (status);
 }

@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:23:38 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/21 07:05:50 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/21 07:46:41 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static int	_expand_child_nodes(t_app *app, t_astree *root);
 static char	*_create_env_key_candidate(char *argv, int *status);
 static int	_overwrite_argv(char **argv_i, char *new_argv);
+static int	_trim_quotes(char **argv_i);
 
 int	parameter_expansion(t_app *app, t_astree *root)
 {
@@ -26,7 +27,7 @@ int	parameter_expansion(t_app *app, t_astree *root)
 	if (root == NULL)
 		return (0);
 	if (root->type == NODE_PIPE)
-		return (parameter_expansion(app, root));
+		return (_expand_child_nodes(app, root));
 	i = 0;
 	while (i < root->cmd->argc)
 	{
@@ -34,6 +35,7 @@ int	parameter_expansion(t_app *app, t_astree *root)
 		new_argv_i = get_env_value(app->env_list, key_unquoted);
 		if (new_argv_i)
 			status += _overwrite_argv(&(root->cmd->argv[i]), new_argv_i);
+		status += _trim_quotes(&(root->cmd->argv[i]));
 		if (key_unquoted)
 			free(key_unquoted);
 		if (status != 0)
@@ -106,5 +108,19 @@ static int	_overwrite_argv(char **argv_i, char *new_argv)
 	*argv_i = ft_strdup(new_argv);
 	if (*argv_i == NULL)
 		return (1);
+	return (0);
+}
+
+static int	_trim_quotes(char **argv_i)
+{
+	char	*tmp;
+
+	if (argv_i == NULL || *argv_i == NULL)
+		return (1);
+	tmp = ft_strtrim(*argv_i, "\'\"");
+	if (tmp == NULL)
+		return (1);
+	free(*argv_i);
+	*argv_i = tmp;
 	return (0);
 }
