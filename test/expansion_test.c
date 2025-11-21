@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 02:49:44 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/21 07:59:05 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/21 11:12:38 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ int	main(int argc, char **argv, char **envp)
 	status += test_single_cmd(shell, "cat \"$LANG\"", "cat", "en_US.UTF-8");
 	status += test_cmd1_arg1_red1(shell, "cat $LANG > out", "cat", "en_US.UTF-8", "out");
 	status += test_cmd1_arg1_red1(shell, "cat $LANG > $LANG", "cat", "en_US.UTF-8", "en_US.UTF-8");
+	status += test_cmd1_arg1_red1(shell, "cat $LANG < $LANG", "cat", "en_US.UTF-8", "en_US.UTF-8");
+	status += test_cmd1_arg1_red1(shell, "cat $LANG << $LANG", "cat", "en_US.UTF-8", "en_US.UTF-8");
+	status += test_cmd1_arg1_red1(shell, "cat $LANG >> $LANG", "cat", "en_US.UTF-8", "en_US.UTF-8");
 	free_shell(shell);
 	return (status);
 }
