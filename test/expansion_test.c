@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 02:49:44 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/21 05:54:53 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/21 06:37:32 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,37 +23,48 @@ static int	ft_assert_str(char *input, char *expected)
 		return (0);
 	if (ft_strcmp(input, expected) !=0)
 	{
-		printf("test -> %s, expected -> %s", input, expected);
+		printf("test -> %s, expected -> %s\n", input, expected);
 		return (0);
 	}
 	return (1);
 }
 
-int	test_single_cmd(char *input)
+int	test_single_cmd(t_shell *shell, char *input, char *cmd1, char *path1)
 {
 	t_astree	*astree;
+	t_astree	*astree_head;
 	t_token		*token;
 	int			status;
 
 	status = 0;
 	token = tokenize(input, &status);
 	astree = create_astree_from_tokens(&token, &status);
-	if (ft_assert_str(astree->cmd->argv[0], input))
+	astree_head = astree;
+	log_debug_show_ast(astree, LOG_DEBUG);
+	shell->status = parameter_expansion(shell->app, astree);
+	log_debug_show_ast(astree, LOG_DEBUG);
+	if (ft_assert_str(astree->cmd->argv[0], cmd1) &&
+		ft_assert_str(astree->cmd->argv[1], path1)
+	)
 		printf("[%s] -> PASS (status: %d)\n", input, status);
 	else
 		printf("[%s] -> FAIL (status: %d)\n", input, status);
-	astree_clear(astree);
+	
+	astree_clear(astree_head);
 	return (status);
 }
 
-
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
+	t_shell	*shell;
 	int	status;
+
+	shell = create_t_shell(argc, argv, envp);
 
 	status = 0;
 	//status += test_single_cmd(NULL);
-	status += test_single_cmd("/bin/ls");
+	status += test_single_cmd(shell, "cat $PATH", "cat", "en_US.UTF-8");
+	free_shell(shell);
 	return (status);
 }
 	//test_single_cmd(NULL, 0);
