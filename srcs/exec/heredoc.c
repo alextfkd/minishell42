@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 15:23:09 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/21 16:53:05 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,14 @@ static void	_heredoc_routine(
 	t_app *app)
 {
 	char	*line;
-	char	*old_line;
 
 	while (1)
 	{
 		line = readline(HERE_DOC_PROMPT);
 		if (!line)
 		{
-			if(g_sig_received)
-				break;
+			if (g_sig_received)
+				break ;
 			print_heredoc_error(delimiter);
 			break ;
 		}
@@ -50,11 +49,7 @@ static void	_heredoc_routine(
 			break ;
 		}
 		if (do_expand)
-		{
-			old_line = line;
-			line = expand_heredoc_line(old_line, app);
-			free(old_line);
-		}
+			line = expand_heredoc_line(line, app);
 		write(pipe_fds[1], line, ft_strlen(line));
 		write(pipe_fds[1], "\n", 1);
 		free(line);
@@ -67,38 +62,12 @@ static void	_heredoc_child(
 	int is_quoted,
 	t_app *app)
 {
-	int fd;
 	signal(SIGINT, _heredoc_exit_handler);
 	signal(SIGQUIT, SIG_IGN);
 	g_sig_received = 0;
-	if (app->original_stdin != -1)
-	{
-		if (dup2(app->original_stdin, STDIN_FILENO) == -1)
-		{
-			perror("minishell: dup2 stdin");
-			close(pipe_fds[0]);
-			close(pipe_fds[1]);
-			exit(1);
-		}
-	}
-	if (app->original_stdout != -1)
-	{
-		if (dup2(app->original_stdout, STDOUT_FILENO) == -1)
-		{
-			perror("minishell: dup2 stdout");
-			close(pipe_fds[0]);
-			close(pipe_fds[1]);
-			exit(1);
-		}
-	}
+	restore_heredoc_std_io(app, pipe_fds);
 	close(pipe_fds[0]);
-	fd = 3;
-    while (fd < MAX_FD)
-    {
-        if (fd != pipe_fds[1] && fd != app->original_stdin && fd != app->original_stdout)
-            close(fd);
-        fd++;
-    }
+	close_heredoc_unused_fds(pipe_fds, app);
 	_heredoc_routine(delimiter, pipe_fds, !is_quoted, app);
 	close(pipe_fds[1]);
 	if (g_sig_received)
@@ -160,18 +129,18 @@ static int	_wait_for_heredoc(pid_t pid, int pipe_fds[2])
 		close(pipe_fds[0]);
 		return (1);
 	}
-	  if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
-    {
-        close(pipe_fds[0]);
-        return (1);
-    }
+	if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
+	{
+		close(pipe_fds[0]);
+		return (1);
+	}
 	return (0);
 }
 
-static void _heredoc_exit_handler(int sig)
+static void	_heredoc_exit_handler(int sig)
 {
 	(void)sig;
 	g_sig_received = 1;
 	close(STDIN_FILENO);
-	write(1,"^C",2);
+	write(1, "^C", 2);
 }
