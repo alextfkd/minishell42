@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_redirection.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:44:01 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 19:38:21 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/21 01:47:19 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	set_cmd_redirection(t_cmd *cmd, t_token **current, int *status)
 	{
 		if (is_red(p_token->tk))
 		{
-			printf("red ok");
 			res = _append_red_to_cmd(cmd, p_token);
 			if (res == 1)
 			{
