@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:23:38 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/21 07:01:05 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/21 07:05:50 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int	parameter_expansion(t_app *app, t_astree *root)
 			status += _overwrite_argv(&(root->cmd->argv[i]), new_argv_i);
 		if (key_unquoted)
 			free(key_unquoted);
-		if (new_argv_i)
-			free(new_argv_i);
 		if (status != 0)
 			return (1);
 		i++;
