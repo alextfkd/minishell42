@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 02:49:44 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/21 02:04:22 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/21 02:23:22 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,22 @@ int	test_cmd1_arg1_red1(char *input, char *cmd1, char *arg1, char *red1, t_tkind
 	return (status);
 }
 
+int	test_failure(char *input)
+{
+	t_astree	*astree;
+	t_token		*token;
+	int			status;
+
+	status = 0;
+	token = tokenize(input, &status);
+	astree = create_astree_from_tokens(&token, &status);
+	if (astree == NULL)
+		printf("[%s] -> PASS (status: %d)\n", input, status);
+	else
+		printf("[%s] -> FAIL (status: %d)\n", input, status);
+	astree_clear(astree);
+	return (status);
+}
 
 int	main(void)
 {
@@ -235,6 +251,7 @@ int	main(void)
 	status += test_cmd1_arg1_red1(
 		"ls ./ > \"$OUT\"", "ls", "./", "\"$OUT\"", TK_RED_OUT
 	);
+	status += test_failure( "ls ./ > > \"$OUT\"");
 	return (status);
 }
 	//test_single_cmd(NULL, 0);
