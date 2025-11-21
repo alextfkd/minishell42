@@ -10,5 +10,6 @@ objs/*/*.o
 norm.sh
 libft/objs/*.o
 objs/*.o
-lexer_test
 srcs/old/
+lexer_test
+parser_test

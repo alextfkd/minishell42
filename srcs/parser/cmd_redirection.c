@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_redirection.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:44:01 by htsutsum          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/11/21 13:05:30 by htsutsum         ###   ########.fr       */
+=======
+/*   Updated: 2025/11/21 03:09:32 by tkatsuma         ###   ########.fr       */
+>>>>>>> origin/main
 /*                                                                            */
 /* ************************************************************************** */
 

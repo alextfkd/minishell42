@@ -69,6 +69,10 @@ lexer_test: $(LIBFT) $(OBJS)
 	$(GCC) $(CFLAGS) $(IFLAGS) -c test/lexer_test.c -o objs/lexer_test.o
 	$(GCC) $(CFLAGS) $(IFLAGS) $(filter-out objs/main.o, $(OBJS)) objs/lexer_test.o -o $@ $(LFLAGS) $(LIBFLAGS)
 
+parser_test: $(LIBFT) $(OBJS)
+	$(GCC) $(CFLAGS) $(IFLAGS) -c test/parser_test.c -o objs/parser_test.o
+	$(GCC) $(CFLAGS) $(IFLAGS) $(filter-out objs/main.o, $(OBJS)) objs/parser_test.o -o $@ $(LFLAGS) $(LIBFLAGS)
+
 builtin: fclean
 	$(MAKE) CFLAGS="$(CFLAGS) $(BUILTINFLAGS)" all
 
