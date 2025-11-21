@@ -23,4 +23,3 @@ void	close_unused_fds(void)
 		fd++;
 	}
 }
-

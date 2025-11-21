@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 20:50:27 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/21 22:17:02 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,21 +83,17 @@ static void	_heredoc_child(
 int	handle_heredoc(t_red *red, t_app *app)
 {
 	int	pid;
-	int status;
+	int	status;
 	int	pipe_fds[2];
 
 	if (pipe(pipe_fds) == -1)
-	{
-		perror("heredoc pipe error");
-		return (1);
-	}
+		return (perror("heredoc pipe error"), 1);
 	pid = fork();
 	if (pid == -1)
 	{
 		close(pipe_fds[0]);
 		close(pipe_fds[1]);
-		perror("minishell: heredoc fork error");
-		return (1);
+		return (perror("minishell: heredoc fork error"), 1);
 	}
 	if (pid == 0)
 		_heredoc_child(red->file, pipe_fds, red->is_quoted, app);
@@ -114,7 +110,7 @@ int	handle_heredoc(t_red *red, t_app *app)
 static int	_wait_for_heredoc(pid_t pid, int pipe_fds[2])
 {
 	int	status;
-	int exit_status;
+	int	exit_status;
 
 	close(pipe_fds[1]);
 	signal(SIGINT, SIG_IGN);
@@ -123,15 +119,11 @@ static int	_wait_for_heredoc(pid_t pid, int pipe_fds[2])
 	{
 		if (errno == EINTR)
 			continue ;
-		perror("minishell: heredoc waitpid");
 		close(pipe_fds[0]);
-		return (1);
+		return (perror("minishell: heredoc waitpid"), 1);
 	}
 	if (WIFSIGNALED(status))
-	{
-		close(pipe_fds[0]);
-		return (128 + WTERMSIG(status));
-	}
+		return (close(pipe_fds[0]), 128 + WTERMSIG(status));
 	else if (WIFEXITED(status))
 	{
 		exit_status = WEXITSTATUS(status);

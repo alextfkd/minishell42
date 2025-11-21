@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 06:27:07 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 19:50:00 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/21 22:12:43 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	execute_builtin_parent(t_cmd *cmd, t_app *app)
 	int	status;
 	int	tmp_stdin;
 	int	tmp_stdout;
-	int red_status;
+	int	red_status;
 
 	tmp_stdin = dup(STDIN_FILENO);
 	tmp_stdout = dup(STDOUT_FILENO);

@@ -6,14 +6,15 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:44:03 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/21 22:07:07 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/21 22:26:31 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	_sort_env_array(t_env **arr, int size);
+static void	_print_env_array(t_env **env_arr, int size);
 static void	_print_attrib_one(t_env *env);
+static void	_sort_env_array(t_env **arr, int size);
 
 /**
  * @brief Display all items registered in teh export attribute,
@@ -51,14 +52,20 @@ int	print_env_attrib(const t_env *env_list)
 		i++;
 	}
 	_sort_env_array(env_arr, size);
+	_print_env_array(env_arr, size);
+	return (free(env_arr), 0);
+}
+
+static void	_print_env_array(t_env **env_arr, int size)
+{
+	int	i;
+
 	i = 0;
 	while (i < size)
 	{
 		_print_attrib_one(env_arr[i]);
 		i++;
 	}
-	free(env_arr);
-	return (0);
 }
 
 static void	_print_attrib_one(t_env *env)
@@ -67,7 +74,6 @@ static void	_print_attrib_one(t_env *env)
 
 	if (ft_strcmp(env->key, "_") == 0)
 		return ;
-
 	if (env->is_set == ENV_SET)
 	{
 		value = "";
@@ -78,6 +84,7 @@ static void	_print_attrib_one(t_env *env)
 	else
 		printf("declare -x %s\n", env->key);
 }
+
 /**
  * @brief Frees the memory allocated for a single environment variable node
  * (t_env).
