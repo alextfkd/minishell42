@@ -6,13 +6,14 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 01:24:31 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/21 15:58:03 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static char	*_get_value_after_doller(t_app *app, char *str, int *i);
+static char	*_get_dollar_expansion(t_app *app, char *line, int *i);
 
 /**
  * @brief Performs environment variable expansion on a single line of heredoc
@@ -36,18 +37,7 @@ char	*expand_heredoc_line(char *line, t_app *app)
 	while (line[i])
 	{
 		if (line[i] == '$')
-		{
-			i++;
-			if (line[i] == '?')
-			{
-				tmp_value = ft_itoa(app->exit_status);
-				i++;
-			}
-			else if (is_env_char(line[i], FIRST_CHAR))
-				tmp_value = _get_value_after_doller(app, line, &i);
-			else
-				tmp_value = ft_strdup("$");
-		}
+			tmp_value = _get_dollar_expansion(app, line, &i);
 		else
 		{
 			tmp_value = ft_substr(line, i, 1);
@@ -97,6 +87,33 @@ static char	*_get_value_after_doller(t_app *app, char *str, int *i)
 	return (result);
 }
 
+/**
+ * @briefHandles the expansion of '$' logic within a heredoc.
+ * Checks for exit status ($?), environment variables, or literal '$'.
+ * Updates the index 'i' accordingly.
+ *
+ * @param app
+ * @param line
+ * @param i
+ * @return char*
+ */
+static char	*_get_dollar_expansion(t_app *app, char *line, int *i)
+{
+	char	*val;
+
+	(*i)++;
+	if (line[*i] == '?')
+	{
+		val = ft_itoa(app->shell->status);
+		(*i)++;
+	}
+	else if (is_env_char(line[*i], FIRST_CHAR))
+		val = _get_value_after_doller(app, line, i);
+	else
+		val = ft_strdup("$");
+	return (val);
+}
+
 void	print_heredoc_error(char *delimiter)
 {
 	ft_putstr_fd("minishell: warning: here-document", 2);
@@ -104,4 +121,3 @@ void	print_heredoc_error(char *delimiter)
 	ft_putstr_fd(delimiter, 2);
 	ft_putendl_fd("\')", 2);
 }
-
