@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:44:01 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/22 06:57:28 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/22 07:11:03 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,13 @@ static int	_validate_red_target(t_token *target)
 	return (0);
 }
 
+/**
+ * @brief Check whether the file in the redirect is
+ * enclosed in quotes using the is_quoted flag
+ *
+ * @param target
+ * @return int
+ */
 static int	_is_red_target_quoted(t_token *target)
 {
 	if (!target || target->tk != TK_CHAR)
