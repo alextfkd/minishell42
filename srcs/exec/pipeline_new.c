@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:35:43 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 20:53:34 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/22 07:06:31 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ static t_list	*_astree2cmdlist(t_astree *node)
 }
 
 /**
- * @brief free cmd list
+ * @brief free pipeline lists
  *
  * @param list
  */
