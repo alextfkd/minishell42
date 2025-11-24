@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:44:03 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/20 22:39:47 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/24 20:59:11 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,19 +92,13 @@ int	append_args_to_env_list(const char *args, t_env **env_list)
  */
 void	overwrite_and_free_node(t_env *current, t_env *new_node)
 {
-	if (current->value)
-		free(current->value);
 	if (new_node->is_set == ENV_SET)
 	{
-		current->value = ft_strdup(new_node->value);
-		if (!current->value)
-			perror("minishell: ft_strdup : Memory allocatoin failed");
+		if (current->value)
+			free(current->value);
+		current->value = new_node->value;
+		new_node->value = NULL;
 		current->is_set = ENV_SET;
-	}
-	else
-	{
-		current->is_set = ENV_UNSET;
-		current->value = NULL;
 	}
 	free_env_node(new_node);
 }

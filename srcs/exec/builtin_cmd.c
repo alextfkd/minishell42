@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 06:27:07 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 22:12:43 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/24 18:50:32 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	execute_builtin_parent(t_cmd *cmd, t_app *app)
 	tmp_stdout = dup(STDOUT_FILENO);
 	if (tmp_stdin == -1 || tmp_stdout == -1)
 	{
-		perror("minishell: dup");
+		perror("minishell: dup bultin parent");
 		return (1);
 	}
 	red_status = handle_redirections(cmd->red, app);
