@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/24 22:58:51 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/24 23:31:11 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ void				execve_exit_error(void);
 int					set_exit_status(int status);
 
 // find cmd path
-char				*find_cmd_path(char *av0);
+char				*find_cmd_path(char *av0, t_env *env_list);
 
 // redirect
 int					do_redirect_in(t_red *red, t_app *app);

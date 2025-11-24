@@ -60,7 +60,7 @@ void	execute_external_cmd(t_cmd *cmd, t_app *app)
 		exit(ret);
 	if (cmd->argv == NULL || cmd->argv[0] == NULL)
 		exit(0);
-	cmd_path = find_cmd_path(cmd->argv[0]);
+	cmd_path = find_cmd_path(cmd->argv[0], app->env_list);
 	if (!cmd_path)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);

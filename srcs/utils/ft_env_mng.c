@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 09:40:06 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/24 22:07:56 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/24 23:30:15 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,29 @@ static int	_append_env_node(t_env **env_list, char *key, char *value)
  */
 void	update_underscore(t_app *app, t_cmd *cmd)
 {
-	char	*last_arg;
+	char	*val_to_set;
+	char	*resolved_path;
 
+	resolved_path = NULL;
 	if (!cmd || !cmd->argv || !cmd->argv[0])
 		return ;
-	last_arg = cmd->argv[cmd->argc - 1];
-	set_env_value(&app->env_list, "_", last_arg);
-	app->envp = rebuild_envp(app->env_list, app->envp);
+	if (cmd->argc > 1)
+		val_to_set = cmd->argv[cmd->argc - 1];
+	else
+	{
+		if (get_builtin_type(cmd) != BT_NOT_BULTIN)
+			val_to_set = cmd->argv[0];
+		else
+		{
+			resolved_path = find_cmd_path(cmd->argv[0], app->env_list);
+			if (resolved_path)
+				val_to_set = resolved_path;
+			else
+				val_to_set = cmd->argv[0];
+		}
+	}
+	if (set_env_value(&app->env_list, "_", val_to_set) == 0)
+		app->envp = rebuild_envp(app->env_list, app->envp);
+	if (resolved_path)
+		free(resolved_path);
 }
