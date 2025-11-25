@@ -25,7 +25,7 @@ BUILTINFLAGS = -DBUILTIN_ON=1
 
 MAIN_FILE = main.c
 
-UTILS_FILES = ft_log.c ft_log_token.c ft_app.c ft_log_astree.c ft_log_astree_sub.c ft_env_conv.c ft_env_mng.c ft_env_list.c
+UTILS_FILES = ft_log.c ft_log_token.c ft_app.c ft_log_astree.c ft_log_astree_sub.c ft_env_conv_util.c ft_env_conv.c ft_env_mng.c ft_env_list.c
 
 SIGNAL_FILES = sig_handler.c sigaction.c
 
@@ -39,7 +39,7 @@ PARSER_FILES = astree.c parser.c tokens2cmd.c cmd_args.c cmd_redirection.c redir
 
 SHELL_FILES = ft_shell.c shell_free.c ft_log_shell.c
 
-EXEC_FILES = find_cmd_path.c pipeline_new.c command_1.c redirect_io.c redirect_in.c redirect_out.c heredoc.c heredoc_util.c heredoc_expand.c builtin_cmd.c
+EXEC_FILES = find_cmd_path.c pipeline.c pipeline_util.c pipeline_wait.c redirect_io.c redirect_in.c redirect_out.c heredoc.c heredoc_util.c heredoc_expand.c builtin_cmd.c astree2list.c
 
 BUILTIN_FILES = ft_pwd.c ft_env.c ft_export.c ft_cd.c ft_echo.c ft_exit.c ft_unset.c ft_export_util.c
 

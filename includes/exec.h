@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 17:07:14 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/24 23:31:11 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_astree			t_astree;
 typedef struct s_env			t_env;
 typedef struct s_builtin_map	t_builtin_map;
 typedef struct s_builtin_entry	t_builtin_entry;
+typedef struct s_exec			t_exec;
 typedef int						(*t_builtin_func)(t_app *app, t_cmd *s_cmd);
 
 // type of a bulitin command
@@ -102,6 +103,7 @@ struct	s_app
 	int		original_stdin;
 	int		original_stdout;
 };
+
 struct	s_builtin_map
 {
 	const char		*name;
@@ -112,6 +114,17 @@ struct s_builtin_entry
 {
 	t_builtin_type	type;
 	t_builtin_func	func;
+};
+
+struct s_exec
+{
+	t_list	*cmd_list;
+	t_list	*current;
+	pid_t	*pids;
+	int		pipe_fds[2];
+	int		prev_fd;
+	int		cmd_count;
+	int		i;
 };
 
 // perser
@@ -129,24 +142,39 @@ t_red				*find_last_red(t_red *red);
 void				red_add_back(t_red **head_red, t_red *new);
 void				clear_red(t_red *head_red);
 
-// execute
+// execute builtin
 t_builtin_type		get_builtin_type(t_cmd *cmd);
-int					execute_cmd_node(t_cmd *cmd, t_app *app);
-int					execute_pipeline(t_astree *node, t_app *app);
-int					execute_builtin_cmd(t_cmd *cmd, t_app *app);
 int					execute_builtin_parent(t_cmd *cmd, t_app *app);
-char				*find_cmd_path(char *av0);
+int					execute_builtin_cmd(t_cmd *cmd, t_app *app);
+
+// astree2list
+t_list				*astree2list(t_astree *node);
+void				free_list(t_list **list);
+
+// execute pipline
+int					execute_pipeline(t_astree *node, t_app *app);
+void				execute_external_cmd(t_cmd *cmd, t_app *app);
+int					wait_all_processes(t_exec *e, t_app *app);
+void				child_routine(t_exec *e, t_cmd *cmd, t_app *app);
+void				cleanup_pipeline(t_list *cmd_list, pid_t *pids, int count);
+void				close_unused_fds(void);
+void				execve_exit_error(void);
+int					set_exit_status(int status);
+
+// find cmd path
+char				*find_cmd_path(char *av0, t_env *env_list);
+
+// redirect
+int					do_redirect_in(t_red *red, t_app *app);
+int					do_redirect_out(t_red *red);
+int					handle_redirections(t_red *red, t_app *app);
+
+// heredoc
 int					handle_heredoc(t_red *red, t_app *app);
 char				*expand_heredoc_line(char *line, t_app *app);
 void				close_heredoc_unused_fds(int *pipe_fds, t_app *app);
 void				restore_heredoc_std_io(t_app *app, int *pipe_fds);
 void				print_heredoc_error(char *delimiter);
-int					do_redirect_in(t_red *red, t_app *app);
-int					do_redirect_out(t_red *red);
-int					handle_redirections(t_red *red, t_app *app);
-int					set_exit_status(int status);
-void				execute_single_cmd(t_cmd *cmd, t_app *app);
-void				clear_residual_fds(void);
 
 // builtin
 int					ft_pwd(t_app *app, t_cmd *cmd);
