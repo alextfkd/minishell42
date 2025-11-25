@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:38:27 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/10 23:15:37 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/21 02:29:09 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,43 @@ static t_astree	*_astree_create_node(
 /*
 Create new 
 */
-t_astree	*astree_create_cmd_node(t_token **tokens_head)
+t_astree	*astree_create_cmd_node(t_token **tokens_head, int *status)
 {
 	t_cmd		*cmd;
 	t_astree	*node;
 
-	cmd = tokens2cmd(tokens_head);
+	cmd = tokens2cmd(tokens_head, status);
 	if (cmd == NULL)
+	{
+		*status = 1;
 		return (NULL);
+	}
 	node = _astree_create_node(NODE_CMD, cmd, NULL, NULL);
 	if (node == NULL)
+	{
+		*status = 1;
 		return (clear_cmd(cmd), NULL);
+	}
+	*status = 0;
 	return (node);
 }
 
-t_astree	*astree_create_pipe_node(t_astree *left, t_astree *right)
+t_astree	*astree_create_pipe_node(
+	t_astree *left,
+	t_astree *right,
+	int *status
+)
 {
-	return (_astree_create_node(NODE_PIPE, NULL, left, right));
+	t_astree	*pipe_node;
+
+	pipe_node = _astree_create_node(NODE_PIPE, NULL, left, right);
+	if (pipe_node == NULL)
+	{
+		*status = 1;
+		return (NULL);
+	}
+	*status = 0;
+	return (pipe_node);
 }
 
 /*Create AST tree node. */

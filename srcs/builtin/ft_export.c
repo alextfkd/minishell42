@@ -6,13 +6,11 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:44:03 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/15 06:44:02 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/24 20:59:11 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	_is_env_char(char c, int mode);
 
 /**
  * @brief Register the arrguments with the export attribute,
@@ -94,19 +92,13 @@ int	append_args_to_env_list(const char *args, t_env **env_list)
  */
 void	overwrite_and_free_node(t_env *current, t_env *new_node)
 {
-	if (current->value)
-		free(current->value);
 	if (new_node->is_set == ENV_SET)
 	{
-		current->value = ft_strdup(new_node->value);
-		if (!current->value)
-			perror("minishell: ft_strdup : Memory allocatoin failed");
+		if (current->value)
+			free(current->value);
+		current->value = new_node->value;
+		new_node->value = NULL;
 		current->is_set = ENV_SET;
-	}
-	else
-	{
-		current->is_set = ENV_UNSET;
-		current->value = NULL;
 	}
 	free_env_node(new_node);
 }
@@ -143,7 +135,7 @@ int	is_validate_args(const char *args)
 	{
 		if (i != 0)
 			mode = OTHER_CHAR;
-		if (!_is_env_char(args[i], mode))
+		if (!is_env_char(args[i], mode))
 			return (0);
 		i++;
 	}
@@ -158,7 +150,7 @@ int	is_validate_args(const char *args)
  * @param mode Determines the character position (FIRST_CHAR or OTHER_CHAR)
  * @return int
  */
-static int	_is_env_char(char c, int mode)
+int	is_env_char(char c, int mode)
 {
 	if (mode == FIRST_CHAR)
 		return (ft_isalpha(c) || c == '_');

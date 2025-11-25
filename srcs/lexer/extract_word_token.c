@@ -6,13 +6,14 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 10:58:17 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/16 00:03:56 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/20 09:15:13 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "minishell.h"
 
+static int	_is_lex_valid(t_lexer *lex, int start, int idx);
 static int	_is_break_point(char c);
 static int	_update_quote_state(t_lexer *lex, char c);
 
@@ -30,7 +31,9 @@ t_token	*extract_word_token(t_lexer *lex)
 
 	start = lex->idx;
 	idx = start;
-	while (lex->line[idx] != '\0' || lex->state != S_NORMAL)
+	if (lex == NULL || lex->line == NULL)
+		return (NULL);
+	while (lex->line[idx] != '\0')
 	{
 		c = lex->line[idx];
 		_update_quote_state(lex, c);
@@ -40,10 +43,23 @@ t_token	*extract_word_token(t_lexer *lex)
 			break ;
 		idx++;
 	}
-	if (start == idx)
+	if (_is_lex_valid(lex, start, idx) == 0)
 		return (NULL);
 	lex->idx = idx;
 	return (create_new_token(lex, TK_CHAR, start, idx));
+}
+
+static int	_is_lex_valid(t_lexer *lex, int start, int idx)
+{
+	if (lex->line[idx] != '\0' && lex->state != S_NORMAL)
+	{
+		lex->status = 1;
+		return (0);
+	}
+	else if (start == idx)
+		return (0);
+	else
+		return (1);
 }
 
 /* Returns 1 if c is a character break point (isspace(), |<>;\0) */
@@ -68,32 +84,3 @@ static int	_update_quote_state(t_lexer *lex, char c)
 		lex->state = S_NORMAL;
 	return (0);
 }
-
-/*
-static int	_handle_char_and_quote_state(t_lexer *lex, char c)
-{
-	if (c == '\0')
-		return (1);
-	if (lex->state == S_NORMAL && _is_char_break_point(c))
-		return (1);
-	if (lex->state == S_NORMAL && c == '\'')
-	{
-		lex->state = S_SQUOTE;
-		return (0);
-	}
-	if (lex->state == S_NORMAL && c == '\"')
-	{
-		lex->state = S_DQUOTE;
-		return (0);
-	}
-	if (lex->state == S_SQUOTE && c == '\'')
-	{
-		lex->state = S_NORMAL;
-	}
-	if (lex->state == S_DQUOTE && c == '\"')
-	{
-		lex->state = S_NORMAL;
-	}
-	return (0);
-}
-*/

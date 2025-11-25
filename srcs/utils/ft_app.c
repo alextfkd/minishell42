@@ -6,11 +6,12 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 10:58:24 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/15 04:50:37 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/20 15:37:59 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#define OLDPWD "OLDPWD"
 
 /**
  * @brief Initializes the main application structure (t_app),
@@ -20,15 +21,15 @@
  * @param envp
  * @return * int
  */
-t_app	*setup_app(char **envp)
+t_app	*setup_app(char **envp, t_shell *shell)
 {
 	t_app		*app;
 	char		**old_envp;
-	const char	*old_pwd;
 
 	app = (t_app *)ft_calloc(1, sizeof(t_app));
 	if (!app)
 		return (NULL);
+	app->shell = shell;
 	app->exit_status = 0;
 	app->original_stdin = dup(STDIN_FILENO);
 	app->original_stdout = dup(STDOUT_FILENO);
@@ -40,8 +41,7 @@ t_app	*setup_app(char **envp)
 	app->env_list = envp_to_env_list(app->envp);
 	if (!app->env_list)
 		return (free_app(app), NULL);
-	old_pwd = "OLDPWD";
-	append_args_to_env_list(old_pwd, &app->env_list);
+	append_args_to_env_list(OLDPWD, &app->env_list);
 	old_envp = app->envp;
 	app->envp = rebuild_envp(app->env_list, old_envp);
 	if (!app->envp)

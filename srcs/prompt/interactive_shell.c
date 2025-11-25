@@ -6,92 +6,76 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/17 19:46:46 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/19 15:33:54 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	_exec_cmd_test(char *input, t_app *app, t_loglevel log_level);
+static char	*readline_with_nl(char *prompt1, char *prompt2, t_shell *shell);
+static int	_is_eof(t_ms_buf *t_ms_buf);
 
-int	execute_cmd(char *input, t_app *app, t_loglevel log_level)
+int	interactive_shell(t_shell *shell)
 {
-	(void)log_level;
-	log_debug_show_input(input, LOG_QUIET);
-	_exec_cmd_test(input, app, log_level);
-	return (0);
-}
+	t_ms_buf			*ms_buf;
 
-static int	_exec_cmd_test(char *input, t_app *app, t_loglevel log_level)
-{
-	t_token		*head_token;
-	t_astree	*ast_root;
-
-	log_debug_show_input("running _exec_cmd_test()", log_level);
-	log_debug_show_input(input, log_level);
-	head_token = tokenize(input);
-	if (!head_token || head_token->state != S_NORMAL)
-		return (0);
-	log_debug_show_token(head_token, log_level);
-	if (head_token)
+	log_debug("MINISHELL INTERACTIVE MODE", shell->loglevel);
+	set_sigaction(shell);
+	ms_buf = shell->ms_buf;
+	while (1)
 	{
-		ast_root = create_astree_from_tokens(&head_token);
-		if (ast_root)
+		log_debug_ms_buf(shell);
+		ms_buf->rl_buf = readline_with_nl(FT_PROMPT, ">", shell);
+		if (g_sig_received == 2)
+			shell->status = 130;
+		if (_is_eof(ms_buf))
 		{
-			parameter_expansion(app, ast_root);
-			log_debug_show_ast(ast_root, log_level);
-			execute_pipeline(ast_root, app);
-			astree_clear(ast_root);
+			free_readline_buf(ms_buf);
+			break ;
 		}
+		ms_buf->sh_buf = integrate_input_buffer(shell);
+		if (ms_buf->sh_buf)
+			pipeline_executor(shell);
 		else
-			free_tokens(head_token);
+			continue ;
 	}
-	free_tokens(head_token);
-	reset_stdio(app);
-	return (0);
+	write(1, "exit\n", 5);
+	rl_clear_history();
+	return (shell->status);
 }
 
-static char	*readline_with_nl(char *prompt)
+static char	*readline_with_nl(char *prompt1, char *prompt2, t_shell *shell)
 {
-	char	*buf;
-	char	*tmp;
+	t_ms_buf	*ms_buf;
+	char		*buf;
+	char		*tmp;
 
-	tmp = readline(prompt);
+	ms_buf = shell->ms_buf;
+	if (ms_buf->tmp_buf == NULL)
+		tmp = readline(prompt1);
+	else
+		tmp = readline(prompt2);
 	if (tmp == NULL)
+	{
+		shell->status = 1;
 		return (NULL);
+	}
 	add_history(tmp);
 	buf = ft_strjoin(tmp, "\n");
 	free (tmp);
 	if (buf == NULL)
 	{
+		shell->status = 1;
 		return (NULL);
 	}
 	return (buf);
 }
 
-int	interactive_shell(t_shell *shell)
+static int	_is_eof(t_ms_buf *t_ms_buf)
 {
-	t_ms_buf	*ms_buf;
-	t_status	status;
-
-	log_debug("MINISHELL INTERACTIVE MODE", shell->loglevel);
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
-	ms_buf = shell->ms_buf;
-	status = shell->status;
-	while (g_sig_received == 0)
-	{
-		log_debug_ms_buf(shell);
-		if (ms_buf->tmp_buf == NULL)
-			ms_buf->rl_buf = readline_with_nl(FT_PROMPT);
-		else
-			ms_buf->rl_buf = readline_with_nl(">");
-		if (ms_buf->rl_buf)
-			exec_line(shell);
-		if (status != 0)
-			break ;
-	}
-	log_debug("5. EXIT", shell->loglevel);
-	rl_clear_history();
-	return (status);
+	if (!t_ms_buf)
+		return (-1);
+	if (!(t_ms_buf->rl_buf))
+		return (1);
+	return (0);
 }

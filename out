@@ -1,3 +1,13 @@
+drwxr-xr-x  4 tez tez   4096 Oct  3 17:15 42header
+drwxr-xr-x  4 tez tez   4096 Oct 19 00:30 build
+-rw-r--r--  1 tez tez   1189 Oct 12 00:03 docker-compose.yml
+drwxr-xr-x  2 tez tez   4096 Oct 17 18:07 ex
+drwxr-xr-x  2 tez tez   4096 Nov 22 13:41 includes
+drwxr-xr-x  5 tez tez   4096 Nov 24 22:45 libft
+drwxr-xr-x 11 tez tez   4096 Nov 24 22:58 objs
+drwxr-xr-x  4 tez tez   4096 Nov 22 13:32 pipex_tester
+drwxr-xr-x 12 tez tez   4096 Nov 21 22:45 srcs
+drwxr-xr-x  2 tez tez   4096 Nov 22 13:34 test
 NAME = minishell
 CC = cc -g -DLOGLEVEL=0
 GCC = gcc -g -DLOGLEVEL=0
@@ -39,7 +49,7 @@ PARSER_FILES = astree.c parser.c tokens2cmd.c cmd_args.c cmd_redirection.c redir
 
 SHELL_FILES = ft_shell.c shell_free.c ft_log_shell.c
 
-EXEC_FILES = find_cmd_path.c pipeline.c pipeline_util.c pipeline_wait.c redirect_io.c redirect_in.c redirect_out.c heredoc.c heredoc_util.c heredoc_expand.c builtin_cmd.c astree2list.c
+EXEC_FILES = find_cmd_path.c pipeline.c pipeline_util.c redirect_io.c redirect_in.c redirect_out.c heredoc.c heredoc_util.c heredoc_expand.c builtin_cmd.c astree2list.c
 
 BUILTIN_FILES = ft_pwd.c ft_env.c ft_export.c ft_cd.c ft_echo.c ft_exit.c ft_unset.c ft_export_util.c
 

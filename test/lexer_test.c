@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 02:49:44 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/12 23:25:15 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/20 08:47:52 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,8 @@ void	test_empty(char *target)
 	int		status;
 
 	status = 0;
-	token = tokenize(target);
+	token = tokenize(target, &status);
 	head = token;
-	if (token != NULL)
-		status = 1;
 	free_tokens(head);
 	if (status)
 		printf("[%s] -> ERROR\n", target);
@@ -33,47 +31,33 @@ void	test_empty(char *target)
 		printf("[%s] -> PASS\n", target);
 }
 
-void	test_cat(char *target)
+void	test_single_cmd(char *input, int expected_status)
 {
 	t_token	*token;
 	t_token	*head;
 	int		status;
 
 	status = 0;
-	token = tokenize(target);
+	token = tokenize(input, &status);
 	head = token;
-	if (strcmp(token->data, "cat") && token->tk == TK_CHAR)
-		status = 1;
-	token = token->next;
-	if (token != NULL)
-		status = 1;
-	free_tokens(head);
-	if (status)
-		printf("[%s] -> ERROR\n", target);
+	if (input == NULL || input[0] == '\0')
+	{
+		if (expected_status == status && token == NULL)
+			printf("[%s] -> PASS (status: %d)\n", input, status);
+		else
+			printf("[%s] -> FAIL (status: %d)\n", input, status);
+		free_tokens(head);
+		return ;
+	}
+	if (expected_status != status) 
+		printf("[%s] -> FAIL (status: %d)\n", input, status);
+	else if (ft_strncmp(input, head->data, ft_strlen(input)) != 0)
+		printf("[%s] -> FAIL (status: %d)\n", input, status);
 	else
-		printf("[%s] -> PASS\n", target);
+		printf("[%s] -> PASS (status: %d)\n", input, status);
+	free_tokens(head);
 }
 
-void	test_binls(char *target)
-{
-	t_token	*token;
-	t_token	*head;
-	int		status;
-
-	status = 0;
-	token = tokenize(target);
-	head = token;
-	if (strcmp(token->data, "/bin/ls") && token->tk == TK_CHAR)
-		status = 1;
-	token = token->next;
-	if (token != NULL)
-		status = 1;
-	free_tokens(head);
-	if (status)
-		printf("[%s] -> ERROR\n", target);
-	else
-		printf("[%s] -> PASS\n", target);
-}
 
 void	test_2cmd(char *target)
 {
@@ -82,7 +66,7 @@ void	test_2cmd(char *target)
 	int		status;
 
 	status = 0;
-	token = tokenize(target);
+	token = tokenize(target, &status);
 	head = token;
 	if (strcmp(token->data, "cmd") && token->tk == TK_CHAR)
 		status = 1;
@@ -106,7 +90,7 @@ void	test_2cmd1pipe(char *target)
 	int		status;
 
 	status = 0;
-	token = tokenize(target);
+	token = tokenize(target, &status);
 	head = token;
 	if (strcmp(token->data, "cmd1") && token->tk == TK_CHAR)
 		status = 1;
@@ -139,7 +123,7 @@ void	test_3cmd2pipe(char *target)
 	int		status;
 
 	status = 0;
-	token = tokenize(target);
+	token = tokenize(target, &status);
 	head = token;
 	if (strcmp(token->data, "cmd1") && token->tk == TK_CHAR)
 		status = 1;
@@ -181,7 +165,7 @@ void	test_cat_parenthesis(char *target)
 	int		status;
 
 	status = 0;
-	token = tokenize(target);
+	token = tokenize(target, &status);
 	head = token;
 	if (strcmp(token->data, "(cat)") && token->tk == TK_CHAR)
 		status = 1;
@@ -202,7 +186,7 @@ void	test_cat_single_quote(char *target)
 	int		status;
 
 	status = 0;
-	token = tokenize(target);
+	token = tokenize(target, &status);
 	head = token;
 	if (strcmp(token->data, "\' cat \'") && token->tk == TK_CHAR)
 		status = 1;
@@ -223,7 +207,7 @@ void	test_single_quoted_empty(char *target)
 	int		status;
 
 	status = 0;
-	token = tokenize(target);
+	token = tokenize(target, &status);
 	//log_debug_show_token(token, LOG_DEBUG);
 	head = token;
 	if (strcmp(token->data, "\'\'") && token->tk == TK_CHAR)
@@ -245,7 +229,7 @@ void	test_double_quoted_empty(char *target)
 	int		status;
 
 	status = 0;
-	token = tokenize(target);
+	token = tokenize(target, &status);
 	//log_debug_show_token(token, LOG_DEBUG);
 	head = token;
 	if (strcmp(token->data, "\"\"") && token->tk == TK_CHAR)
@@ -266,7 +250,7 @@ void	test_unclosed_single_quote(char *target)
 	int		status;
 
 	status = 0;
-	token = tokenize(target);
+	token = tokenize(target, &status);
 	if (token->state != S_SQUOTE)
 		status = 1;
 	free_tokens(token);
@@ -282,7 +266,7 @@ void	test_unclosed_double_quote(char *target)
 	int		status;
 
 	status = 0;
-	token = tokenize(target);
+	token = tokenize(target, &status);
 	if (token->state != S_DQUOTE)
 		status = 1;
 	free_tokens(token);
@@ -299,7 +283,7 @@ void	test_single_red_in(char *target)
 	t_token	*head;
 
 	status = 0;
-	token = tokenize(target);
+	token = tokenize(target, &status);
 	head = token;
 	if (strcmp(token->data, ">") != 0 && token->tk == TK_RED_IN)
 		status = 1;
@@ -313,29 +297,14 @@ void	test_single_red_in(char *target)
 		printf("[%s] -> PASS\n", target);
 }
 
+
 int	main(void)
 {
-	//t_token *token;
-	//token = tokenize("  ");
-	//log_debug_show_token(token, LOG_DEBUG);
-	printf("test: empty input\n");
-	test_empty("");
-	test_empty("           ");
-	test_empty("    \n       ");
-
-	printf("\ntest: cat only\n");
-	test_cat("cat");
-	test_cat("   cat   ");
-	test_cat("cat      ");
-	test_cat("      cat");
-	test_cat("\tcat\t");
-	test_cat("\ncat\n");
-
-	printf("\ntest: cmd1\n");
-	test_binls("/bin/ls");
-	test_binls(" /bin/ls ");
-	test_binls("\n/bin/ls");
-	test_binls("/bin/ls\n ");
+	test_single_cmd(NULL, 0);
+	test_single_cmd("", 0);
+	test_single_cmd("cat", 0);
+	test_single_cmd("/bin/ls", 0);
+	test_single_cmd("'/bin/ls'", 0);
 
 	printf("\ntest: cmd1 arg1\n");
 	test_2cmd("cmd arg");

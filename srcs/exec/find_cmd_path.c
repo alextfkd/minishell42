@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 22:49:41 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/16 16:29:36 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/24 23:33:22 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char	*_append_cmd_to_path(char *path, char *cmd);
 static char	*_check_cmd_path(char *av0);
-static char	**_get_path_dir(void);
+static char	**_get_path_dir(t_env *env_list);
 static char	*_search_paths(char **paths, char *av0);
 
 /**
@@ -23,7 +23,7 @@ static char	*_search_paths(char **paths, char *av0);
  * @param av0 command name to execute (e.g.,"ls")
  * @return char* the full path to executable file. Return Null if not found.
  */
-char	*find_cmd_path(char *av0)
+char	*find_cmd_path(char *av0, t_env *env_list)
 {
 	char	**paths;
 	char	*cmd_path;
@@ -31,7 +31,7 @@ char	*find_cmd_path(char *av0)
 	cmd_path = _check_cmd_path(av0);
 	if (cmd_path != NULL)
 		return (cmd_path);
-	paths = _get_path_dir();
+	paths = _get_path_dir(env_list);
 	if (!paths)
 		return (NULL);
 	cmd_path = _search_paths(paths, av0);
@@ -70,12 +70,23 @@ static char	*_check_cmd_path(char *av0)
 	return (NULL);
 }
 
-static char	**_get_path_dir(void)
+static char	**_get_path_dir(t_env *env_list)
 {
 	char	*env_path;
 	char	**paths;
+	t_env	*tmp;
 
-	env_path = getenv("PATH");
+	env_path = NULL;
+	tmp = env_list;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->key, "PATH") == 0)
+		{
+			env_path = tmp->value;
+			break ;
+		}
+		tmp = tmp->next;
+	}
 	if (!env_path)
 		return (NULL);
 	paths = ft_split(env_path, ':');

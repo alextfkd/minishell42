@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:13:40 by tkatsumata        #+#    #+#             */
-/*   Updated: 2025/11/15 01:31:19 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/18 09:05:11 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 volatile sig_atomic_t	g_sig_received = 0;
 
+static void	_configure_rl_signals(void);
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
 
+	_configure_rl_signals();
 	shell = create_t_shell(argc, argv, envp);
 	if (shell == NULL)
 		return (1);
@@ -28,7 +31,13 @@ int	main(int argc, char **argv, char **envp)
 	else
 	{
 		shell->status = 1;
-		return (free_t_shell(shell));
+		return (free_shell(shell));
 	}
-	return (free_t_shell(shell));
+	return (free_shell(shell));
+}
+
+static void	_configure_rl_signals(void)
+{
+	rl_catch_signals = 0;
+	rl_catch_sigwinch = 0;
 }

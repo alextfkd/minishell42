@@ -1,1 +1,23 @@
-world
+INCLUDE = includes
+IFLAGS = -Iincludes -Ilibft/includes
+LIBFLAGS = -lft -lreadline
+SIGNAL_FILES = sig_handler.c sigaction.c
+LEXER_FILES = extract_symbol_token.c extract_word_token.c lexer.c tokenizer_utils.c
+PARSER_FILES = astree.c parser.c tokens2cmd.c cmd_args.c cmd_redirection.c redirect_utils.c
+EXEC_FILES = find_cmd_path.c pipeline_new.c pipeline_util.c redirect_io.c redirect_in.c redirect_out.c heredoc.c heredoc_util.c heredoc_expand.c builtin_cmd.c
+BUILTIN_FILES = ft_pwd.c ft_env.c ft_export.c ft_cd.c ft_echo.c ft_exit.c ft_unset.c ft_export_util.c
+FILES += $(addprefix $(UTILS_DIR)/,$(UTILS_FILES))
+FILES += $(addprefix $(PROMT_DIR)/,$(PROMPT_FILES))
+FILES += $(addprefix $(SIGNAL_DIR)/,$(SIGNAL_FILES))
+FILES += $(addprefix $(EXEC_DIR)/,$(EXEC_FILES))
+FILES += $(addprefix $(EXPANSION_DIR)/,$(EXPANSION_FILES))
+FILES += $(addprefix $(SHELL_DIR)/,$(SHELL_FILES))
+FILES += $(addprefix $(LEXER_DIR)/,$(LEXER_FILES))
+FILES += $(addprefix $(PARSER_DIR)/,$(PARSER_FILES))
+FILES += $(addprefix $(BUILTIN_DIR)/,$(BUILTIN_FILES))
+SRCS = $(addprefix $(SRCDIR)/, $(FILES))
+	@mkdir -p $(OBJDIR)
+	@mkdir -p $(@D)
+	@make --directory ./libft/
+	@make --directory ./libft/ clean
+#norminette ./srcs ./includes ./libft
