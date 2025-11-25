@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 06:30:16 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 03:09:21 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/25 08:50:12 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,17 @@ void	clear_cmd(t_cmd *cmd)
 	if (!cmd)
 		return ;
 	if (cmd->red)
+	{
 		clear_red(cmd->red);
+		cmd->red = NULL;
+	}
 	if (cmd->argv)
+	{
 		ft_free_tab(cmd->argv);
+		cmd->argv = NULL;
+	}
 	free(cmd);
+	cmd = NULL;
 }
 
 /* Create empty cmd node.*/

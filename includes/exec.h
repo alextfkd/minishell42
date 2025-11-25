@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/24 23:31:11 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/25 08:13:46 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,15 @@ struct s_env
 
 struct	s_app
 {
-	t_shell	*shell;
-	char	**envp;
-	t_env	*env_list;
-	int		exit_status;
-	int		original_stdin;
-	int		original_stdout;
+	t_shell		*shell;
+	char		**envp;
+	t_env		*env_list;
+	int			exit_status;
+	int			original_stdin;
+	int			original_stdout;
+	t_astree	*astree_root;
+	t_token		*token_head;
+	t_list		*cmd_list;
 };
 
 struct	s_builtin_map

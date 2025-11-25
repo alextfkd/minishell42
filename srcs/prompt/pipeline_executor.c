@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/20 04:26:21 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/25 06:58:44 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	pipeline_executor(t_shell *shell)
 	shell->status = parameter_expansion(shell->app, ast_root);
 	if (shell->status != 0)
 		return (_status_1_return(shell, head_token, ast_root));
+	shell->app->astree_root = ast_root;
+	shell->app->token_head = head_token;
 	shell->status = execute_pipeline(ast_root, shell->app);
 	astree_clear(ast_head);
 	free_tokens(head_token);

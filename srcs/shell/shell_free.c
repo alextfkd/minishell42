@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 08:19:27 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/18 03:11:37 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/25 08:33:14 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int	free_shell(t_shell *shell)
 	if (shell == NULL)
 		return (-1);
 	res = shell->status;
-	free_ms_buf(shell->ms_buf);
+	if (shell->ms_buf != NULL)
+		free_ms_buf(shell->ms_buf);
 	free_app(shell->app);
 	free(shell);
 	return (res);
@@ -41,12 +42,22 @@ void	free_ms_buf(t_ms_buf *ms_buf)
 	if (ms_buf == NULL)
 		return ;
 	if (ms_buf->rl_buf != NULL)
+	{
 		free(ms_buf->rl_buf);
+		ms_buf->rl_buf = NULL;
+	}
 	if (ms_buf->tmp_buf != NULL)
+	{
 		free(ms_buf->tmp_buf);
+		ms_buf->tmp_buf = NULL;
+	}
 	if (ms_buf->sh_buf != NULL)
+	{
 		free(ms_buf->sh_buf);
+		ms_buf->sh_buf = NULL;
+	}
 	free(ms_buf);
+	ms_buf = NULL;
 }
 
 // Delete and NULL clear t_ms_buf->tmp_buf.

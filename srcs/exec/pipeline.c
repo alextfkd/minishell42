@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:35:43 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/24 23:12:34 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/25 08:22:52 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	execute_pipeline(t_astree *node, t_app *app)
 	t_cmd	*cmd;
 
 	e.cmd_list = astree2list(node);
+	app->cmd_list = e.cmd_list;
 	if (!e.cmd_list)
 		return (1);
 	e.cmd_count = ft_lstsize(e.cmd_list);
@@ -32,6 +33,14 @@ int	execute_pipeline(t_astree *node, t_app *app)
 		&& BUILTIN_ON)
 	{
 		status = execute_builtin_parent(e.cmd_list->content, app);
+		if (status == -1)
+		{
+			reset_stdio(app);
+			free_tokens(app->token_head);
+			free_shell(app->shell);
+			free_list(&e.cmd_list);
+			exit(0);
+		}
 		update_underscore(app, cmd);
 		return (free_list(&e.cmd_list), status);
 	}

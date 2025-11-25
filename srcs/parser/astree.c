@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:38:27 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 02:29:09 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/25 08:49:06 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,10 @@ void	astree_clear(t_astree *node)
 	if (!node)
 		return ;
 	if (node->cmd)
+	{
 		clear_cmd(node->cmd);
+		node->cmd = NULL;
+	}
 	astree_clear(node->left);
 	astree_clear(node->right);
 	free(node);

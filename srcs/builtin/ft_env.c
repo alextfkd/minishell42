@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 02:36:24 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 19:46:30 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/25 03:17:14 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	_print_envp(char **envp);
 int	ft_env(t_app *app, t_cmd *cmd)
 {
 	(void)cmd;
+	log_debug("ft_env()", LOG_DEBUG);
 	if (!app || !app->envp)
 		return (1);
 	_print_envp(app->envp);
@@ -35,6 +36,7 @@ static void	_print_envp(char **envp)
 	size_t	i;
 
 	i = 0;
+	log_debug("_print_envp()", LOG_DEBUG);
 	while (envp[i] != NULL)
 	{
 		printf("%s\n", envp[i]);
