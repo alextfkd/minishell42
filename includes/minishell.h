@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/27 02:56:52 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/27 03:14:41 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,6 @@ extern volatile sig_atomic_t	g_sig_received;
 
 int			interactive_shell(t_shell *shell);
 int			non_interactive_shell(t_shell *shell);
-
-void		log_debug(char *msg, t_loglevel log_level);
-void		log_debug_show_input(char *msg, t_loglevel log_level);
-void		log_warning(char *msg, t_loglevel log_level);
-void		log_info(char *msg, t_loglevel log_level);
-void		log_debug_show_token(t_token *token_head, t_loglevel log_level);
-void		log_debug_show_ast(t_astree *ast_root, t_loglevel log_level);
-void		print_redirections(t_red *red);
 
 int			set_sigaction(t_shell *shell);
 void		sigint_handler(int signal);

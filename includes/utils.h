@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 02:32:09 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/27 02:41:45 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/27 03:17:06 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 # define UTILS_H
 
 # include "types.h"
+
+// log utils
+void		log_debug(char *msg, t_loglevel log_level);
+void		log_debug_show_input(char *msg, t_loglevel log_level);
+void		log_warning(char *msg, t_loglevel log_level);
+void		log_info(char *msg, t_loglevel log_level);
+void		log_debug_show_token(t_token *token_head, t_loglevel log_level);
+void		log_debug_show_ast(t_astree *ast_root, t_loglevel log_level);
+void		log_debug_ms_buf(t_shell *shell);
+void		print_redirections(t_red *red);
 
 // app utils
 void		free_app(t_app *app);
