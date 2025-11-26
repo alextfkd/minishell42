@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 10:58:24 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/26 12:41:04 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/26 22:45:30 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	free_app(t_app *app)
 	if (app->env_list)
 		free_env_list(app->env_list);
 	if (app->astree_root)
-		astree_clear(app->astree_root);
+		astree_clear(&app->astree_root);
 	if (app->token_head)
 		free_tokens(app->token_head);
 	close(app->original_stdin);

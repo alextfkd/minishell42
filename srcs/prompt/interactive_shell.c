@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interactive_shell.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/26 21:26:46 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/26 23:28:11 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ int	interactive_shell(t_shell *shell)
 			shell->status = 130;
 		if (_is_eof(ms_buf))
 		{
-			free_readline_buf(ms_buf);
+			//free_readline_buf(ms_buf);
+			free_ms_buf(&ms_buf);
+			shell->ms_buf = NULL;
 			break ;
 		}
 		ms_buf->sh_buf = integrate_input_buffer(shell);

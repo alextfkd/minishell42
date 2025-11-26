@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:44:01 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/25 08:49:44 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/26 22:40:30 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,16 @@ void	red_add_back(t_red **head_red, t_red *new)
 }
 
 // Recursively free() redirection list.
-void	clear_red(t_red *head_red)
+void	clear_red(t_red **head_red)
 {
-	if (head_red == NULL)
+	if (head_red == NULL || *head_red == NULL)
 		return ;
-	clear_red(head_red->next);
-	if (head_red->file != NULL)
+	clear_red(&(*head_red)->next);
+	if ((*head_red)->file != NULL)
 	{
-		free(head_red->file);
-		head_red->file = NULL;
+		free((*head_red)->file);
+		(*head_red)->file = NULL;
 	}
-	free(head_red);
-	head_red = NULL;
+	free((*head_red));
+	*head_red= NULL;
 }

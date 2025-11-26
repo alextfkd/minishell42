@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 15:35:22 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 02:38:36 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/26 22:45:11 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_astree	*create_astree_from_tokens(t_token **tokens_head, int *status)
 		if (new_root == NULL)
 		{
 			*status = 1;
-			astree_clear(astree_root);
+			astree_clear(&astree_root);
 			return (free_tokens(original_head), NULL);
 		}
 		astree_root = new_root;
@@ -63,7 +63,7 @@ static t_astree	*_astree_attach_right(
 	if (!new_root->right)
 	{
 		new_root->left = NULL;
-		return (astree_clear(new_root), NULL);
+		return (astree_clear(&new_root), NULL);
 	}
 	return (new_root);
 }

@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/25 06:58:44 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/26 23:42:07 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	_status_1_return(t_shell *shell, t_token *head, t_astree *root);
 
-int	pipeline_executor(t_shell *shell)
+int	ppeline_executor(t_shell *shell)
 {
 	t_token		*head_token;
 	t_astree	*ast_root;
@@ -36,8 +36,12 @@ int	pipeline_executor(t_shell *shell)
 	shell->app->astree_root = ast_root;
 	shell->app->token_head = head_token;
 	shell->status = execute_pipeline(ast_root, shell->app);
-	astree_clear(ast_head);
+	//free_ms_buf(&shell->ms_buf);
+	//shell->ms_buf = NULL;
+	astree_clear(&ast_head);
+	shell->app->astree_root = NULL;
 	free_tokens(head_token);
+	shell->app->token_head = NULL;
 	reset_stdio(shell->app);
 	return (0);
 }
@@ -45,7 +49,7 @@ int	pipeline_executor(t_shell *shell)
 static int	_status_1_return(t_shell *shell, t_token *head, t_astree *root)
 {
 	if (root)
-		astree_clear(root);
+		astree_clear(&root);
 	if (head)
 		free_tokens(head);
 	if (shell)

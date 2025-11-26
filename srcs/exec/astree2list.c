@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   astree2list.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 18:48:16 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/24 19:02:07 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/26 23:04:47 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ void	free_list(t_list **list)
 	while (current)
 	{
 		next_node = current->next;
+		if (current->content != NULL)
+		{
+			clear_cmd((t_cmd **) &(current->content));
+			current->content = NULL;
+		}
 		free(current);
 		current = next_node;
 	}
