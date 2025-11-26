@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 12:54:19 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/26 17:28:06 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/26 21:25:40 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ int	ft_cd(t_app *app, t_cmd *cmd)
 
 	print_pwd_flag = 0;
 	if (cmd->argc > 2)
-		return (print_builtin_cmd_error(cmd, 0, "too many arguments", 0), 1);
-	old_pwd = get_current_dir();
+		return (print_builtin_error(cmd, 0, "too many arguments", 0), 1);
+	old_pwd = get_current_dir(app);
 	if (!old_pwd)
-		return (print_builtin_cmd_error(cmd, 0, strerror(errno), 0), 1);
+		return (print_builtin_error(cmd, 0, strerror(errno), 0), 1);
 	target_path = _get_target_path(app, cmd, &print_pwd_flag);
 	if (!target_path)
 		return (free(old_pwd), 1);
@@ -69,7 +69,7 @@ static char	*_get_target_path(t_app *app, t_cmd *cmd, int *print_pwd_flag)
 		path = get_env_value(app->env_list, HOME);
 		if (!path)
 		{
-			print_builtin_cmd_error(cmd, 0, "HOME not set", 0);
+			print_builtin_error(cmd, 0, "HOME not set", 0);
 			return (NULL);
 		}
 	}
@@ -78,7 +78,7 @@ static char	*_get_target_path(t_app *app, t_cmd *cmd, int *print_pwd_flag)
 		path = get_env_value(app->env_list, OLDPWD);
 		if (!path)
 		{
-			print_builtin_cmd_error(cmd, 0, "OLDPWD not set", 0);
+			print_builtin_error(cmd, 0, "OLDPWD not set", 0);
 			return (NULL);
 		}
 		*print_pwd_flag = 1;
@@ -98,7 +98,7 @@ static int	_change_dir(t_cmd *cmd, char *path)
 {
 	if (chdir(path) == -1)
 	{
-		print_builtin_cmd_error(cmd, 1, strerror(errno), 0);
+		print_builtin_error(cmd, 1, strerror(errno), 0);
 		return (1);
 	}
 	return (0);
@@ -119,12 +119,12 @@ static char	*_update_env_pwds(t_app *app, t_cmd *cmd, char *old_pwd)
 {
 	char	*new_pwd;
 
-	new_pwd = get_current_dir();
+	new_pwd = get_current_dir(app);
 	if (!new_pwd)
-		return (print_builtin_cmd_error(cmd, 0, strerror(errno), 0), NULL);
-	if (set_env_value(&app->env_list, "PWD", new_pwd))
+		return (print_builtin_error(cmd, 0, strerror(errno), 0), NULL);
+	if (set_env_value(&app->env_list, PWD, new_pwd))
 		return (free(new_pwd), NULL);
-	if (set_env_value(&app->env_list, "OLDPWD", old_pwd))
+	if (set_env_value(&app->env_list, OLDPWD, old_pwd))
 		return (free(new_pwd), NULL);
 	if (handle_update_env(app) != 0)
 		return (free(new_pwd), NULL);

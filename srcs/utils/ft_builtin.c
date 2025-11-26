@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 09:16:49 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/26 17:26:35 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/26 21:26:05 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,18 @@
  *
  * @return char* Pointer to the current working string,or NULL on error.
  */
-char	*get_current_dir(void)
+char	*get_current_dir(t_app *app)
 {
 	char	*pwd_path;
+	char	*env_pwd;
 
 	pwd_path = getcwd(NULL, 0);
-	if (!pwd_path)
-		return (NULL);
-	return (pwd_path);
+	if (pwd_path)
+		return (pwd_path);
+	env_pwd = get_env_value(app->env_list, PWD);
+	if (env_pwd)
+		return (ft_strdup(env_pwd));
+	return (NULL);
 }
 
 /**
@@ -34,7 +38,7 @@ char	*get_current_dir(void)
  * @param i If i is 0,the argument is not display.
  * @param msg  The error message to display
  */
-void	print_builtin_cmd_error(
+void	print_builtin_error(
 	t_cmd *cmd,
 	int i,
 	const char *msg,

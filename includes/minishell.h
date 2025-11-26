@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/26 17:00:54 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/26 21:17:41 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,8 @@ t_astree	*astree_create_pipe_node(t_astree *left, t_astree *right,
 				int *status);
 
 // builtin util
-char		*get_current_dir(void);
-void		print_builtin_cmd_error(t_cmd *cmd, int i, const char *msg,
+char		*get_current_dir(t_app *app);
+void		print_builtin_error(t_cmd *cmd, int i, const char *msg,
 				int quate_flag);
 
 int			parameter_expansion(t_app *app, t_astree *root);
