@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 07:30:30 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/15 06:53:01 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/26 10:19:34 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,29 +30,29 @@ int	ft_unset(t_app *app, t_cmd *cmd)
 {
 	int		i;
 	int		update;
-	char	*args;
-	char	**old_envp;
+	int		ret;
 
 	i = 1;
+	ret = 0;
 	update = 0;
 	while (i < cmd->argc)
 	{
-		args = cmd->argv[i];
-		if (!is_validate_args(args) || ft_strchr(args, '=') != NULL)
-			return (1);
+		if (!is_validate_args(cmd->argv[i])
+			|| ft_strchr(cmd->argv[i], '=') != NULL)
+		{
+			print_builtin_cmd_error(cmd, i, "not a valid identifier");
+			ret = 1;
+		}
 		else
 		{
-			_remove_env_node(&app->env_list, args);
-			update++;
+			if (_remove_env_node(&app->env_list, cmd->argv[i]))
+				update++;
 		}
 		i++;
 	}
-	if (update > 0)
-	{
-		old_envp = app->envp;
-		app->envp = rebuild_envp(app->env_list, old_envp);
-	}
-	return (0);
+	if (update > 0 && handle_update_env(app) != 0)
+		return (1);
+	return (ret);
 }
 
 /**
@@ -83,7 +83,7 @@ static int	_remove_env_node(t_env **head_env_list, const char *key)
 			else
 				prev->next = current->next;
 			free_env_node(current);
-			return (0);
+			return (1);
 		}
 		prev = current;
 		current = current->next;

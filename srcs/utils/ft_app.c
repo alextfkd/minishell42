@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 10:58:24 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 15:37:59 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/26 08:43:49 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 t_app	*setup_app(char **envp, t_shell *shell)
 {
 	t_app		*app;
-	char		**old_envp;
 
 	app = (t_app *)ft_calloc(1, sizeof(t_app));
 	if (!app)
@@ -42,8 +41,8 @@ t_app	*setup_app(char **envp, t_shell *shell)
 	if (!app->env_list)
 		return (free_app(app), NULL);
 	append_args_to_env_list(OLDPWD, &app->env_list);
-	old_envp = app->envp;
-	app->envp = rebuild_envp(app->env_list, old_envp);
+	if (handle_update_env(app) != 0)
+		return (NULL);
 	if (!app->envp)
 		return (free_app(app), NULL);
 	return (app);

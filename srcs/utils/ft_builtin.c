@@ -1,39 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*   ft_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/17 12:54:19 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/26 09:36:33 by htsutsum         ###   ########.fr       */
+/*   Created: 2025/11/26 09:16:49 by htsutsum          #+#    #+#             */
+/*   Updated: 2025/11/26 11:04:38 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief The empty cd func,we have to program it correctly
+ * @brief Print an error message for builtin command.
  *
- * @param app
  * @param cmd
- * @return int
+ * @param i If i is 0,the argument is not display.
+ * @param msg  The error message to display
  */
-int	ft_cd(t_app *app, t_cmd *cmd)
+void	print_builtin_cmd_error(t_cmd *cmd, int i, const char *msg)
 {
-	const char	*path;
+	char	*str;
 
-	(void)app;
-	if (cmd->argc != 2)
+	str = msg;
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd->argv[0], 2);
+	ft_putstr_fd(": ", 2);
+	if (i != 0)
 	{
-		print_builtin_cmd_error(cmd, 0, "too many arguments");
-		return (1);
+		ft_putstr_fd("`", 2);
+		ft_putstr_fd(cmd->argv[i], 2);
+		ft_putstr_fd("': ", 2);
 	}
-	path = cmd->argv[1];
-	if (chdir(path) != 0)
-	{
-		perror("minishell: cdcd ");
-		return (1);
-	}
-	return (0);
+	ft_putendl_fd(str, 2);
 }
