@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 09:16:49 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/26 11:04:38 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/26 13:00:55 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	print_builtin_cmd_error(t_cmd *cmd, int i, const char *msg)
 {
 	char	*str;
 
-	str = msg;
+	str = (char *)msg;
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(cmd->argv[0], 2);
 	ft_putstr_fd(": ", 2);

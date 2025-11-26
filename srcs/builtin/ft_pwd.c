@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:34:42 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/17 21:48:56 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/26 13:09:07 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,12 @@ int	ft_pwd(t_app *app, t_cmd *cmd)
  */
 char	*get_current_dir(void)
 {
-	char	path[PATH_MAX];
+	char	*pwd_path;
 
-	if (!getcwd(path, sizeof(path)))
-		return (perror("minishell: getcwd error"), NULL);
-	return (strdup(path));
+	pwd_path = getcwd(NULL, 0);
+	if (!pwd_path)
+		return (perror("minishell: pwd"), NULL);
+	printf("%s\n",pwd_path);
+	free(pwd_path);
+	return (0);
 }
