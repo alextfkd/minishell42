@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 10:58:24 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/26 15:25:42 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/26 17:50:33 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ t_app	*setup_app(char **envp, t_shell *shell)
 	if (!app)
 		return (NULL);
 	app->shell = shell;
-	app->exit_status = 0;
 	app->original_stdin = dup(STDIN_FILENO);
 	app->original_stdout = dup(STDOUT_FILENO);
 	if (app->original_stdin == -1 || app->original_stdout == -1)

@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:34:42 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/26 16:56:41 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/26 18:03:59 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ int	ft_pwd(t_app *app, t_cmd *cmd)
 {
 	char	*path;
 
-	(void)app;
-	(void)cmd;
 	path = get_current_dir();
 	if (!path)
 		return (print_builtin_cmd_error(cmd, 0, strerror(errno), 0), 1);
