@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 09:40:06 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/26 11:01:56 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/26 16:59:53 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,12 @@ int	add_or_update_env_node(t_env **env_list, t_env *new_node)
 	current = *env_list;
 	while (current)
 	{
-		if (ft_strcmp(new_node->key, current->key) != 0)
+		if (ft_strcmp(new_node->key, current->key) == 0)
 		{
 			_overwrite_and_free_node(current, new_node);
 			return (0);
 		}
+		current = current->next;
 	}
 	env_list_add_back(env_list, new_node);
 	return (0);

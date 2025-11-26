@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/26 11:03:33 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/26 16:29:20 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 # define ENV_ALL -1
 # define FIRST_CHAR 1
 # define OTHER_CHAR 0
+# define PWD "PWD"
+# define OLDPWD "OLDPWD"
+# define HOME "HOME"
 # define HERE_DOC_PROMPT "> "
 # define ERR_SYNTAX_TOKEN "minishell: syntax error near unexpected token"
 
@@ -179,7 +182,6 @@ void				print_heredoc_error(char *delimiter);
 
 // builtin
 int					ft_pwd(t_app *app, t_cmd *cmd);
-char				*get_current_dir(void);
 int					ft_env(t_app *app, t_cmd *cmd);
 int					ft_unset(t_app *app, t_cmd *cmd);
 int					ft_export(t_app *app, t_cmd *cmd);

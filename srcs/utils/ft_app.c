@@ -6,12 +6,11 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 10:58:24 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/26 08:43:49 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/26 15:25:42 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#define OLDPWD "OLDPWD"
 
 /**
  * @brief Initializes the main application structure (t_app),

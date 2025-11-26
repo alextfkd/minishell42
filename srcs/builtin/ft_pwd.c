@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:34:42 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/26 13:09:07 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/26 16:56:41 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,8 @@ int	ft_pwd(t_app *app, t_cmd *cmd)
 	(void)cmd;
 	path = get_current_dir();
 	if (!path)
-		return (1);
+		return (print_builtin_cmd_error(cmd, 0, strerror(errno), 0), 1);
 	printf("%s\n", path);
 	free(path);
-	return (0);
-}
-
-/**
- * @brief Reterievs the current working directory as allocated string.
- *
- * @return char* Pointer to the current working string,or NULL on error.
- */
-char	*get_current_dir(void)
-{
-	char	*pwd_path;
-
-	pwd_path = getcwd(NULL, 0);
-	if (!pwd_path)
-		return (perror("minishell: pwd"), NULL);
-	printf("%s\n",pwd_path);
-	free(pwd_path);
 	return (0);
 }
