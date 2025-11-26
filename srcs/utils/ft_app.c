@@ -6,12 +6,11 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 10:58:24 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/25 06:57:51 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/26 12:41:04 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#define OLDPWD "OLDPWD"
 
 /**
  * @brief Initializes the main application structure (t_app),
@@ -24,13 +23,11 @@
 t_app	*setup_app(char **envp, t_shell *shell)
 {
 	t_app		*app;
-	char		**old_envp;
 
 	app = (t_app *)ft_calloc(1, sizeof(t_app));
 	if (!app)
 		return (NULL);
 	app->shell = shell;
-	app->exit_status = 0;
 	app->original_stdin = dup(STDIN_FILENO);
 	app->original_stdout = dup(STDOUT_FILENO);
 	if (app->original_stdin == -1 || app->original_stdout == -1)
@@ -42,8 +39,8 @@ t_app	*setup_app(char **envp, t_shell *shell)
 	if (!app->env_list)
 		return (free_app(app), NULL);
 	append_args_to_env_list(OLDPWD, &app->env_list);
-	old_envp = app->envp;
-	app->envp = rebuild_envp(app->env_list, old_envp);
+	if (handle_update_env(app) != 0)
+		return (NULL);
 	if (!app->envp)
 		return (free_app(app), NULL);
 	return (app);

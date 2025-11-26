@@ -10,7 +10,10 @@ objs/*/*.o
 norm.sh
 libft/objs/*.o
 objs/*.o
-srcs/old/
 lexer_test
 parser_test
 expansion_test
+test/pipe_test.c
+pipex_tester
+dir
+l_dir

@@ -6,14 +6,16 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:44:03 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/24 20:59:11 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/26 21:15:31 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	_register_export_args(t_app *app, t_cmd *cmd, int *update);
+
 /**
- * @brief Register the arrguments with the export attribute,
+ * @brief Register the arguments with the export attribute,
  * and set the values as environment variables and enviroment list.
  *
  * @param app
@@ -22,31 +24,51 @@
  */
 int	ft_export(t_app *app, t_cmd *cmd)
 {
-	int			i;
-	int			update;
-	const char	*args;
+	int	ret;
+	int	update;
 
+	update = 0;
 	if (!app || !cmd)
 		return (1);
 	if (cmd->argc < 2)
 		return (print_env_attrib(app->env_list));
-	update = 0;
+	ret = _register_export_args(app, cmd, &update);
+	if (update > 0 && handle_update_env(app) != 0)
+		return (1);
+	return (ret);
+}
+
+/**
+ * @brief Parse and register valid export arguments
+ * into the environment list.
+ *
+ * @param app
+ * @param cmd
+ * @param update
+ * @return int
+ */
+static int	_register_export_args(t_app *app, t_cmd *cmd, int *update)
+{
+	int	i;
+	int	ret;
+
+	ret = 0;
 	i = 1;
 	while (i < cmd->argc)
 	{
-		args = cmd->argv[i];
-		if (!is_validate_args(args))
-			printf("minishell: export `%s`: not a valid identifier\n", args);
+		if (!is_validate_args(cmd->argv[i]))
+		{
+			print_builtin_error(cmd, i, "not a valid identifier", 1);
+			ret = 1;
+		}
 		else
 		{
-			append_args_to_env_list(args, &app->env_list);
-			update++;
+			append_args_to_env_list(cmd->argv[i], &app->env_list);
+			(*update)++;
 		}
 		i++;
 	}
-	if (update > 0)
-		app->envp = rebuild_envp(app->env_list, app->envp);
-	return (0);
+	return (ret);
 }
 
 /**
@@ -64,43 +86,11 @@ int	ft_export(t_app *app, t_cmd *cmd)
 int	append_args_to_env_list(const char *args, t_env **env_list)
 {
 	t_env	*new_node;
-	t_env	*current;
 
 	new_node = get_env_from_env_line(args);
 	if (!new_node)
-		return (perror("minishell:create env_node failed"), 1);
-	current = *env_list;
-	while (current)
-	{
-		if (ft_strcmp(new_node->key, current->key) == 0)
-			return (overwrite_and_free_node(current, new_node), 0);
-		current = current->next;
-	}
-	env_list_add_back(env_list, new_node);
-	return (0);
-}
-
-/**
- * @brief Overwrites the existing environment node's value and is_set flag
- * with the new node's information, then safely frees the new node's remnants.
- *
- *  This function handles memory ownership transfer for 'value' to prevent
- * double freeing or memory leaks.
- *
- * @param current
- * @param new_node
- */
-void	overwrite_and_free_node(t_env *current, t_env *new_node)
-{
-	if (new_node->is_set == ENV_SET)
-	{
-		if (current->value)
-			free(current->value);
-		current->value = new_node->value;
-		new_node->value = NULL;
-		current->is_set = ENV_SET;
-	}
-	free_env_node(new_node);
+		return (perror("minishell: create env_node failed"), 1);
+	return (add_or_update_env_node(env_list, new_node));
 }
 
 /**

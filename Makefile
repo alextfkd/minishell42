@@ -14,7 +14,7 @@ SHELL_DIR = shell
 PARSER_DIR = parser
 BUILTIN_DIR = builtin
 INCLUDE = includes
-HEADER = $(INCLUDE)/exec.h $(INCLUDE)/lexer.h $(INCLUDE)/minishell.h
+HEADER = $(INCLUDE)/types.h $(INCLUDE)/exec.h $(INCLUDE)/lexer.h $(INCLUDE)/minishell.h
 LIBFT = ./libft/libft.a
 
 CFLAGS = -Wall -Wextra -Werror
@@ -25,7 +25,7 @@ BUILTINFLAGS = -DBUILTIN_ON=1
 
 MAIN_FILE = main.c
 
-UTILS_FILES = ft_log.c ft_log_token.c ft_app.c ft_log_astree.c ft_log_astree_sub.c ft_env_conv_util.c ft_env_conv.c ft_env_mng.c ft_env_list.c
+UTILS_FILES = ft_log.c ft_log_token.c ft_app.c ft_log_astree.c ft_log_astree_sub.c ft_env_conv_util.c ft_env_conv.c ft_env_mng.c ft_env_list.c ft_builtin.c
 
 SIGNAL_FILES = sig_handler.c sigaction.c
 

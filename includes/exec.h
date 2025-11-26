@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/25 08:13:46 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/26 12:40:06 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 # define ENV_ALL -1
 # define FIRST_CHAR 1
 # define OTHER_CHAR 0
+# define PWD "PWD"
+# define OLDPWD "OLDPWD"
+# define HOME "HOME"
 # define HERE_DOC_PROMPT "> "
 # define ERR_SYNTAX_TOKEN "minishell: syntax error near unexpected token"
 
@@ -157,10 +160,11 @@ void				free_list(t_list **list);
 // execute pipline
 int					execute_pipeline(t_astree *node, t_app *app);
 void				execute_external_cmd(t_cmd *cmd, t_app *app);
-int					wait_all_processes(t_exec *e, t_app *app);
+void				update_underscore(t_app *app, t_cmd *cmd);
 void				child_routine(t_exec *e, t_cmd *cmd, t_app *app);
 void				cleanup_pipeline(t_list *cmd_list, pid_t *pids, int count);
 void				close_unused_fds(void);
+int					wait_all_processes(t_exec *e, t_app *app);
 void				execve_exit_error(void);
 int					set_exit_status(int status);
 
@@ -181,16 +185,15 @@ void				print_heredoc_error(char *delimiter);
 
 // builtin
 int					ft_pwd(t_app *app, t_cmd *cmd);
-char				*get_current_dir(void);
 int					ft_env(t_app *app, t_cmd *cmd);
 int					ft_unset(t_app *app, t_cmd *cmd);
 int					ft_export(t_app *app, t_cmd *cmd);
+int					append_args_to_env_list(const char *args, t_env **env_list);
+void				print_export_error(t_cmd *cmd, int i);
 int					is_validate_args(const char *args);
 int					is_env_char(char c, int mode);
 int					append_args_to_env_list(const char *args, t_env **env_list);
-void				overwrite_and_free_node(t_env *current, t_env *new_node);
 int					print_env_attrib(const t_env *env_list);
-void				free_env_node(t_env *node);
 int					ft_cd(t_app *app, t_cmd *cmd);
 int					ft_echo(t_app *app, t_cmd *cmd);
 int					ft_exit(t_app *app, t_cmd *cmd);
