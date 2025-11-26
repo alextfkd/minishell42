@@ -78,6 +78,42 @@ void	execute_external_cmd(t_cmd *cmd, t_app *app)
 }
 
 /**
+ * @brief Updates the "_" environment variable with the last argument
+ *  of the command.
+ *
+ * @param app
+ * @param cmd
+ */
+void	update_underscore(t_app *app, t_cmd *cmd)
+{
+	char	*val_to_set;
+	char	*resolved_path;
+
+	resolved_path = NULL;
+	if (!cmd || !cmd->argv || !cmd->argv[0])
+		return ;
+	if (cmd->argc > 1)
+		val_to_set = cmd->argv[cmd->argc - 1];
+	else
+	{
+		if (get_builtin_type(cmd) != BT_NOT_BULTIN)
+			val_to_set = cmd->argv[0];
+		else
+		{
+			resolved_path = find_cmd_path(cmd->argv[0], app->env_list);
+			if (resolved_path)
+				val_to_set = resolved_path;
+			else
+				val_to_set = cmd->argv[0];
+		}
+	}
+	if (set_env_value(&app->env_list, "_", val_to_set) == 0)
+		handle_update_env(app);
+	if (resolved_path)
+		free(resolved_path);
+}
+
+/**
  * @brief Cleans up a pipeline execution by terminating and waiting
  *  for child processes,then freeing allocated memory.
  *

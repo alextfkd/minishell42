@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:44:03 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/21 22:26:31 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/26 11:02:12 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,24 +83,6 @@ static void	_print_attrib_one(t_env *env)
 	}
 	else
 		printf("declare -x %s\n", env->key);
-}
-
-/**
- * @brief Frees the memory allocated for a single environment variable node
- * (t_env).
- * * This function handles the safe deallocation of the dynamically allocated
- * strings for the key and the value, followed by the deallocation of the node
- * structure itself.
- *
- * @param node
- */
-void	free_env_node(t_env *node)
-{
-	if (node->key)
-		free(node->key);
-	if (node->value)
-		free(node->value);
-	free(node);
 }
 
 static void	_sort_env_array(t_env **arr, int size)
