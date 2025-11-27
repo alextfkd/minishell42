@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/27 10:59:00 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/27 11:15:58 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static char	*_get_value_after_dollar(t_app *app, char *str, int *i)
 }
 
 /**
- * @brief Retrieve key using the specified value
+ * @brief Retrieve value using the specified key
  *
  * @param app
  * @param key
