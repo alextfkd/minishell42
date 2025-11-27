@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/26 22:45:55 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/27 13:48:25 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,5 +197,6 @@ int					print_env_attrib(const t_env *env_list);
 int					ft_cd(t_app *app, t_cmd *cmd);
 int					ft_echo(t_app *app, t_cmd *cmd);
 int					ft_exit(t_app *app, t_cmd *cmd);
+void				exit_process(int status, t_app *app);
 
 #endif

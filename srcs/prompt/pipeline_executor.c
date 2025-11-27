@@ -6,15 +6,18 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/26 23:42:07 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/27 13:34:28 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	_attach_ast_and_token_ptr(t_app *app,
+				t_astree *astree_root, t_token *head);
+static void	_detach_ast_and_token_ptr(t_app *app);
 static int	_status_1_return(t_shell *shell, t_token *head, t_astree *root);
 
-int	ppeline_executor(t_shell *shell)
+int	pipeline_executor(t_shell *shell)
 {
 	t_token		*head_token;
 	t_astree	*ast_root;
@@ -33,17 +36,26 @@ int	ppeline_executor(t_shell *shell)
 	shell->status = parameter_expansion(shell->app, ast_root);
 	if (shell->status != 0)
 		return (_status_1_return(shell, head_token, ast_root));
-	shell->app->astree_root = ast_root;
-	shell->app->token_head = head_token;
+	_attach_ast_and_token_ptr(shell->app, ast_root, head_token);
 	shell->status = execute_pipeline(ast_root, shell->app);
-	//free_ms_buf(&shell->ms_buf);
-	//shell->ms_buf = NULL;
 	astree_clear(&ast_head);
-	shell->app->astree_root = NULL;
 	free_tokens(head_token);
-	shell->app->token_head = NULL;
+	_detach_ast_and_token_ptr(shell->app);
 	reset_stdio(shell->app);
 	return (0);
+}
+
+static void	_attach_ast_and_token_ptr(
+				t_app *app, t_astree *astree_root, t_token *head)
+{
+	app->astree_root = astree_root;
+	app->token_head = head;
+}
+
+static void	_detach_ast_and_token_ptr(t_app *app)
+{
+	app->astree_root = NULL;
+	app->token_head = NULL;
 }
 
 static int	_status_1_return(t_shell *shell, t_token *head, t_astree *root)

@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:35:43 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/26 22:35:33 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/27 13:53:09 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,7 @@ int	execute_pipeline(t_astree *node, t_app *app)
 	{
 		status = execute_builtin_parent(e.cmd_list->content, app);
 		if (status == -1)
-		{
-			reset_stdio(app);
-			free_tokens(app->token_head);
-			free_shell(app->shell);
-			free_list(&e.cmd_list);
-			exit(0);
-		}
+			exit_process(0, app);
 		update_underscore(app, cmd);
 		return (free_list(&e.cmd_list), status);
 	}

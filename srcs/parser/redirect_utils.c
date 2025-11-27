@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:44:01 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/26 22:40:30 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/27 13:59:14 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,5 @@ void	clear_red(t_red **head_red)
 		(*head_red)->file = NULL;
 	}
 	free((*head_red));
-	*head_red= NULL;
+	*head_red = NULL;
 }

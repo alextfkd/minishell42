@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/26 23:28:11 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/27 13:28:57 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,20 @@ int	interactive_shell(t_shell *shell)
 {
 	t_ms_buf			*ms_buf;
 
-	log_debug("MINISHELL INTERACTIVE MODE", shell->loglevel);
 	set_sigaction(shell);
 	ms_buf = shell->ms_buf;
 	while (1)
 	{
-		log_debug_ms_buf(shell);
 		ms_buf->rl_buf = readline_with_nl(FT_PROMPT, ">", shell);
 		if (g_sig_received == 2)
 			shell->status = 130;
 		if (_is_eof(ms_buf))
 		{
-			//free_readline_buf(ms_buf);
 			free_ms_buf(&ms_buf);
 			shell->ms_buf = NULL;
 			break ;
 		}
+		free_shell_buf(ms_buf);
 		ms_buf->sh_buf = integrate_input_buffer(shell);
 		if (ms_buf->sh_buf)
 			pipeline_executor(shell);

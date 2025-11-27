@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 06:27:07 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/26 12:40:48 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/27 13:36:03 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,19 +57,12 @@ int	execute_builtin_cmd(t_cmd *cmd, t_app *app)
 
 	status = -1;
 	entry = map;
-	printf("execute_builtin_cmd(), entry->type: [%d]\n", entry->type);
 	while (entry->type != BT_NOT_BULTIN)
 	{
 		if (entry->type == get_builtin_type(cmd) && entry->func != NULL)
 		{
-			log_debug("execute_builtin_cmd(), entry->func != NULL", LOG_DEBUG);
-			log_debug(cmd->argv[0], LOG_DEBUG);
 			status = entry->func(app, cmd);
 			break ;
-		}
-		else if (entry->type == get_builtin_type(cmd) && entry->func == NULL)
-		{
-			log_debug("execute_builtin_cmd(), entry->func == NULL", LOG_DEBUG);
 		}
 		entry++;
 	}
@@ -95,7 +88,6 @@ t_builtin_type	get_builtin_type(t_cmd *cmd)
 	{"env", BT_ENV},
 	{NULL, BT_NOT_BULTIN},
 	};
-	log_debug("get_builtin_type() called.", LOG_DEBUG);
 
 	if (!cmd || !cmd->argv || !cmd->argv[0])
 		return (BT_NOT_BULTIN);
@@ -104,9 +96,6 @@ t_builtin_type	get_builtin_type(t_cmd *cmd)
 	{
 		if (ft_strcmp(cmd->argv[0], builtin_map[i].name) == 0)
 		{
-			log_debug("get_builtin_type() returns ->", LOG_DEBUG);
-			log_debug(cmd->argv[0], LOG_DEBUG);
-			printf("builtin_map[i] = %d\n", builtin_map[i].type);
 			return (builtin_map[i].type);
 		}
 		i++;

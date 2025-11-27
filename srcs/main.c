@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:13:40 by tkatsumata        #+#    #+#             */
-/*   Updated: 2025/11/26 23:22:30 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/27 13:23:48 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,6 @@ int	main(int argc, char **argv, char **envp)
 		shell->status = 1;
 		return (free_shell(shell));
 	}
-	/*
-	free_tokens(shell->app->token_head);
-	if (shell && shell->app && shell->app->cmd_list && &(shell->app->cmd_list))
-		free_list(&(shell->app->cmd_list));
-	*/
 	return (free_shell(shell));
 }
 

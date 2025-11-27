@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 02:31:48 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/25 05:52:19 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/27 13:59:33 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	log_debug_ms_buf(t_shell *shell)
 	ms_buf = shell->ms_buf;
 	if (shell->loglevel <= LOG_DEBUG && ms_buf->rl_buf != NULL)
 	{
-		//printf("ms_buf->rl_buf  = %s\n", ms_buf->rl_buf);
+		printf("ms_buf->rl_buf  = %s\n", ms_buf->rl_buf);
 	}
 	if (shell->loglevel <= LOG_DEBUG && ms_buf->tmp_buf != NULL)
 		printf("ms_buf->tmp_buf = %s\n", ms_buf->tmp_buf);
