@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/27 10:55:50 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/27 10:59:00 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ static char	*_get_dollar_expansion(t_app *app, char *line, int *i)
 		(*i)++;
 	}
 	else if (is_env_char(line[*i], FIRST_CHAR))
-		val = _get_value_after_doller(app, line, i);
+		val = _get_value_after_dollar(app, line, i);
 	else
 		val = ft_strdup("$");
 	return (val);
