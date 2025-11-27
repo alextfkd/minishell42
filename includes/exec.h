@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/27 14:46:06 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/27 15:02:56 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define HERE_DOC_PROMPT "> "
 # define ERR_SYNTAX_TOKEN "minishell: syntax error near unexpected token"
 
+/*
 typedef struct s_red			t_red;
 typedef struct s_cmd			t_cmd;
 typedef struct s_app			t_app;
@@ -131,6 +132,7 @@ struct s_exec
 	int		cmd_count;
 	int		i;
 };
+*/
 
 // perser
 t_astree			*create_astree_from_tokens(t_token **tokens_head,

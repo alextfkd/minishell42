@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 23:43:03 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/27 11:49:15 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/27 15:05:34 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,11 +155,14 @@ struct s_exec
 
 struct	s_app
 {
-	t_shell	*shell;
-	char	**envp;
-	t_env	*env_list;
-	int		original_stdin;
-	int		original_stdout;
+	t_shell		*shell;
+	char		**envp;
+	t_env		*env_list;
+	int			original_stdin;
+	int			original_stdout;
+	t_astree	*astree_root;
+	t_token		*token_head;
+	t_list		*cmd_list;
 };
 
 typedef struct s_ms_buf
