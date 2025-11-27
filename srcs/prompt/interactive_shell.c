@@ -6,12 +6,13 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/27 13:28:57 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/27 15:57:10 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	_update_status(t_shell *shell, int new_status);
 static char	*readline_with_nl(char *prompt1, char *prompt2, t_shell *shell);
 static int	_is_eof(t_ms_buf *t_ms_buf);
 
@@ -25,7 +26,7 @@ int	interactive_shell(t_shell *shell)
 	{
 		ms_buf->rl_buf = readline_with_nl(FT_PROMPT, ">", shell);
 		if (g_sig_received == 2)
-			shell->status = 130;
+			_update_status(shell, 130);
 		if (_is_eof(ms_buf))
 		{
 			free_ms_buf(&ms_buf);
@@ -42,6 +43,13 @@ int	interactive_shell(t_shell *shell)
 	write(1, "exit\n", 5);
 	rl_clear_history();
 	return (shell->status);
+}
+
+static void	_update_status(t_shell *shell, int new_status)
+{
+	shell->prev_status = shell->status;
+	shell->status = new_status;
+	return ;
 }
 
 static char	*readline_with_nl(char *prompt1, char *prompt2, t_shell *shell)
