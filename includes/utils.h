@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 02:32:09 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/27 03:17:06 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/28 00:12:15 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ char		*get_env_value(t_env *env_list, const char *key);
 int			set_env_value(t_env **env_list, const char *key, const char *value);
 int			add_or_update_env_node(t_env **env_list, t_env *new_node);
 void		free_env_node(t_env *node);
+void		*free_env_vars(char *key, char *value);
+void		free_envp(char **envp, size_t size);
 
 // env list util
 void		free_env_list(t_env *env_list);

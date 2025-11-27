@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:35:43 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/27 15:17:50 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/28 01:56:23 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,21 @@ int	execute_pipeline(t_astree *node, t_app *app)
 	int		status;
 	t_cmd	*cmd;
 
-	e.cmd_list = astree2list(node);
-	app->cmd_list = e.cmd_list;
-	if (!e.cmd_list)
+	if (init_exec_vars(&e, node, app))
 		return (1);
-	e.cmd_count = ft_lstsize(e.cmd_list);
 	cmd = (t_cmd *)e.cmd_list->content;
 	if (e.cmd_count == 1 && get_builtin_type(cmd) != BT_NOT_BULTIN
 		&& BUILTIN_ON)
-	{
 		return (_run_builtin_process(e, app));
-	}
 	e.pids = malloc(sizeof(pid_t) * e.cmd_count);
 	if (!e.pids)
-		return (free_list(&e.cmd_list), perror("minishell: malloc"), 1);
+		return (free_pipeline_vars(&e, app), perror("malloc"), 1);
 	if (_run_pipeline_loop(&e, app) != 0)
-		return (1);
+		return (free_pipeline_vars(&e, app), 1);
 	status = wait_all_processes(&e, app);
 	update_underscore(app, (t_cmd *)ft_lstlast(e.cmd_list)->content);
-	free(e.pids);
-	return (free_list(&e.cmd_list), status);
+	free_pipeline_vars(&e, app);
+	return (status);
 }
 
 static int	_run_builtin_process(t_exec e, t_app *app)
@@ -55,7 +50,8 @@ static int	_run_builtin_process(t_exec e, t_app *app)
 	if (status == -1)
 		exit_process(0, app);
 	update_underscore(app, cmd);
-	return (free_list(&e.cmd_list), status);
+	free_list(&e.cmd_list);
+	return (status);
 }
 
 /**
