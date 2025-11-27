@@ -6,14 +6,14 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/27 10:42:41 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/27 10:55:50 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static char	*_retrieve_env_value(t_app *app, char *key);
-static char	*_get_value_after_doller(t_app *app, char *str, int *i);
+static char	*_get_value_after_dollar(t_app *app, char *str, int *i);
 static char	*_get_dollar_expansion(t_app *app, char *line, int *i);
 
 /**
@@ -64,7 +64,7 @@ char	*expand_line(char *line, t_app *app)
  * variable's value, or an empty string "" if the variable is not
  * found. Returns NULL on allocation failure.
  */
-static char	*_get_value_after_doller(t_app *app, char *str, int *i)
+static char	*_get_value_after_dollar(t_app *app, char *str, int *i)
 {
 	int		start;
 	int		mode;
