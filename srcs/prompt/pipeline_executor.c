@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_executor.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/20 04:26:21 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/27 11:49:43 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	pipeline_executor(t_shell *shell)
 	if (shell->status != 0)
 		return (_status_1_return(shell, head_token, ast_root));
 	shell->status = execute_pipeline(ast_root, shell->app);
+	shell->prev_status = shell->status;
 	astree_clear(ast_head);
 	free_tokens(head_token);
 	reset_stdio(shell->app);

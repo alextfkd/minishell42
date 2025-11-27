@@ -6,26 +6,24 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 17:03:44 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/27 11:49:58 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*_get_value_after_doller(t_app *app, char *str, int *i);
+static char	*_retrieve_env_value(t_app *app, char *key);
+static char	*_get_value_after_dollar(t_app *app, char *str, int *i);
 static char	*_get_dollar_expansion(t_app *app, char *line, int *i);
 
 /**
- * @brief Performs environment variable expansion on a single line of heredoc
- * input.This function iterates through the line, finds '$' characters,
- * and replaces variable names (like $VAR) or the exit status ($?) with their
- * corresponding values. and Free the memory allocated to the variable line..
+ * @brief Performs environment variable expansion on a single line of input.
  *
  * @param line
  * @param app
  * @return char*
  */
-char	*expand_heredoc_line(char *line, t_app *app)
+char	*expand_line(char *line, t_app *app)
 {
 	char	*new_line;
 	char	*tmp_value;
@@ -57,8 +55,6 @@ char	*expand_heredoc_line(char *line, t_app *app)
 /**
  * @brief Extracts an environment variable key from a string starting
  * immediately after a '$' and retrieves its corresponding value.
- * * This function stops reading the key when it hits a non-variable
- * character.
  *
  * @param app
  * @param str The full input line containing the variable starting
@@ -68,19 +64,43 @@ char	*expand_heredoc_line(char *line, t_app *app)
  * variable's value, or an empty string "" if the variable is not
  * found. Returns NULL on allocation failure.
  */
-static char	*_get_value_after_doller(t_app *app, char *str, int *i)
+static char	*_get_value_after_dollar(t_app *app, char *str, int *i)
 {
 	int		start;
+	int		mode;
 	char	*key;
-	char	*env_val;
-	char	*result;
 
 	if (!str)
 		return (ft_strdup(""));
 	start = *i;
-	while (str[*i] && is_env_char(str[*i], OTHER_CHAR))
+	while (str[*i])
+	{
+		if (*i == start)
+			mode = FIRST_CHAR;
+		else
+			mode = OTHER_CHAR;
+		if (!is_env_char(str[*i], mode))
+			break ;
 		(*i)++;
+	}
 	key = ft_substr(str, start, *i - start);
+	return (_retrieve_env_value(app, key));
+}
+
+/**
+ * @brief Retrieve value using the specified key
+ *
+ * @param app
+ * @param key
+ * @return char*
+ */
+static char	*_retrieve_env_value(t_app *app, char *key)
+{
+	char	*env_val;
+	char	*result;
+
+	if (!key)
+		return (NULL);
 	env_val = get_env_value(app->env_list, key);
 	if (env_val)
 		result = ft_strdup(env_val);
@@ -107,11 +127,11 @@ static char	*_get_dollar_expansion(t_app *app, char *line, int *i)
 	(*i)++;
 	if (line[*i] == '?')
 	{
-		val = ft_itoa(app->shell->status);
+		val = ft_itoa(app->shell->prev_status);
 		(*i)++;
 	}
 	else if (is_env_char(line[*i], FIRST_CHAR))
-		val = _get_value_after_doller(app, line, i);
+		val = _get_value_after_dollar(app, line, i);
 	else
 		val = ft_strdup("$");
 	return (val);
