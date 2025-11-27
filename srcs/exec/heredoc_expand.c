@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/27 11:15:58 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/27 11:49:58 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ static char	*_get_dollar_expansion(t_app *app, char *line, int *i)
 	(*i)++;
 	if (line[*i] == '?')
 	{
-		val = ft_itoa(app->shell->status);
+		val = ft_itoa(app->shell->prev_status);
 		(*i)++;
 	}
 	else if (is_env_char(line[*i], FIRST_CHAR))

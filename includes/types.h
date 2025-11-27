@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 23:43:03 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/27 02:56:45 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/27 11:49:15 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,7 @@ struct	s_shell
 	t_ms_buf	*ms_buf;
 	t_loglevel	loglevel;
 	int			status;
+	int			prev_status;
 	t_app		*app;
 };
 
