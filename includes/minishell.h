@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/27 03:14:41 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/27 14:39:21 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_ms_buf	*create_ms_buf(void);
 void		log_debug_ms_buf(t_shell *shell);
 
 int			free_shell(t_shell *shell);
-void		free_ms_buf(t_ms_buf *ms_buf);
+void		free_ms_buf(t_ms_buf **ms_buf);
 void		free_tmp_buf(t_ms_buf *ms_buf);
 void		free_shell_buf(t_ms_buf *ms_buf);
 void		free_readline_buf(t_ms_buf *ms_buf);

@@ -25,7 +25,7 @@ char	*integrate_input_buffer(t_shell *shell)
 	if (ms_buf->sh_buf == NULL)
 	{
 		shell->status = 1;
-		free_ms_buf(ms_buf);
+		free_ms_buf(&ms_buf);
 		return (NULL);
 	}
 	if (_is_executable(ms_buf->sh_buf, &(shell->status)) == 0)
@@ -50,7 +50,7 @@ static char	*_integrate_buffers(t_ms_buf *ms_buf)
 	if (integrated_buf == NULL)
 	{
 		perror("Buffer integration error.");
-		free_ms_buf(ms_buf);
+		free_ms_buf(&ms_buf);
 		return (NULL);
 	}
 	free_tmp_buf(ms_buf);

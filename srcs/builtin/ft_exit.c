@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 07:29:47 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 23:48:52 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/27 15:59:07 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,21 @@
  */
 int	ft_exit(t_app *app, t_cmd *cmd)
 {
-	(void)app;
 	(void)cmd;
-	printf("buitin exit\n");
-	if (kill(0, SIGINT) == -1)
-	{
-		perror("minishell: kill SIGINT error");
-		exit(1);
-	}
+	ft_putendl_fd("exit", 1);
+	exit_process(0, app);
 	return (0);
+}
+
+void	exit_process(int status, t_app *app)
+{
+	reset_stdio(app);
+	free_tokens(app->token_head);
+	app->token_head = NULL;
+	free_list(&(app->cmd_list));
+	app->cmd_list = NULL;
+	free_ms_buf(&app->shell->ms_buf);
+	app->shell->ms_buf = NULL;
+	free_shell(app->shell);
+	exit(status);
 }

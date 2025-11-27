@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_app.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 10:58:24 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/26 17:50:33 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/26 22:45:30 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ void	free_app(t_app *app)
 		ft_free_tab(app->envp);
 	if (app->env_list)
 		free_env_list(app->env_list);
+	if (app->astree_root)
+		astree_clear(&app->astree_root);
+	if (app->token_head)
+		free_tokens(app->token_head);
 	close(app->original_stdin);
 	close(app->original_stdout);
 	free(app);

@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_executor.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/27 11:49:43 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/27 15:30:16 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	_attach_ast_and_token_ptr(t_app *app,
+				t_astree *astree_root, t_token *head);
+static void	_detach_ast_and_token_ptr(t_app *app);
 static int	_status_1_return(t_shell *shell, t_token *head, t_astree *root);
 
 int	pipeline_executor(t_shell *shell)
@@ -33,18 +36,33 @@ int	pipeline_executor(t_shell *shell)
 	shell->status = parameter_expansion(shell->app, ast_root);
 	if (shell->status != 0)
 		return (_status_1_return(shell, head_token, ast_root));
-	shell->status = execute_pipeline(ast_root, shell->app);
+	_attach_ast_and_token_ptr(shell->app, ast_root, head_token);
 	shell->prev_status = shell->status;
-	astree_clear(ast_head);
+	shell->status = execute_pipeline(ast_root, shell->app);
+	astree_clear(&ast_head);
 	free_tokens(head_token);
+	_detach_ast_and_token_ptr(shell->app);
 	reset_stdio(shell->app);
 	return (0);
+}
+
+static void	_attach_ast_and_token_ptr(
+				t_app *app, t_astree *astree_root, t_token *head)
+{
+	app->astree_root = astree_root;
+	app->token_head = head;
+}
+
+static void	_detach_ast_and_token_ptr(t_app *app)
+{
+	app->astree_root = NULL;
+	app->token_head = NULL;
 }
 
 static int	_status_1_return(t_shell *shell, t_token *head, t_astree *root)
 {
 	if (root)
-		astree_clear(root);
+		astree_clear(&root);
 	if (head)
 		free_tokens(head);
 	if (shell)
