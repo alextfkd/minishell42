@@ -6,15 +6,14 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/27 13:48:25 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/27 14:46:06 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
 
-# include "lexer.h"
-# include "libft.h"
+# include "types.h"
 
 # ifndef BUILTIN_ON
 #  define BUILTIN_ON 0
@@ -178,7 +177,7 @@ int					handle_redirections(t_red *red, t_app *app);
 
 // heredoc
 int					handle_heredoc(t_red *red, t_app *app);
-char				*expand_heredoc_line(char *line, t_app *app);
+char				*expand_line(char *line, t_app *app);
 void				close_heredoc_unused_fds(int *pipe_fds, t_app *app);
 void				restore_heredoc_std_io(t_app *app, int *pipe_fds);
 void				print_heredoc_error(char *delimiter);

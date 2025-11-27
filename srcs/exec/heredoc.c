@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/22 06:56:12 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/27 10:27:47 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	_heredoc_routine(
 			break ;
 		}
 		if (!is_quated)
-			line = expand_heredoc_line(line, app);
+			line = expand_line(line, app);
 		write(pipe_fds[1], line, ft_strlen(line));
 		write(pipe_fds[1], "\n", 1);
 		free(line);

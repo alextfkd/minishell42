@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/27 13:34:28 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/27 14:45:04 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	pipeline_executor(t_shell *shell)
 		return (_status_1_return(shell, head_token, ast_root));
 	_attach_ast_and_token_ptr(shell->app, ast_root, head_token);
 	shell->status = execute_pipeline(ast_root, shell->app);
+	shell->prev_status = shell->status;
 	astree_clear(&ast_head);
 	free_tokens(head_token);
 	_detach_ast_and_token_ptr(shell->app);
