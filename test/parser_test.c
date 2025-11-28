@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 02:49:44 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/21 03:12:36 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/27 16:13:12 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	test_single_cmd(char *input)
 		printf("[%s] -> PASS (status: %d)\n", input, status);
 	else
 		printf("[%s] -> FAIL (status: %d)\n", input, status);
-	astree_clear(astree);
+	astree_clear(&astree);
 	return (status);
 }
 
@@ -74,7 +74,7 @@ int	test_cmd1_arg1(char *input, char *cmd1, char *arg1)
 		printf("[%s] -> PASS (status: %d)\n", input, status);
 	else
 		printf("[%s] -> FAIL (status: %d)\n", input, status);
-	astree_clear(astree);
+	astree_clear(&astree);
 	return (status);
 }
 
@@ -95,7 +95,7 @@ int	test_cmd1_arg2(char *input, char *cmd1, char *arg1, char *arg2)
 		printf("[%s] -> PASS (status: %d)\n", input, status);
 	else
 		printf("[%s] -> FAIL (status: %d)\n", input, status);
-	astree_clear(astree);
+	astree_clear(&astree);
 	return (status);
 }
 
@@ -129,7 +129,7 @@ int	test_cmd1_arg1_pipe_cmd2_arg2(
 		printf("[%s] -> FAIL (status: %d)\n", input, status);
 	else
 		printf("[%s] -> PASS (status: %d)\n", input, status);
-	astree_clear(head);
+	astree_clear(&head);
 	return (status);
 }
 
@@ -172,7 +172,7 @@ int	test_cmd1_arg1_pipe_cmd2_arg2_pipe_cmd3_arg3(
 		printf("[%s] -> FAIL (status: %d)\n", input, status);
 	else
 		printf("[%s] -> PASS (status: %d)\n", input, status);
-	astree_clear(head);
+	astree_clear(&head);
 	return (status);
 }
 
@@ -194,7 +194,7 @@ int	test_cmd1_arg1_red1(char *input, char *cmd1, char *arg1, char *red1, t_tkind
 		printf("[%s] -> PASS (status: %d)\n", input, status);
 	else
 		printf("[%s] -> FAIL (status: %d)\n", input, status);
-	astree_clear(astree);
+	astree_clear(&astree);
 	return (status);
 }
 
@@ -211,7 +211,7 @@ int	test_failure(char *input)
 		printf("[%s] -> PASS (status: %d)\n", input, status);
 	else
 		printf("[%s] -> FAIL (status: %d)\n", input, status);
-	astree_clear(astree);
+	astree_clear(&astree);
 	return (status);
 }
 
