@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/28 00:41:02 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/28 07:10:44 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@
 # define OLDPWD "OLDPWD"
 # define HOME "HOME"
 # define HERE_DOC_PROMPT "> "
+# define ERR_SYNTAX_TOKEN_NL "syntax error near unexpected token `newline'"
 # define ERR_SYNTAX_TOKEN "minishell: syntax error near unexpected token"
+# define ERR_UNMATCH_SQUOTE "unexpected EOF while looking for matching `''"
+# define ERR_UNMATCH_DQUOTE "unexpected EOF while looking for matching `\"'"
+# define ERR_UNEXPECTED_EOF "minishell: syntax error: unexpected end of file"
 
 /*
 typedef struct s_red			t_red;
