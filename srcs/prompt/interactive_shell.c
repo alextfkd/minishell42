@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interactive_shell.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/28 04:11:34 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/29 01:55:50 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static char	*readline_with_nl(char *prompt1, char *prompt2, t_shell *shell)
 	char		*buf;
 	char		*tmp;
 
+	set_minishell_prompt(&prompt1, &prompt2);
 	ms_buf = shell->ms_buf;
 	if (ms_buf->tmp_buf == NULL)
 		tmp = readline(prompt1);
