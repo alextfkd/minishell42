@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_app.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 10:58:24 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/26 22:45:30 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/28 00:20:13 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	_init_env_vars(t_app *app, char **envp);
 
 /**
  * @brief Initializes the main application structure (t_app),
@@ -32,11 +34,7 @@ t_app	*setup_app(char **envp, t_shell *shell)
 	app->original_stdout = dup(STDOUT_FILENO);
 	if (app->original_stdin == -1 || app->original_stdout == -1)
 		return (perror("minishell: dup stdio"), NULL);
-	app->envp = dup_env(envp);
-	if (!app->envp)
-		return (free_app(app), NULL);
-	app->env_list = envp_to_env_list(app->envp);
-	if (!app->env_list)
+	if (_init_env_vars(app, envp))
 		return (free_app(app), NULL);
 	append_args_to_env_list(OLDPWD, &app->env_list);
 	if (handle_update_env(app) != 0)
@@ -44,6 +42,29 @@ t_app	*setup_app(char **envp, t_shell *shell)
 	if (!app->envp)
 		return (free_app(app), NULL);
 	return (app);
+}
+
+/**
+ * @brief Initializes the enviroment varliables
+ *
+ * @param app
+ * @param envp
+ * @return int
+ */
+static int	_init_env_vars(t_app *app, char **envp)
+{
+	char	**tmp;
+
+	app->envp = dup_env(envp);
+	if (!app->envp)
+		return (1);
+	app->env_list = envp_to_env_list(app->envp);
+	if (!app->env_list)
+		return (1);
+	tmp = app->envp;
+	app->envp = NULL;
+	ft_free_tab(tmp);
+	return (0);
 }
 
 /**
@@ -59,12 +80,16 @@ void	free_app(t_app *app)
 		ft_free_tab(app->envp);
 	if (app->env_list)
 		free_env_list(app->env_list);
+	if (app->cmd_list)
+		free_list(&app->cmd_list);
 	if (app->astree_root)
 		astree_clear(&app->astree_root);
 	if (app->token_head)
 		free_tokens(app->token_head);
-	close(app->original_stdin);
-	close(app->original_stdout);
+	if (app->original_stdin != -1)
+		close(app->original_stdin);
+	if (app->original_stdout != -1)
+		close(app->original_stdout);
 	free(app);
 }
 

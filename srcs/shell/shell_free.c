@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 08:19:27 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/28 03:26:37 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/28 04:11:55 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 /**
  * @brief Free t_shell object and returns t_shell->status.
- * 
- * @param shell 
+ *
+ * @param shell
  * @return int t_shell->status.
  */
 int	free_shell(t_shell *shell)
@@ -26,15 +26,16 @@ int	free_shell(t_shell *shell)
 		return (-1);
 	res = shell->status;
 	free_ms_buf(&(shell->ms_buf));
-	free_app(shell->app);
+	if (shell->app)
+		free_app(shell->app);
 	free(shell);
 	return (res);
 }
 
 /**
  * @brief Delete the t_ms_buf memory and the all attributes inside.
- * 
- * @param ms_buf 
+ *
+ * @param ms_buf
  */
 void	free_ms_buf(t_ms_buf **ms_buf)
 {

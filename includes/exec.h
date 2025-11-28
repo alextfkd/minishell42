@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/27 15:02:56 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/28 00:41:02 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,8 @@ void				close_unused_fds(void);
 int					wait_all_processes(t_exec *e, t_app *app);
 void				execve_exit_error(void);
 int					set_exit_status(int status);
+void				free_pipeline_vars(t_exec *e, t_app *app);
+int					init_exec_vars(t_exec *e, t_astree *node, t_app *app);
 
 // find cmd path
 char				*find_cmd_path(char *av0, t_env *env_list);
