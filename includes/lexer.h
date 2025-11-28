@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 23:28:39 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/27 02:39:30 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/28 08:14:54 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ void	free_tokens(t_token *head);
 
 t_token	*extract_symbol_token(t_lexer *lex);
 t_token	*extract_word_token(t_lexer *lex);
+t_token	*token_last(t_token *head);
 
 #endif
