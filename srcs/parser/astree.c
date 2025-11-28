@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:38:27 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/27 16:09:51 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/28 08:05:07 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,13 @@ t_astree	*astree_create_cmd_node(t_token **tokens_head, int *status)
 	t_cmd		*cmd;
 	t_astree	*node;
 
+	if (tokens_head == NULL || *tokens_head == NULL)
+		return (NULL);
+	if ((*tokens_head)->tk == TK_PIPE)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		return (ft_putendl_fd(ERR_SYNTAX_TOKEN_PIPE, 2), NULL);
+	}
 	cmd = tokens2cmd(tokens_head, status);
 	if (cmd == NULL)
 	{
