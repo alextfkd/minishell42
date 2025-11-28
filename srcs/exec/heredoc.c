@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/27 23:54:23 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/29 01:51:51 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	_heredoc_routine(
 
 	while (1)
 	{
-		line = readline(HERE_DOC_PROMPT);
+		line = readline(set_heredoc_prompt());
 		if (!line)
 		{
 			if (g_sig_received)

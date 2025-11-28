@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc -g -DLOGLEVEL=0
-GCC = gcc -g -DLOGLEVEL=0
+GCC = gcc -g -DLOGLEVEL=1
 
 OBJDIR = objs
 SRCDIR = srcs
@@ -25,7 +25,7 @@ BUILTINFLAGS = -DBUILTIN_ON=1
 
 MAIN_FILE = main.c
 
-UTILS_FILES = ft_log.c ft_log_token.c ft_app.c ft_log_astree.c ft_log_astree_sub.c ft_env_conv_util.c ft_env_conv.c ft_env_free.c ft_env_mng.c ft_env_list.c ft_builtin.c
+UTILS_FILES = ft_log.c ft_log_token.c ft_app.c ft_log_astree.c ft_log_astree_sub.c ft_env_conv_util.c ft_env_conv.c ft_env_free.c ft_env_mng.c ft_env_list.c ft_builtin.c ft_tty.c
 
 SIGNAL_FILES = sig_handler.c sigaction.c
 
