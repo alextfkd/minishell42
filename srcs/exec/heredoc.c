@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/27 10:27:47 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/27 23:54:23 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ static void	_heredoc_child(
 	int is_quoted,
 	t_app *app)
 {
+	int	exit_status;
+
 	signal(SIGINT, _heredoc_exit_handler);
 	signal(SIGQUIT, SIG_IGN);
 	g_sig_received = 0;
@@ -74,10 +76,13 @@ static void	_heredoc_child(
 	{
 		dup2(app->original_stdin, STDIN_FILENO);
 		rl_deprep_terminal();
-		exit(130);
+		exit_status = 130;
 	}
 	else
-		exit(0);
+		exit_status = 0;
+	if (app && app->shell)
+		free_shell(app->shell);
+	exit(exit_status);
 }
 
 int	handle_heredoc(t_red *red, t_app *app)
