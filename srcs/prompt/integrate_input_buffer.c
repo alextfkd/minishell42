@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 03:25:27 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/28 03:25:31 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/28 06:19:35 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,11 @@ static	int	_is_executable(char *rl_buf, int *status)
 	if (token == NULL)
 		return (-1);
 	if (get_token_tail(token)->tk == TK_ESCAPED_NL)
+	{
+		free_tokens(token);
+		return (0);
+	}
+	if (get_token_tail(token)->tk == TK_PIPE)
 	{
 		free_tokens(token);
 		return (0);
