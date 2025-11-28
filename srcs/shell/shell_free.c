@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/17 08:19:27 by marvin            #+#    #+#             */
-/*   Updated: 2025/11/27 23:52:03 by htsutsum         ###   ########.fr       */
+/*   Created: 2025/10/17 08:19:27 by tkatsuma          #+#    #+#             */
+/*   Updated: 2025/11/28 04:11:55 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
