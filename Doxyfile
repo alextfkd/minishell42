@@ -1,0 +1,41 @@
+# Minishell Doxyfile
+#
+
+# Project setting
+PROJECT_NAME           = "Minishell"
+PROJECT_NUMBER         = "1.0"
+OUTPUT_LANGUAGE        = Japanese
+
+# Target diretory
+INPUT                  = srcs includes
+RECURSIVE              = YES
+
+# Exclude setting
+EXCLUDE                =
+EXCLUDE_PATTERNS       =
+
+# Analyze c language setting
+OPTIMIZE_OUTPUT_FOR_C  = YES
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+TYPEDEF_HIDES_STRUCT   = YES
+SOURCE_BROWSER         = YES
+
+
+# Graphviz setting
+HAVE_DOT               = YES
+
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
+
+DIRECTORY_GRAPH        = YES
+INCLUDE_GRAPH          = YES
+INCLUDED_BY_GRAPH      = YES
+
+UML_LOOK               = NO
+DOT_IMAGE_FORMAT       = svg
+INTERACTIVE_SVG        = YES
+
+DOT_GRAPH_MAX_NODES    = 100
+MAX_DOT_GRAPH_DEPTH    = 0
