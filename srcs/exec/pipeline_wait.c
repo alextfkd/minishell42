@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 23:03:01 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/27 11:25:03 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/30 06:59:12 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ void	execve_exit_error(void)
 {
 	if (errno == EACCES)
 		exit(126);
-	else
+	if (errno == ENOENT)
 		exit(127);
+	exit(127);
 }
 
 int	set_exit_status(int status)

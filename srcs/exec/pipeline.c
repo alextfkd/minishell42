@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:35:43 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/28 01:56:23 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/30 06:10:20 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,24 +85,6 @@ static int	_run_pipeline_loop(t_exec *e, t_app *app)
 	}
 	return (0);
 }
-
-/**
- * @brief Handles pipe creation with error management.
- */
-/*
-static int	_setup_pipe(t_exec *e)
-{
-	if (e->current->next && pipe(e->pipe_fds) == -1)
-	{
-		perror("minishell: pipe");
-		if (e->prev_fd != STDIN_FILENO)
-			close(e->prev_fd);
-		cleanup_pipeline(e->cmd_list, e->pids, e->i);
-		return (1);
-	}
-	return (0);
-}
-*/
 
 /**
  * @brief Handles fork, child execution, and fork error management.

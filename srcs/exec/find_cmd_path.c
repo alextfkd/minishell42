@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 22:49:41 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/24 23:33:22 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/30 07:03:36 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,9 @@ static char	**_get_path_dir(t_env *env_list)
 
 static char	*_search_paths(char **paths, char *av0)
 {
-	int		i;
-	char	*cmd_path;
+	int			i;
+	char		*cmd_path;
+	struct stat	path_stat;
 
 	i = 0;
 	while (paths[i])
@@ -106,8 +107,12 @@ static char	*_search_paths(char **paths, char *av0)
 		cmd_path = _append_cmd_to_path(paths[i], av0);
 		if (!cmd_path)
 			break ;
-		if (access(cmd_path, F_OK | X_OK) == 0)
-			return (cmd_path);
+		if (stat(cmd_path, &path_stat) == 0)
+		{
+			if (!S_ISDIR(path_stat.st_mode)
+				&& access(cmd_path, F_OK | X_OK) == 0)
+				return (cmd_path);
+		}
 		free(cmd_path);
 		i++;
 	}

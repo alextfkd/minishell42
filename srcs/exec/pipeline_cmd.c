@@ -14,7 +14,7 @@
 
 static void	_setup_child_io(t_exec *e);
 static void	_validate_cmd_redirection(t_cmd *cmd, t_app *app);
-static void	_handle_cmd_not_found(char *cmd_name, t_app *app);
+static void	_validate_cmd_path(t_cmd *cmd, t_app *app, char *cmd_path);
 
 /**
  * @brief Pipe routing and built-in/external command assignment
@@ -77,8 +77,7 @@ void	execute_external_cmd(t_cmd *cmd, t_app *app)
 
 	_validate_cmd_redirection(cmd, app);
 	cmd_path = find_cmd_path(cmd->argv[0], app->env_list);
-	if (!cmd_path)
-		_handle_cmd_not_found(cmd->argv[0], app);
+	_validate_cmd_path(cmd, app, cmd_path);
 	close_unused_fds();
 	if (execve(cmd_path, cmd->argv, app->envp) == -1)
 	{
@@ -102,31 +101,31 @@ static void	_validate_cmd_redirection(t_cmd *cmd, t_app *app)
 
 	ret = handle_redirections(cmd->red, app);
 	if (ret != 0)
-	{
-		if (app && app->shell)
-			free_shell(app->shell);
-		exit(ret);
-	}
+		free_shell_exit(app, ret);
 	if (cmd->argv == NULL || cmd->argv[0] == NULL)
-	{
-		if (app && app->shell)
-			free_shell(app->shell);
-		exit(0);
-	}
+		free_shell_exit(app, 0);
 }
 
-/**
- * @brief handle command not found error;
- *
- * @param cmd_name
- * @param app
- */
-static void	_handle_cmd_not_found(char *cmd_name, t_app *app)
+static void	_validate_cmd_path(t_cmd *cmd, t_app *app, char *cmd_path)
 {
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(cmd_name, STDERR_FILENO);
-	ft_putendl_fd(": command not found", STDERR_FILENO);
-	if (app && app->shell)
-		free_shell(app->shell);
-	exit(127);
+	struct stat	cmd_stat;
+
+	if (!cmd_path)
+	{
+		print_cmd_error(cmd, 0, "command not found", 0);
+		free(cmd_path);
+		free_shell_exit(app, 127);
+	}
+	if (stat(cmd_path, &cmd_stat) == 0 && S_ISDIR(cmd_stat.st_mode))
+	{
+		print_cmd_error(cmd, 0, "Is a directory", 0);
+		free(cmd_path);
+		free_shell_exit(app, 126);
+	}
+	if (access(cmd_path, X_OK) == -1)
+	{
+		print_cmd_error(cmd, 0, "Permission denied", 0);
+		free(cmd_path);
+		free_shell_exit(app, 126);
+	}
 }

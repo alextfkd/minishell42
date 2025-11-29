@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 10:58:24 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/28 00:20:13 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/29 02:57:12 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ t_app	*setup_app(char **envp, t_shell *shell)
 		return (perror("minishell: dup stdio"), NULL);
 	if (_init_env_vars(app, envp))
 		return (free_app(app), NULL);
-	append_args_to_env_list(OLDPWD, &app->env_list);
 	if (handle_update_env(app) != 0)
 		return (NULL);
 	if (!app->envp)
@@ -64,6 +63,7 @@ static int	_init_env_vars(t_app *app, char **envp)
 	tmp = app->envp;
 	app->envp = NULL;
 	ft_free_tab(tmp);
+	append_args_to_env_list(OLDPWD, &app->env_list);
 	return (0);
 }
 
