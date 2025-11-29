@@ -21,7 +21,7 @@ CFLAGS = -Wall -Wextra -Werror
 IFLAGS = -Iincludes -Ilibft/includes
 LFLAGS = -Llibft
 LIBFLAGS = -lft -lreadline
-BUILTINFLAGS = -DBUILTIN_ON=1
+BUILTINFLAGS = -DBUILTIN_ON=0
 
 MAIN_FILE = main.c
 
@@ -81,7 +81,7 @@ expansion_test: $(LIBFT) $(OBJS)
 	$(GCC) $(CFLAGS) $(IFLAGS) -c test/expansion_test.c -o objs/expansion_test.o
 	$(GCC) $(CFLAGS) $(IFLAGS) $(filter-out objs/main.o, $(OBJS)) objs/expansion_test.o -o $@ $(LFLAGS) $(LIBFLAGS)
 
-builtin: fclean
+builtin_off: fclean
 	$(MAKE) CFLAGS="$(CFLAGS) $(BUILTINFLAGS)" all
 
 $(LIBFT):
@@ -102,6 +102,6 @@ re: fclean all
 norminette:
 	bash ./norm.sh
 
-.PHONY: all clean fclean re bonus norminette lexer_test builtin
+.PHONY: all clean fclean re bonus norminette lexer_test builtin_off
 
 #norminette ./srcs ./includes ./libft
