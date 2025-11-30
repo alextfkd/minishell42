@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:35:43 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/30 06:10:20 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/30 23:42:25 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	execute_pipeline(t_astree *node, t_app *app)
 	e.pids = malloc(sizeof(pid_t) * e.cmd_count);
 	if (!e.pids)
 		return (free_pipeline_vars(&e, app), perror("malloc"), 1);
+	set_ignore_signal();
 	if (_run_pipeline_loop(&e, app) != 0)
 		return (free_pipeline_vars(&e, app), 1);
 	status = wait_all_processes(&e, app);
@@ -107,6 +108,9 @@ static int	_fork_and_exec(t_exec *e, t_app *app)
 	}
 	if (e->pids[e->i] == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGTSTP, SIG_DFL);
 		free(e->pids);
 		child_routine(e, (t_cmd *)e->current->content, app);
 	}

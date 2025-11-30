@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/29 01:51:51 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/30 23:42:07 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,67 @@
 
 static int	_wait_for_heredoc(pid_t pid, int pipe_fds[2]);
 static void	_heredoc_exit_handler(int sig);
+static void	_heredoc_child(char *delimiter, int *pipe_fds, int is_quoted,
+				t_app *app);
+static void	_heredoc_routine(char *delimiter, int *pipe_fds, int is_quoted,
+				t_app *app);
+
+int	handle_heredoc(t_red *red, t_app *app)
+{
+	int	pid;
+	int	status;
+	int	pipe_fds[2];
+
+	if (pipe(pipe_fds) == -1)
+		return (perror("heredoc pipe error"), 1);
+	pid = fork();
+	if (pid == -1)
+	{
+		close(pipe_fds[0]);
+		close(pipe_fds[1]);
+		return (perror("minishell: heredoc fork error"), 1);
+	}
+	set_ignore_signal();
+	if (pid == 0)
+		_heredoc_child(red->file, pipe_fds, red->is_quoted, app);
+	status = _wait_for_heredoc(pid, pipe_fds);
+	if (status == 0)
+	{
+		red->fd = pipe_fds[0];
+		return (0);
+	}
+	else
+		return (status);
+}
+
+static void	_heredoc_child(
+	char *delimiter,
+	int *pipe_fds,
+	int is_quoted,
+	t_app *app)
+{
+	int	exit_status;
+
+	signal(SIGINT, _heredoc_exit_handler);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTSTP, SIG_IGN);
+	g_sig_received = 0;
+	restore_heredoc_std_io(app, pipe_fds);
+	close(pipe_fds[0]);
+	close_heredoc_unused_fds(pipe_fds, app);
+	_heredoc_routine(delimiter, pipe_fds, is_quoted, app);
+	close(pipe_fds[1]);
+	if (g_sig_received)
+	{
+		dup2(app->original_stdin, STDIN_FILENO);
+		rl_deprep_terminal();
+		ft_putendl_fd("^C", 2);
+		exit_status = 130;
+	}
+	else
+		exit_status = 0;
+	free_shell_exit(app, exit_status);
+}
 
 /**
  * @brief Handles the main routine for reading input in a heredoc operation.
@@ -28,7 +89,7 @@ static void	_heredoc_exit_handler(int sig);
 static void	_heredoc_routine(
 	char *delimiter,
 	int *pipe_fds,
-	int is_quated,
+	int is_quoted,
 	t_app *app)
 {
 	char	*line;
@@ -48,68 +109,12 @@ static void	_heredoc_routine(
 			free(line);
 			break ;
 		}
-		if (!is_quated)
+		if (!is_quoted)
 			line = expand_line(line, app);
 		write(pipe_fds[1], line, ft_strlen(line));
 		write(pipe_fds[1], "\n", 1);
 		free(line);
 	}
-}
-
-static void	_heredoc_child(
-	char *delimiter,
-	int *pipe_fds,
-	int is_quoted,
-	t_app *app)
-{
-	int	exit_status;
-
-	signal(SIGINT, _heredoc_exit_handler);
-	signal(SIGQUIT, SIG_IGN);
-	g_sig_received = 0;
-	restore_heredoc_std_io(app, pipe_fds);
-	close(pipe_fds[0]);
-	close_heredoc_unused_fds(pipe_fds, app);
-	_heredoc_routine(delimiter, pipe_fds, is_quoted, app);
-	close(pipe_fds[1]);
-	if (g_sig_received)
-	{
-		dup2(app->original_stdin, STDIN_FILENO);
-		rl_deprep_terminal();
-		exit_status = 130;
-	}
-	else
-		exit_status = 0;
-	if (app && app->shell)
-		free_shell(app->shell);
-	exit(exit_status);
-}
-
-int	handle_heredoc(t_red *red, t_app *app)
-{
-	int	pid;
-	int	status;
-	int	pipe_fds[2];
-
-	if (pipe(pipe_fds) == -1)
-		return (perror("heredoc pipe error"), 1);
-	pid = fork();
-	if (pid == -1)
-	{
-		close(pipe_fds[0]);
-		close(pipe_fds[1]);
-		return (perror("minishell: heredoc fork error"), 1);
-	}
-	if (pid == 0)
-		_heredoc_child(red->file, pipe_fds, red->is_quoted, app);
-	status = _wait_for_heredoc(pid, pipe_fds);
-	if (status == 0)
-	{
-		red->fd = pipe_fds[0];
-		return (0);
-	}
-	else
-		return (status);
 }
 
 static int	_wait_for_heredoc(pid_t pid, int pipe_fds[2])
@@ -118,8 +123,6 @@ static int	_wait_for_heredoc(pid_t pid, int pipe_fds[2])
 	int	exit_status;
 
 	close(pipe_fds[1]);
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
 	while (waitpid(pid, &status, 0) == -1)
 	{
 		if (errno == EINTR)
@@ -127,6 +130,9 @@ static int	_wait_for_heredoc(pid_t pid, int pipe_fds[2])
 		close(pipe_fds[0]);
 		return (perror("minishell: heredoc waitpid"), 1);
 	}
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTSTP, SIG_DFL);
 	if (WIFSIGNALED(status))
 		return (close(pipe_fds[0]), 128 + WTERMSIG(status));
 	else if (WIFEXITED(status))
@@ -144,5 +150,4 @@ static void	_heredoc_exit_handler(int sig)
 	(void)sig;
 	g_sig_received = 1;
 	close(STDIN_FILENO);
-	write(1, "^C", 2);
 }

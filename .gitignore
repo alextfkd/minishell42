@@ -17,3 +17,4 @@ test/pipe_test.c
 pipex_tester
 html
 latex
+build/
