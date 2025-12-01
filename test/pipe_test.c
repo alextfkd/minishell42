@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pipe_test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/03 14:13:40 by tkatsumata        #+#    #+#             */
-/*   Updated: 2025/11/27 13:23:48 by tkatsuma         ###   ########.fr       */
+/*   Created: 2025/11/28 12:17:49 by htsutsum          #+#    #+#             */
+/*   Updated: 2025/11/28 12:22:45 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#define "minishell.h"
 
-volatile sig_atomic_t	g_sig_received = 0;
+static void _configure_reLsignals(void)
 
-static void	_configure_rl_signals(void);
-
-int	main(int argc, char **argv, char **envp)
+int main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
 
@@ -24,15 +22,7 @@ int	main(int argc, char **argv, char **envp)
 	shell = create_t_shell(argc, argv, envp);
 	if (shell == NULL)
 		return (1);
-	if (shell->argc == 1)
-		shell->status = interactive_shell(shell);
-	else if (shell->argc >= 2)
-		shell->status = non_interactive_shell(shell);
-	else
-	{
-		shell->status = 1;
-		return (free_shell(shell));
-	}
+	shell->status = interactive_shell(shell);
 	return (free_shell(shell));
 }
 

@@ -6,11 +6,41 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 20:38:13 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/24 20:40:35 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/28 00:20:51 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	**_rebuild_envp(t_env *env_list);
+
+/**
+ * @brief Rebuilds and updates the environment variable array (envp).
+ *
+ * This function generates a new char** array from the current env_list.
+ * It updates app->envp only if the allocation succeeds, preventing
+ * data loss in case of an error.
+ *
+ * @param app
+ * @return int 0 on success, 1 if memory allocation failed.
+ */
+int	handle_update_env(t_app *app)
+{
+	char	**new_envp;
+	char	**old_envp;
+
+	old_envp = app->envp;
+	new_envp = _rebuild_envp(app->env_list);
+	if (!new_envp)
+	{
+		ft_putendl_fd("minishell: rebuild envp failed", 2);
+		return (1);
+	}
+	app->envp = new_envp;
+	if (old_envp)
+		ft_free_tab(old_envp);
+	return (0);
+}
 
 /**
  * @brief  Rebuilds the shell's environment variable array (char**)
@@ -26,15 +56,13 @@
  * @param current_envp
  * @return char**
 */
-char	**rebuild_envp(t_env *env_list, char **current_envp)
+static char	**_rebuild_envp(t_env *env_list)
 {
 	char	**new_envp;
 
-	if (current_envp)
-		ft_free_tab(current_envp);
 	new_envp = env_list_to_envp(env_list);
 	if (!new_envp)
-		return (perror("minishell: envp update failed"), NULL);
+		return (NULL);
 	return (new_envp);
 }
 
@@ -62,17 +90,13 @@ t_env	*get_env_from_env_line(const char *env_line)
 	{
 		is_set = ENV_SET;
 		if (!value)
-			return (free(key), NULL);
+			return (free_env_vars(key, NULL));
 	}
 	else
 		is_set = ENV_UNSET;
 	new_node = env_new_node(key, value, is_set);
 	if (!new_node)
-	{
-		free(key);
-		if (value)
-			return (free(value), NULL);
-	}
+		return (free_env_vars(key, value));
 	return (new_node);
 }
 

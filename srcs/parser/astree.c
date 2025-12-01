@@ -6,13 +6,13 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:38:27 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/21 02:29:09 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/28 08:05:07 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void			astree_clear(t_astree *node);
+void			astree_clear(t_astree **node);
 void			astree_add_branch(
 					t_astree *node, t_astree *left, t_astree *right);
 static t_astree	*_astree_create_node(
@@ -29,6 +29,13 @@ t_astree	*astree_create_cmd_node(t_token **tokens_head, int *status)
 	t_cmd		*cmd;
 	t_astree	*node;
 
+	if (tokens_head == NULL || *tokens_head == NULL)
+		return (NULL);
+	if ((*tokens_head)->tk == TK_PIPE)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		return (ft_putendl_fd(ERR_SYNTAX_TOKEN_PIPE, 2), NULL);
+	}
 	cmd = tokens2cmd(tokens_head, status);
 	if (cmd == NULL)
 	{
@@ -39,7 +46,7 @@ t_astree	*astree_create_cmd_node(t_token **tokens_head, int *status)
 	if (node == NULL)
 	{
 		*status = 1;
-		return (clear_cmd(cmd), NULL);
+		return (clear_cmd(&cmd), NULL);
 	}
 	*status = 0;
 	return (node);
@@ -76,9 +83,9 @@ static t_astree	*_astree_create_node(
 	if (!new)
 	{
 		perror("minishell: t_astree memory allocated error");
-		clear_cmd(cmd);
-		astree_clear(left);
-		astree_clear(right);
+		clear_cmd(&cmd);
+		astree_clear(&left);
+		astree_clear(&right);
 		return (NULL);
 	}
 	new->type = type;
@@ -88,15 +95,17 @@ static t_astree	*_astree_create_node(
 }
 
 /*Clears AST tree and containing t_cmd recursively.*/
-void	astree_clear(t_astree *node)
+void	astree_clear(t_astree **node)
 {
-	if (!node)
+	if (!node || !(*node))
 		return ;
-	if (node->cmd)
-		clear_cmd(node->cmd);
-	astree_clear(node->left);
-	astree_clear(node->right);
-	free(node);
+	if ((*node)->cmd != NULL)
+		clear_cmd(&(*node)->cmd);
+	(*node)->cmd = NULL;
+	astree_clear(&(*node)->left);
+	astree_clear(&(*node)->right);
+	free(*node);
+	*node = NULL;
 }
 
 /*Add left and right branch nodes.*/

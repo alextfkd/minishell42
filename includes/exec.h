@@ -6,18 +6,17 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/24 23:31:11 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/30 23:41:30 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
 
-# include "lexer.h"
-# include "libft.h"
+# include "types.h"
 
 # ifndef BUILTIN_ON
-#  define BUILTIN_ON 0
+#  define BUILTIN_ON 1
 # endif
 
 # define MAX_FD 1024
@@ -26,9 +25,18 @@
 # define ENV_ALL -1
 # define FIRST_CHAR 1
 # define OTHER_CHAR 0
+# define PWD "PWD"
+# define OLDPWD "OLDPWD"
+# define HOME "HOME"
 # define HERE_DOC_PROMPT "> "
+# define ERR_SYNTAX_TOKEN_NL "syntax error near unexpected token `newline'"
+# define ERR_SYNTAX_TOKEN_PIPE "syntax error near unexpected token `|'"
 # define ERR_SYNTAX_TOKEN "minishell: syntax error near unexpected token"
+# define ERR_UNMATCH_SQUOTE "unexpected EOF while looking for matching `''"
+# define ERR_UNMATCH_DQUOTE "unexpected EOF while looking for matching `\"'"
+# define ERR_UNEXPECTED_EOF "minishell: syntax error: unexpected end of file"
 
+/*
 typedef struct s_red			t_red;
 typedef struct s_cmd			t_cmd;
 typedef struct s_app			t_app;
@@ -96,12 +104,15 @@ struct s_env
 
 struct	s_app
 {
-	t_shell	*shell;
-	char	**envp;
-	t_env	*env_list;
-	int		exit_status;
-	int		original_stdin;
-	int		original_stdout;
+	t_shell		*shell;
+	char		**envp;
+	t_env		*env_list;
+	int			exit_status;
+	int			original_stdin;
+	int			original_stdout;
+	t_astree	*astree_root;
+	t_token		*token_head;
+	t_list		*cmd_list;
 };
 
 struct	s_builtin_map
@@ -126,6 +137,7 @@ struct s_exec
 	int		cmd_count;
 	int		i;
 };
+*/
 
 // perser
 t_astree			*create_astree_from_tokens(t_token **tokens_head,
@@ -133,14 +145,14 @@ t_astree			*create_astree_from_tokens(t_token **tokens_head,
 int					append_red_to_cmd(t_cmd *cmd, t_token *current);
 void				astree_add_branch(t_astree *root, t_astree *left,
 						t_astree *right);
-void				astree_clear(t_astree *node);
-void				clear_cmd(t_cmd *cmd);
+void				astree_clear(t_astree **node);
+void				clear_cmd(t_cmd **cmd);
 int					set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end);
 t_cmd				*tokens2cmd(t_token **tokens_head, int *status);
 int					is_red(t_tkind tk);
 t_red				*find_last_red(t_red *red);
 void				red_add_back(t_red **head_red, t_red *new);
-void				clear_red(t_red *head_red);
+void				clear_red(t_red **head_red);
 
 // execute builtin
 t_builtin_type		get_builtin_type(t_cmd *cmd);
@@ -154,12 +166,15 @@ void				free_list(t_list **list);
 // execute pipline
 int					execute_pipeline(t_astree *node, t_app *app);
 void				execute_external_cmd(t_cmd *cmd, t_app *app);
-int					wait_all_processes(t_exec *e, t_app *app);
+void				update_underscore(t_app *app, t_cmd *cmd);
 void				child_routine(t_exec *e, t_cmd *cmd, t_app *app);
 void				cleanup_pipeline(t_list *cmd_list, pid_t *pids, int count);
 void				close_unused_fds(void);
+int					wait_all_processes(t_exec *e, t_app *app);
 void				execve_exit_error(void);
 int					set_exit_status(int status);
+void				free_pipeline_vars(t_exec *e, t_app *app);
+int					init_exec_vars(t_exec *e, t_astree *node, t_app *app);
 
 // find cmd path
 char				*find_cmd_path(char *av0, t_env *env_list);
@@ -171,25 +186,26 @@ int					handle_redirections(t_red *red, t_app *app);
 
 // heredoc
 int					handle_heredoc(t_red *red, t_app *app);
-char				*expand_heredoc_line(char *line, t_app *app);
+char				*expand_line(char *line, t_app *app);
 void				close_heredoc_unused_fds(int *pipe_fds, t_app *app);
 void				restore_heredoc_std_io(t_app *app, int *pipe_fds);
 void				print_heredoc_error(char *delimiter);
+void				set_ignore_signal(void);
 
 // builtin
 int					ft_pwd(t_app *app, t_cmd *cmd);
-char				*get_current_dir(void);
 int					ft_env(t_app *app, t_cmd *cmd);
 int					ft_unset(t_app *app, t_cmd *cmd);
 int					ft_export(t_app *app, t_cmd *cmd);
+int					append_args_to_env_list(const char *args, t_env **env_list);
+void				print_export_error(t_cmd *cmd, int i);
 int					is_validate_args(const char *args);
 int					is_env_char(char c, int mode);
 int					append_args_to_env_list(const char *args, t_env **env_list);
-void				overwrite_and_free_node(t_env *current, t_env *new_node);
 int					print_env_attrib(const t_env *env_list);
-void				free_env_node(t_env *node);
 int					ft_cd(t_app *app, t_cmd *cmd);
 int					ft_echo(t_app *app, t_cmd *cmd);
 int					ft_exit(t_app *app, t_cmd *cmd);
+void				exit_process(int status, t_app *app);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 02:49:44 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/21 11:56:51 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/27 16:14:08 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	test_single_cmd(t_shell *shell, char *input, char *cmd1, char *path1)
 	else
 		printf("[%s] -> FAIL (status: %d)\n", input, status);
 	
-	astree_clear(astree_head);
+	astree_clear(&astree_head);
 	return (status);
 }
 
@@ -72,7 +72,7 @@ int	test_cmd1_arg1_red1(t_shell *shell, char *input, char *cmd1, char *arg1, cha
 	else
 		printf("[%s] -> FAIL (status: %d)\n", input, status);
 	
-	astree_clear(astree_head);
+	astree_clear(&astree_head);
 	return (status);
 }
 
@@ -97,7 +97,7 @@ int	test_cmd1_arg1_red2(t_shell *shell, char *input, char *cmd1, char *arg1, cha
 	else
 		printf("[%s] -> FAIL (status: %d)\n", input, status);
 	
-	astree_clear(astree_head);
+	astree_clear(&astree_head);
 	return (status);
 }
 

@@ -14,18 +14,18 @@ SHELL_DIR = shell
 PARSER_DIR = parser
 BUILTIN_DIR = builtin
 INCLUDE = includes
-HEADER = $(INCLUDE)/exec.h $(INCLUDE)/lexer.h $(INCLUDE)/minishell.h
+HEADER = $(INCLUDE)/types.h $(INCLUDE)/exec.h $(INCLUDE)/lexer.h $(INCLUDE)/minishell.h
 LIBFT = ./libft/libft.a
 
 CFLAGS = -Wall -Wextra -Werror
 IFLAGS = -Iincludes -Ilibft/includes
 LFLAGS = -Llibft
 LIBFLAGS = -lft -lreadline
-BUILTINFLAGS = -DBUILTIN_ON=1
+BUILTINFLAGS = -DBUILTIN_ON=0
 
 MAIN_FILE = main.c
 
-UTILS_FILES = ft_log.c ft_log_token.c ft_app.c ft_log_astree.c ft_log_astree_sub.c ft_env_conv_util.c ft_env_conv.c ft_env_mng.c ft_env_list.c
+UTILS_FILES = ft_log.c ft_log_token.c ft_app.c ft_log_astree.c ft_log_astree_sub.c ft_env_conv_util.c ft_env_conv.c ft_env_free.c ft_env_mng.c ft_env_list.c ft_builtin.c ft_tty.c
 
 SIGNAL_FILES = sig_handler.c sigaction.c
 
@@ -39,7 +39,7 @@ PARSER_FILES = astree.c parser.c tokens2cmd.c cmd_args.c cmd_redirection.c redir
 
 SHELL_FILES = ft_shell.c shell_free.c ft_log_shell.c
 
-EXEC_FILES = find_cmd_path.c pipeline.c pipeline_util.c pipeline_wait.c redirect_io.c redirect_in.c redirect_out.c heredoc.c heredoc_util.c heredoc_expand.c builtin_cmd.c astree2list.c
+EXEC_FILES = find_cmd_path.c pipeline.c pipeline_cmd.c pipeline_util.c pipeline_wait.c redirect_io.c redirect_in.c redirect_out.c heredoc.c heredoc_util.c heredoc_expand.c builtin_cmd.c astree2list.c
 
 BUILTIN_FILES = ft_pwd.c ft_env.c ft_export.c ft_cd.c ft_echo.c ft_exit.c ft_unset.c ft_export_util.c
 
@@ -81,7 +81,7 @@ expansion_test: $(LIBFT) $(OBJS)
 	$(GCC) $(CFLAGS) $(IFLAGS) -c test/expansion_test.c -o objs/expansion_test.o
 	$(GCC) $(CFLAGS) $(IFLAGS) $(filter-out objs/main.o, $(OBJS)) objs/expansion_test.o -o $@ $(LFLAGS) $(LIBFLAGS)
 
-builtin: fclean
+builtin_off: fclean
 	$(MAKE) CFLAGS="$(CFLAGS) $(BUILTINFLAGS)" all
 
 $(LIBFT):
@@ -102,6 +102,6 @@ re: fclean all
 norminette:
 	bash ./norm.sh
 
-.PHONY: all clean fclean re bonus norminette lexer_test builtin
+.PHONY: all clean fclean re bonus norminette lexer_test builtin_off
 
 #norminette ./srcs ./includes ./libft

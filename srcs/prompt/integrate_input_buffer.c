@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_line.c                                     :+:      :+:    :+:   */
+/*   integrate_input_buffer.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/17 09:26:24 by marvin            #+#    #+#             */
-/*   Updated: 2025/10/17 09:28:21 by marvin           ###   ########.fr       */
+/*   Created: 2025/11/28 03:25:27 by tkatsuma          #+#    #+#             */
+/*   Updated: 2025/11/28 08:17:02 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*integrate_input_buffer(t_shell *shell)
 	if (ms_buf->sh_buf == NULL)
 	{
 		shell->status = 1;
-		free_ms_buf(ms_buf);
+		free_ms_buf(&ms_buf);
 		return (NULL);
 	}
 	if (_is_executable(ms_buf->sh_buf, &(shell->status)) == 0)
@@ -50,7 +50,7 @@ static char	*_integrate_buffers(t_ms_buf *ms_buf)
 	if (integrated_buf == NULL)
 	{
 		perror("Buffer integration error.");
-		free_ms_buf(ms_buf);
+		free_ms_buf(&ms_buf);
 		return (NULL);
 	}
 	free_tmp_buf(ms_buf);

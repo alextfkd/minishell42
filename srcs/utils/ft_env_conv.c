@@ -6,14 +6,13 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 09:09:56 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 21:48:39 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/28 00:12:42 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static char	*_format_to_envp(char *key, char *value);
-static void	_free_envp(char **envp, size_t size);
 
 /**
  * @brief Initializes the minishell's environment by duplicating the main
@@ -120,7 +119,7 @@ char	**env_list_to_envp(t_env *env_list)
 			if (!envp[i])
 			{
 				perror("minishell:envp allocation failed");
-				return (_free_envp(envp, i), NULL);
+				return (free_envp(envp, i), NULL);
 			}
 			i++;
 		}
@@ -159,25 +158,4 @@ static char	*_format_to_envp(char *key, char *value)
 	line[key_len] = '=';
 	ft_memcpy(line + key_len + 1, value, value_len);
 	return (line);
-}
-
-/**
- * @brief free the minishell enviroment variables.
- *
- * @param envp
- * @param size
- *
- * */
-static void	_free_envp(char **envp, size_t size)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < size)
-	{
-		if (envp[i])
-			free(envp[i]);
-		i++;
-	}
-	free(envp);
 }

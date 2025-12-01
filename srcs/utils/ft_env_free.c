@@ -1,31 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_env_free.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 11:34:42 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/30 06:29:13 by htsutsum         ###   ########.fr       */
+/*   Created: 2025/11/28 00:06:08 by htsutsum          #+#    #+#             */
+/*   Updated: 2025/11/28 00:14:44 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Prints the current working directory to standard output.
- *  as the buitin command "PWD"
+ * @brief free the minishell enviroment variables.
  *
- * @return int 0 if successful,1 on error.
- */
-int	ft_pwd(t_app *app, t_cmd *cmd)
+ * @param envp
+ * @param size
+ *
+ * */
+void	free_envp(char **envp, size_t size)
 {
-	char	*path;
+	size_t	i;
 
-	path = get_current_dir(app);
-	if (!path)
-		return (print_cmd_error(cmd, 0, strerror(errno), 0), 1);
-	printf("%s\n", path);
-	free(path);
-	return (0);
+	i = 0;
+	while (i < size)
+	{
+		if (envp[i])
+			free(envp[i]);
+		i++;
+	}
+	free(envp);
+}
+
+/**
+ * @brief free key and value variables
+ *
+ * @param key
+ * @param value
+ * @return void*
+ */
+void	*free_env_vars(char *key, char *value)
+{
+	if (key)
+		free(key);
+	if (value)
+		free(value);
+	return (NULL);
 }

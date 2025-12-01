@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 06:27:07 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/24 18:50:32 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/27 23:15:49 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	execute_builtin_parent(t_cmd *cmd, t_app *app)
 	int	tmp_stdout;
 	int	red_status;
 
+	log_debug("execute_builtin_parent", LOG_DEBUG);
 	tmp_stdin = dup(STDIN_FILENO);
 	tmp_stdout = dup(STDOUT_FILENO);
 	if (tmp_stdin == -1 || tmp_stdout == -1)
@@ -94,7 +95,9 @@ t_builtin_type	get_builtin_type(t_cmd *cmd)
 	while (builtin_map[i].name != NULL)
 	{
 		if (ft_strcmp(cmd->argv[0], builtin_map[i].name) == 0)
+		{
 			return (builtin_map[i].type);
+		}
 		i++;
 	}
 	return (BT_NOT_BULTIN);

@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 23:26:50 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/20 09:07:29 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/28 05:26:58 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ t_token	*tokenize(char *input, int *status)
 			continue ;
 		}
 		token = _tokenize(lex);
+		_extend_lexer_tokens(lex, token);
 		if (token == NULL || lex->status != 0)
 		{
 			*status = 1;
 			return (free_tokens(lex->head), NULL);
 		}
-		_extend_lexer_tokens(lex, token);
 	}
 	lex->head->state = lex->state;
 	token = lex->head;
@@ -94,6 +94,8 @@ static t_token	*_tokenize(t_lexer *lex)
 
 static void	_extend_lexer_tokens(t_lexer *lex, t_token *new_token)
 {
+	if (!new_token)
+		return ;
 	if (!lex->head)
 	{
 		lex->head = new_token;

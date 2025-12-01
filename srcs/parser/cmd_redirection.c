@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_redirection.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:44:01 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/22 07:11:03 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/28 07:03:01 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,18 +102,26 @@ static t_red	*_create_red_node(t_tkind tk, char *file, int is_quoted)
 Otherwise returns 0.*/
 static int	_validate_red_target(t_token *target)
 {
-	if (target == NULL)
+	size_t	len;
+
+	if (target == NULL || target->tk != TK_CHAR)
 	{
-		ft_putstr_fd("error(103)", 2);
-		ft_putstr_fd(ERR_SYNTAX_TOKEN, 2);
-		ft_putendl_fd(" \'newline\'", 2);
-		return (1);
+		ft_putstr_fd("minishell: ", 2);
+		return (ft_putendl_fd(ERR_SYNTAX_TOKEN_NL, 2), 1);
 	}
-	if (target->tk != TK_CHAR)
+	if (target->tk == TK_CHAR)
 	{
-		ft_putstr_fd("error(110)", 2);
-		ft_putendl_fd(ERR_SYNTAX_TOKEN, 2);
-		return (1);
+		len = ft_strlen(target->data);
+		if (target->data[0] == '\'' && target->data[len - 1] != '\'')
+		{
+			ft_putstr_fd("minishell: ", 2);
+			return (ft_putendl_fd(ERR_UNMATCH_SQUOTE, 2), 1);
+		}
+		if (target->data[0] == '\"' && target->data[len - 1] != '\"')
+		{
+			ft_putstr_fd("minishell: ", 2);
+			return (ft_putendl_fd(ERR_UNMATCH_DQUOTE, 2), 1);
+		}
 	}
 	return (0);
 }

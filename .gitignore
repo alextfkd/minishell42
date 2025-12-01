@@ -10,3 +10,4 @@ objs/*/*.o
 .env
 pipex_tester/
 memo.c
+ex/
