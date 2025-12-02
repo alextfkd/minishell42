@@ -6,14 +6,14 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 03:25:27 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/28 08:17:02 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/12/02 11:47:13 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static char		*_integrate_buffers(t_ms_buf *ms_buf);
-static	int		_is_executable(char *rl_buf, int *status);
+static	int		_is_executable(t_ms_buf *ms_buf, int *status);
 static t_token	*get_token_tail(t_token *head);
 
 char	*integrate_input_buffer(t_shell *shell)
@@ -28,12 +28,16 @@ char	*integrate_input_buffer(t_shell *shell)
 		free_ms_buf(&ms_buf);
 		return (NULL);
 	}
-	if (_is_executable(ms_buf->sh_buf, &(shell->status)) == 0)
+	if (_is_executable(ms_buf, &(shell->status)) == 0)
 	{
+		free_tmp_buf(ms_buf);
+		free_readline_buf(ms_buf);
 		ms_buf->tmp_buf = ft_strdup(ms_buf->sh_buf);
 		free_shell_buf(ms_buf);
 		return (NULL);
 	}
+	free_tmp_buf(ms_buf);
+	free_readline_buf(ms_buf);
 	return (ms_buf->sh_buf);
 }
 
@@ -53,19 +57,18 @@ static char	*_integrate_buffers(t_ms_buf *ms_buf)
 		free_ms_buf(&ms_buf);
 		return (NULL);
 	}
-	free_tmp_buf(ms_buf);
-	free_readline_buf(ms_buf);
 	return (integrated_buf);
 }
 
-static	int	_is_executable(char *rl_buf, int *status)
+static	int	_is_executable(t_ms_buf *ms_buf, int *status)
 {
 	t_token	*token;
 
-	token = tokenize(rl_buf, status);
+	token = tokenize(ms_buf->sh_buf, status);
 	if (token == NULL)
 		return (-1);
-	if (get_token_tail(token)->tk == TK_ESCAPED_NL)
+	if (get_token_tail(token)->tk == TK_ESCAPED_NL \
+		&& ms_buf->rl_buf && ft_strcmp(ms_buf->rl_buf, "\n") != 0)
 	{
 		free_tokens(token);
 		return (0);
