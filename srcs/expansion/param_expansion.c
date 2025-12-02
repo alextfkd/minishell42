@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:23:38 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/21 11:21:30 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/12/02 22:46:59 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ static int	_expand_child_nodes(t_app *app, t_astree *root);
 
 int	parameter_expansion(t_app *app, t_astree *root)
 {
-	int		status;
+	int		local_status;
 
 	if (root == NULL)
 		return (0);
 	if (root->type == NODE_PIPE)
 		return (_expand_child_nodes(app, root));
-	status = 0;
-	status += _expand_args(app, root);
-	status += _expand_redirection(app, root);
-	if (status > 0)
+	local_status = 0;
+	local_status += _expand_args(app, root);
+	local_status += _expand_redirection(app, root);
+	if (local_status > 0)
 		return (1);
 	return (_expand_child_nodes(app, root));
 }
@@ -51,23 +51,23 @@ static int	_expand_child_nodes(t_app *app, t_astree *root)
 
 static int	_expand_redirection(t_app *app, t_astree *root)
 {
-	int		status;
+	int		local_status;
 	t_red	*red;
 	char	*new_red_file;
 	char	*key_unquoted;
 
-	status = 0;
+	local_status = 0;
 	red = root->cmd->red;
 	while (red != NULL)
 	{
-		key_unquoted = create_env_key_candidate(red->file, &status);
+		key_unquoted = create_env_key_candidate(red->file, &local_status);
 		new_red_file = get_env_value(app->env_list, key_unquoted);
 		if (new_red_file)
-			status += overwrite_argv(&(red->file), new_red_file);
-		status += trim_quotes(&(red->file));
+			local_status += overwrite_argv(&(red->file), new_red_file);
+		local_status += trim_quotes(&(red->file));
 		if (key_unquoted)
 			free(key_unquoted);
-		if (status != 0)
+		if (local_status != 0)
 			return (1);
 		red = red->next;
 	}
