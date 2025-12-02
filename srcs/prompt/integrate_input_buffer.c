@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 03:25:27 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/12/02 12:18:47 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/12/02 12:28:58 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static	int	_is_executable(t_ms_buf *ms_buf, int *status)
 	token = tokenize(ms_buf->sh_buf, status);
 	if (token == NULL)
 		return (-1);
-	if (get_token_tail(token)->tk == TK_ESCAPED_NL \
+	if (get_token_tail(token)->tk == TK_ESCAPED_NL
 		&& ms_buf->rl_buf && ft_strcmp(ms_buf->rl_buf, "\n") != 0)
 	{
 		free_tokens(token);
