@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 08:17:10 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/21 08:28:27 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/12/02 20:07:13 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,5 @@ int	overwrite_argv(char **argv_i, char *new_argv)
 	*argv_i = ft_strdup(new_argv);
 	if (*argv_i == NULL)
 		return (1);
-	return (0);
-}
-
-int	trim_quotes(char **argv_i)
-{
-	char	*tmp;
-
-	if (argv_i == NULL || *argv_i == NULL)
-		return (1);
-	tmp = ft_strtrim(*argv_i, "\'\"");
-	if (tmp == NULL)
-		return (1);
-	free(*argv_i);
-	*argv_i = tmp;
 	return (0);
 }

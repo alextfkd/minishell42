@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 23:43:03 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/27 21:36:57 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/02 19:56:58 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,5 +189,12 @@ struct	s_shell
 	int			prev_status;
 	t_app		*app;
 };
+
+typedef enum e_localtokenstate
+{
+	LT_NORMAL=0,
+	LT_SQUOTE=1,
+	LT_DQUOTE=2,
+}	t_ltstate;
 
 #endif

@@ -33,7 +33,7 @@ PROMPT_FILES = interactive_shell.c noninteractive_shell.c pipeline_executor.c in
 
 LEXER_FILES = extract_symbol_token.c extract_word_token.c lexer.c tokenizer_utils.c
 
-EXPANSION_FILES = expansion_utils.c param_expansion.c
+EXPANSION_FILES = expansion_utils.c param_expansion.c quote_trim.c
 
 PARSER_FILES = astree.c parser.c tokens2cmd.c cmd_args.c cmd_redirection.c redirect_utils.c
 
@@ -80,6 +80,10 @@ parser_test: $(LIBFT) $(OBJS)
 expansion_test: $(LIBFT) $(OBJS)
 	$(GCC) $(CFLAGS) $(IFLAGS) -c test/expansion_test.c -o objs/expansion_test.o
 	$(GCC) $(CFLAGS) $(IFLAGS) $(filter-out objs/main.o, $(OBJS)) objs/expansion_test.o -o $@ $(LFLAGS) $(LIBFLAGS)
+
+quote_rm_test: $(LIBFT) $(OBJS)
+	$(GCC) $(CFLAGS) $(IFLAGS) -c test/quote_rm_test.c -o objs/quote_rm_test.o
+	$(GCC) $(CFLAGS) $(IFLAGS) $(filter-out objs/main.o, $(OBJS)) objs/quote_rm_test.o -o $@ $(LFLAGS) $(LIBFLAGS)
 
 builtin_off: fclean
 	$(MAKE) CFLAGS="$(CFLAGS) $(BUILTINFLAGS)" all
