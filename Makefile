@@ -21,11 +21,11 @@ CFLAGS = -Wall -Wextra -Werror
 IFLAGS = -Iincludes -Ilibft/includes
 LFLAGS = -Llibft
 LIBFLAGS = -lft -lreadline
-BUILTINFLAGS = -DBUILTIN_ON=1
+BUILTINFLAGS = -DBUILTIN_ON=0
 
 MAIN_FILE = main.c
 
-UTILS_FILES = ft_log.c ft_log_token.c ft_app.c ft_log_astree.c ft_log_astree_sub.c ft_env_conv_util.c ft_env_conv.c ft_env_free.c ft_env_mng.c ft_env_list.c ft_builtin.c
+UTILS_FILES = ft_log.c ft_log_token.c ft_app.c ft_log_astree.c ft_log_astree_sub.c ft_env_conv_util.c ft_env_conv.c ft_env_free.c ft_env_mng.c ft_env_list.c ft_builtin.c ft_tty.c
 
 SIGNAL_FILES = sig_handler.c sigaction.c
 
@@ -81,7 +81,7 @@ expansion_test: $(LIBFT) $(OBJS)
 	$(GCC) $(CFLAGS) $(IFLAGS) -c test/expansion_test.c -o objs/expansion_test.o
 	$(GCC) $(CFLAGS) $(IFLAGS) $(filter-out objs/main.o, $(OBJS)) objs/expansion_test.o -o $@ $(LFLAGS) $(LIBFLAGS)
 
-builtin: fclean
+builtin_off: fclean
 	$(MAKE) CFLAGS="$(CFLAGS) $(BUILTINFLAGS)" all
 
 $(LIBFT):
@@ -102,6 +102,6 @@ re: fclean all
 norminette:
 	bash ./norm.sh
 
-.PHONY: all clean fclean re bonus norminette lexer_test builtin
+.PHONY: all clean fclean re bonus norminette lexer_test builtin_off
 
 #norminette ./srcs ./includes ./libft

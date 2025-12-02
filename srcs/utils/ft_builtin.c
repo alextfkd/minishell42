@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 09:16:49 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/26 21:26:05 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/30 07:13:14 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ char	*get_current_dir(t_app *app)
 }
 
 /**
- * @brief Print an error message for builtin command.
+ * @brief Print an error message for command.
  *
  * @param cmd
  * @param i If i is 0,the argument is not display.
  * @param msg  The error message to display
  */
-void	print_builtin_error(
+void	print_cmd_error(
 	t_cmd *cmd,
 	int i,
 	const char *msg,
@@ -60,4 +60,11 @@ void	print_builtin_error(
 		ft_putstr_fd(": ", 2);
 	}
 	ft_putendl_fd(str, 2);
+}
+
+void	free_shell_exit(t_app *app, int exit_status)
+{
+	if (app && app->shell)
+		free_shell(app->shell);
+	exit(exit_status);
 }

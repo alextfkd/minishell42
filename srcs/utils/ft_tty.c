@@ -1,31 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_tty.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 11:34:42 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/30 06:29:13 by htsutsum         ###   ########.fr       */
+/*   Created: 2025/11/29 01:35:28 by htsutsum          #+#    #+#             */
+/*   Updated: 2025/11/29 02:53:50 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Prints the current working directory to standard output.
- *  as the buitin command "PWD"
+ * @brief Set the heredoc prompt object
  *
- * @return int 0 if successful,1 on error.
+ * @return int
  */
-int	ft_pwd(t_app *app, t_cmd *cmd)
+char	*set_heredoc_prompt(void)
 {
-	char	*path;
+	char	*prompt;
 
-	path = get_current_dir(app);
-	if (!path)
-		return (print_cmd_error(cmd, 0, strerror(errno), 0), 1);
-	printf("%s\n", path);
-	free(path);
-	return (0);
+	if (isatty(STDIN_FILENO))
+		prompt = HERE_DOC_PROMPT;
+	else
+		prompt = NULL;
+	return (prompt);
+}
+
+/**
+ * @brief Set the minishell prompt object
+ *
+ * @param prompt1
+ * @param prompt2
+ */
+void	set_minishell_prompt(char **prompt1, char **prompt2)
+{
+	if (!isatty(STDIN_FILENO))
+	{
+		*prompt1 = NULL;
+		*prompt2 = NULL;
+	}
 }

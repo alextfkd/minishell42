@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sigaction.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 08:55:19 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/18 09:02:05 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/11/30 21:21:53 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
  * @brief Set the sigaction handlers.
  * SIGINT will be handled by sigint_handler().
  * SIGQUIT will be handled by sigquit_handler().
- * 
- * @param shell 
- * @return int 
- * 
+ *
+ * @param shell
+ * @return int
+ *
  * Returns 0 on success.
  * Returns 1 and set shell->status value to 1 if sigaction failed.
  */
@@ -46,5 +46,6 @@ int	set_sigaction(t_shell *shell)
 		shell->status = 1;
 		return (1);
 	}
+	signal(SIGTSTP, SIG_IGN);
 	return (0);
 }

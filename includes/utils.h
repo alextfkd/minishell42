@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 02:32:09 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/28 00:12:15 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/11/30 07:12:51 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,12 @@ t_astree	*astree_create_pipe_node(t_astree *left, t_astree *right,
 
 // builtin util
 char		*get_current_dir(t_app *app);
-void		print_builtin_error(t_cmd *cmd, int i, const char *msg,
+void		print_cmd_error(t_cmd *cmd, int i, const char *msg,
 				int quate_flag);
+void		free_shell_exit(t_app *app, int exit_status);
+
+// tty util
+char		*set_heredoc_prompt(void);
+void		set_minishell_prompt(char **prompt1, char **prompt2);
 
 #endif
