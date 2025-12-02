@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/28 03:26:37 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/12/02 12:06:59 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # include <term.h>
 # include <unistd.h>
 # define FT_PROMPT "minishell$ "
+# define ERR_DOUBLE_BACKSLASH "minishell: syntax error: double backslash"
 
 extern volatile sig_atomic_t	g_sig_received;
 

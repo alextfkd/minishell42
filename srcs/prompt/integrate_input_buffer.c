@@ -6,35 +6,50 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 03:25:27 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/28 08:17:02 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/12/02 12:28:58 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static char		*_integrate_buffers(t_ms_buf *ms_buf);
-static	int		_is_executable(char *rl_buf, int *status);
+static	int		_is_executable(t_ms_buf *ms_buf, int *status);
 static t_token	*get_token_tail(t_token *head);
+static void		_free_tmp_and_rl_buf(t_ms_buf *ms_buf);
 
 char	*integrate_input_buffer(t_shell *shell)
 {
 	t_ms_buf	*ms_buf;
+	int			status;
 
 	ms_buf = shell->ms_buf;
 	ms_buf->sh_buf = _integrate_buffers(shell->ms_buf);
+	status = 0;
 	if (ms_buf->sh_buf == NULL)
+		status = 1;
+	else if (ft_strnstr(ms_buf->sh_buf, "\\\\", ft_strlen(ms_buf->sh_buf)))
 	{
-		shell->status = 1;
-		free_ms_buf(&ms_buf);
-		return (NULL);
+		status = 1;
+		ft_putendl_fd(ERR_DOUBLE_BACKSLASH, 2);
 	}
-	if (_is_executable(ms_buf->sh_buf, &(shell->status)) == 0)
+	if (status)
 	{
+		_free_tmp_and_rl_buf(ms_buf);
+		return (free_shell_buf(ms_buf), NULL);
+	}
+	if (_is_executable(ms_buf, &(shell->status)) == 0)
+	{
+		_free_tmp_and_rl_buf(ms_buf);
 		ms_buf->tmp_buf = ft_strdup(ms_buf->sh_buf);
-		free_shell_buf(ms_buf);
-		return (NULL);
+		return (free_shell_buf(ms_buf), NULL);
 	}
-	return (ms_buf->sh_buf);
+	return (_free_tmp_and_rl_buf(ms_buf), ms_buf->sh_buf);
+}
+
+static void	_free_tmp_and_rl_buf(t_ms_buf *ms_buf)
+{
+	free_tmp_buf(ms_buf);
+	free_readline_buf(ms_buf);
 }
 
 static char	*_integrate_buffers(t_ms_buf *ms_buf)
@@ -53,19 +68,18 @@ static char	*_integrate_buffers(t_ms_buf *ms_buf)
 		free_ms_buf(&ms_buf);
 		return (NULL);
 	}
-	free_tmp_buf(ms_buf);
-	free_readline_buf(ms_buf);
 	return (integrated_buf);
 }
 
-static	int	_is_executable(char *rl_buf, int *status)
+static	int	_is_executable(t_ms_buf *ms_buf, int *status)
 {
 	t_token	*token;
 
-	token = tokenize(rl_buf, status);
+	token = tokenize(ms_buf->sh_buf, status);
 	if (token == NULL)
 		return (-1);
-	if (get_token_tail(token)->tk == TK_ESCAPED_NL)
+	if (get_token_tail(token)->tk == TK_ESCAPED_NL
+		&& ms_buf->rl_buf && ft_strcmp(ms_buf->rl_buf, "\n") != 0)
 	{
 		free_tokens(token);
 		return (0);
