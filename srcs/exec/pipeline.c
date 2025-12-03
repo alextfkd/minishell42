@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:35:43 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/30 23:42:25 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/03 18:59:36 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	_run_builtin_process(t_exec e, t_app *app)
 	if (status == -1)
 		exit_process(0, app);
 	update_underscore(app, cmd);
-	free_list(&e.cmd_list);
+	free_pipeline_vars(&e, app);
 	return (status);
 }
 

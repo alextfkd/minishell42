@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 07:30:30 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/30 06:29:45 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/03 19:57:21 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_unset(t_app *app, t_cmd *cmd)
 		if (!is_validate_args(cmd->argv[i])
 			|| ft_strchr(cmd->argv[i], '=') != NULL)
 		{
-			print_cmd_error(cmd, i, "not a valid identifier", 1);
+			print_cmd_error(cmd, cmd->argv[i], "not a valid identifier", 1);
 			ret = 1;
 		}
 		else

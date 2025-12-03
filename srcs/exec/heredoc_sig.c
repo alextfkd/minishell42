@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   heredoc_sig.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 11:34:42 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/12/03 19:57:16 by htsutsum         ###   ########.fr       */
+/*   Created: 2025/12/03 11:06:05 by htsutsum          #+#    #+#             */
+/*   Updated: 2025/12/03 11:41:18 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief Prints the current working directory to standard output.
- *  as the buitin command "PWD"
- *
- * @return int 0 if successful,1 on error.
- */
-int	ft_pwd(t_app *app, t_cmd *cmd)
+void	heredoc_exit_handler(int sig)
 {
-	char	*path;
+	(void)sig;
+	g_sig_received = 1;
+	close(STDIN_FILENO);
+}
 
-	path = get_current_dir(app);
-	if (!path)
-		return (print_cmd_error(cmd, NULL, strerror(errno), 0), 1);
-	printf("%s\n", path);
-	free(path);
-	return (0);
+void	set_ignore_signal(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTSTP, SIG_IGN);
 }

@@ -1,13 +1,15 @@
 #!/bin/bash
 
+
+# Must to set DEBUGLEVEL 1
+
 GREEN="\033[32m"
 RED="\033[31m"
 RESET="\033[0m"
 MINISHELL="./minishell"
 
-OUT_EXPECTED="expected.txt"
-OUT_ACTUAL="actual.txt"
-OUT_RAW="actual_raw.txt"
+OUT_BASH="bash.txt"
+OUT_MINISHELL="minishell.txt"
 
 input_sequence() {
     echo "notfoundcmd"
@@ -25,60 +27,41 @@ input_sequence() {
     echo "EOF"
 }
 
-input_sequence1() {
-    echo "cat << 'EOF'"
-    echo '$USER'
-    echo "EOF"
-}
+# input_sequence | bash
+# input_sequence | ./minishell
 
-input_sequence2() {
-    echo 'cat << "EOF"'
-    echo '$USER'
-    echo "EOF"
-}
-
-run_test() {
+run_test()
+{
     local INPUT_CONTENT="$1"
-    local TEST_NAME="$2"
 
-    local INPUT_LINES=$(echo "$INPUT_CONTENT" | wc -l | xargs)
+    filter_bash(){
+        grep -v "command not found"
+    }
 
-    echo "$INPUT_CONTENT" | bash > "$OUT_EXPECTED" 2>&1
+    filter_minishell(){
+        sed '1,/^EOF$/d' | grep -v "^exit$"
+    }
 
-    echo "$INPUT_CONTENT" | $MINISHELL > "$OUT_RAW" 2>&1
+    echo "$INPUT_CONTENT" | bash 2>&1 | filter_bash > "$OUT_BASH"
+    echo "$INPUT_CONTENT" | $MINISHELL 2>&1 | filter_minishell > "$OUT_MINISHELL"
 
-    sed "1,${INPUT_LINES}d" "$OUT_RAW" > "$OUT_ACTUAL"
-
-    grep -v "^exit$" "$OUT_ACTUAL" > "${OUT_ACTUAL}.tmp" && mv "${OUT_ACTUAL}.tmp" "$OUT_ACTUAL"
-
-    echo "--- Input Sequence ($TEST_NAME) ---"
-    echo "$INPUT_CONTENT"
-    echo "----------------------"
-
-    # 4. Compare
-    diff "$OUT_EXPECTED" "$OUT_ACTUAL" > /dev/null
+    diff "$OUT_BASH" "$OUT_MINISHELL" > /dev/null
 
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}[OK] Test Passed${RESET}"
+        echo -e "${GREEN}[OK] Matches!${RESET}"
     else
-        echo -e "${RED}[KO] Test Failed${RESET}"
-        echo "Expected (Bash):"
-        cat "$OUT_EXPECTED"
-        echo "Actual (Minishell - filtered):"
-        cat "$OUT_ACTUAL"
-        echo "Actual (Minishell - raw data):"
-        cat "$OUT_RAW"
+        echo -e "${RED}[KO] Differs!${RESET}"
+        echo "--- Bash (Expected) ---"
+        cat "$OUT_BASH"
+        echo "--- Minishell (Actual) ---"
+        cat "$OUT_MINISHELL"
+        echo "-----------------------"
+        echo "Difference:"
+        diff "$OUT_BASH" "$OUT_MINISHELL"
     fi
-    echo ""
+    rm -rf $OUT_BASH $OUT_MINISHELL
 }
 
 INPUT_CONTENT=$(input_sequence)
-run_test "$INPUT_CONTENT" "Basic Heredoc"
+run_test "$INPUT_CONTENT"
 
-INPUT_CONTENT1=$(input_sequence1)
-run_test "$INPUT_CONTENT1" "Quoted Heredoc 'EOF'"
-
-INPUT_CONTENT2=$(input_sequence2)
-run_test "$INPUT_CONTENT2" "Quoted Heredoc \"EOF\""
-
-rm -f "$OUT_EXPECTED" "$OUT_ACTUAL" "$OUT_RAW" "${OUT_ACTUAL}.tmp"

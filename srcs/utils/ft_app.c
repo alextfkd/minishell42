@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 10:58:24 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/30 18:12:34 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/03 20:04:41 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static char	*_get_minishell_full_path(t_app *app, char *name)
 	pwd = get_current_dir(app);
 	if (!pwd)
 	{
-		print_cmd_error(NULL, 0, strerror(errno), 0);
+		print_file_error(NULL, strerror(errno));
 		return (NULL);
 	}
 	tmp = ft_strjoin(pwd, "/");

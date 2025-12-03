@@ -112,19 +112,19 @@ static void	_validate_cmd_path(t_cmd *cmd, t_app *app, char *cmd_path)
 
 	if (!cmd_path)
 	{
-		print_cmd_error(cmd, 0, "command not found", 0);
+		print_cmd_error(cmd, NULL, "command not found", 0);
 		free(cmd_path);
 		free_shell_exit(app, 127);
 	}
 	if (stat(cmd_path, &cmd_stat) == 0 && S_ISDIR(cmd_stat.st_mode))
 	{
-		print_cmd_error(cmd, 0, "Is a directory", 0);
+		print_cmd_error(cmd, NULL, "Is a directory", 0);
 		free(cmd_path);
 		free_shell_exit(app, 126);
 	}
 	if (access(cmd_path, X_OK) == -1)
 	{
-		print_cmd_error(cmd, 0, "Permission denied", 0);
+		print_cmd_error(cmd, NULL, "Permission denied", 0);
 		free(cmd_path);
 		free_shell_exit(app, 126);
 	}
