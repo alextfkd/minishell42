@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:55:06 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/12/02 20:30:47 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/12/03 04:10:59 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,15 @@
 #include "types.h"
 
 static char	*_create_empty_str(char *s);
-char		*remove_quote(char *s, t_ltstate initial_state);
+static char	*_remove_quote(char *s, t_ltstate initial_state);
 
-int	trim_quotes(char **argv_i)
+int	rm_quote_overwrite(char **argv_i)
 {
 	char	*tmp;
 
 	if (argv_i == NULL || *argv_i == NULL)
 		return (1);
-	if ((*argv_i)[0] == '\'' && (*argv_i)[ft_strlen(*argv_i)] == '\'')
-		tmp = remove_quote((*argv_i), LT_SQUOTE);
-	else if ((*argv_i)[0] == '\"' && (*argv_i)[ft_strlen(*argv_i)] == '\"')
-		tmp = remove_quote((*argv_i), LT_DQUOTE);
-	else
-		tmp = remove_quote((*argv_i), LT_NORMAL);
+	tmp = rm_quote_strdup(*argv_i);
 	if (tmp == NULL)
 		return (1);
 	free(*argv_i);
@@ -35,7 +30,26 @@ int	trim_quotes(char **argv_i)
 	return (0);
 }
 
-char	*remove_quote(char *s, t_ltstate initial_state)
+char	*rm_quote_strdup(char *s)
+{
+	char	*s_quote_removed;
+	size_t	len;
+
+	if (s == NULL)
+		return (NULL);
+	len = ft_strlen(s);
+	if ((s)[0] == '\'' && (s)[len] == '\'')
+		s_quote_removed = _remove_quote((s), LT_SQUOTE);
+	else if ((s)[0] == '\"' && (s)[len] == '\"')
+		s_quote_removed = _remove_quote((s), LT_DQUOTE);
+	else
+		s_quote_removed = _remove_quote((s), LT_NORMAL);
+	if (s_quote_removed == NULL)
+		return (NULL);
+	return (s_quote_removed);
+}
+
+static char	*_remove_quote(char *s, t_ltstate initial_state)
 {
 	t_ltstate	state;
 	char		*out;

@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 08:17:10 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/12/03 16:50:38 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/03 20:59:29 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,29 +116,28 @@ int	is_ambiguous_redirect(char *file)
  *
  * @param argv Argv[i] which is contained in t_astree->cmd->argv.
  * @return char*
- */
-char	*create_env_key_candidate(char *argv, int *status)
-{
-	char	*key_candidate;
-	size_t	len;
+//  */
+// char	*create_env_key_candidate(char *argv, int *status)
+// {
+// 	char	*key_candidate;
+// 	size_t	len;
 
-	*status = 0;
-	if (!argv)
-	{
-		*status = 1;
-		return (NULL);
-	}
-	len = ft_strlen(argv);
-	if (ft_strncmp(argv, "$", 1) == 0)
-		key_candidate = ft_substr(argv, 1, len - 1);
-	else if (ft_strncmp(argv, "\"$", 2) == 0 && argv[len - 1] == '\"')
-		key_candidate = ft_substr(argv, 2, len - 3);
-	else
-		return (NULL);
-	if (key_candidate == NULL)
-	{
-		*status = 1;
-		return (NULL);
-	}
-	return (key_candidate);
-}
+// 	if (!argv)
+// 	{
+// 		*status = 1;
+// 		return (NULL);
+// 	}
+// 	len = ft_strlen(argv);
+// 	if (ft_strncmp(argv, "$", 1) == 0)
+// 		key_candidate = ft_substr(argv, 1, len - 1);
+// 	else if (ft_strncmp(argv, "\"$", 2) == 0 && argv[len - 1] == '\"')
+// 		key_candidate = ft_substr(argv, 2, len - 3);
+// 	else
+// 		return (NULL);
+// 	if (key_candidate == NULL)
+// 	{
+// 		*status = 1;
+// 		return (NULL);
+// 	}
+// 	return (key_candidate);
+// }

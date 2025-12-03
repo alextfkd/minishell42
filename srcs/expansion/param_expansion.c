@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:23:38 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/12/03 20:05:03 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/03 21:02:48 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ static int	_expand_child_nodes(t_app *app, t_astree *root);
 
 int	parameter_expansion(t_app *app, t_astree *root)
 {
-	int		status;
+	int		local_status;
 
 	if (root == NULL)
 		return (0);
 	if (root->type == NODE_PIPE)
 		return (_expand_child_nodes(app, root));
-	status = 0;
-	status += _expand_args(app, root);
-	status += _expand_redirection(app, root);
-	if (status > 0)
+	local_status = 0;
+	local_status += _expand_args(app, root);
+	local_status += _expand_redirection(app, root);
+	if (local_status > 0)
 		return (1);
 	return (_expand_child_nodes(app, root));
 }
@@ -70,7 +70,7 @@ static int	_expand_redirection(t_app *app, t_astree *root)
 			if (overwrite_argv(&(red->file), new_red_file))
 				return (free(new_red_file), 1);
 		}
-		if (trim_quotes(&(red->file)))
+		if (rm_quote_overwrite(&(red->file)))
 			return (1);
 		red = red->next;
 	}
@@ -90,7 +90,7 @@ static int	_expand_args(t_app *app, t_astree *root)
 			return (1);
 		if (overwrite_argv(&(root->cmd->argv[i]), new_argv_i))
 			return (free(new_argv_i), 1);
-		if (trim_quotes(&(root->cmd->argv[i])))
+		if (rm_quote_overwrite(&(root->cmd->argv[i])))
 			return (1);
 		i++;
 	}
