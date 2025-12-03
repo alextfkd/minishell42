@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipeline_free.c                                    :+:      :+:    :+:   */
+/*   pipeline_util.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 00:24:35 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/28 01:01:49 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/03 19:16:16 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	free_pipeline_vars(t_exec *e, t_app *app)
 
 /**
  * @brief Cleans up a pipeline execution by terminating and waiting
- *  for child processes,// then freeing allocated memory.
+ *  for child processes
  *
  * @param cmd_list
  * @param pids
@@ -45,6 +45,7 @@ void	cleanup_pipeline(t_list *cmd_list, pid_t *pids, int count)
 	while (i < count)
 	{
 		kill(pids[i], SIGTERM);
+		kill(pids[i], SIGCONT);
 		waitpid(pids[i], NULL, 0);
 		i++;
 	}
