@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:23:38 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/12/03 18:46:58 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/03 20:05:03 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	_expand_redirection(t_app *app, t_astree *root)
 				return (perror("expand: memory allocatoin error\n"), 1);
 			if (is_ambiguous_redirect(new_red_file))
 			{
-				print_cmd_error(red->file, 0, ": ambiguous redirect", 0);
+				print_file_error(red->file, "ambiguous redirect");
 				return (free(new_red_file), 1);
 			}
 			if (overwrite_argv(&(red->file), new_red_file))

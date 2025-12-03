@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 02:32:09 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/12/03 17:37:30 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/03 20:03:37 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,9 @@ t_astree	*astree_create_pipe_node(t_astree *left, t_astree *right,
 
 // builtin util
 char		*get_current_dir(t_app *app);
-void		print_cmd_error(char *cmd_name, int i, const char *msg,
+void		print_cmd_error(t_cmd *cmd, char *arg, char *msg,
 				int quate_flag);
+void		print_file_error(char *name, char *msg);
 void		free_shell_exit(t_app *app, int exit_status);
 
 // tty util

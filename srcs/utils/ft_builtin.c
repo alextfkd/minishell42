@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 09:16:49 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/12/03 18:22:23 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/03 20:09:09 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,30 +39,41 @@ char	*get_current_dir(t_app *app)
  * @param msg  The error message to display
  */
 void	print_cmd_error(
-	char *cmd_name,
-	int i,
-	const char *msg,
-	int quate_flag)
+	t_cmd *cmd,
+	char *arg,
+	char *msg,
+	int quote_flag)
 {
-	char	*str;
+	char	*name;
 
-	str = (char *)msg;
+	name = cmd->argv[0];
 	ft_putstr_fd("minishell: ", 2);
-	if (cmd_name != NULL)
+	if (name != NULL)
 	{
-		ft_putstr_fd(cmd_name, 2);
+		ft_putstr_fd(name, 2);
 		ft_putstr_fd(": ", 2);
 	}
-	if (i != 0)
+	if (arg != NULL)
 	{
-		if (quate_flag)
+		if (quote_flag)
 			ft_putstr_fd("`", 2);
-		ft_putstr_fd(cmd_name, 2);
-		if (quate_flag)
+		ft_putstr_fd(arg, 2);
+		if (quote_flag)
 			ft_putstr_fd("'", 2);
 		ft_putstr_fd(": ", 2);
 	}
-	ft_putendl_fd(str, 2);
+	ft_putendl_fd(msg, 2);
+}
+
+void	print_file_error(char *name, char *msg)
+{
+	ft_putstr_fd("minishell: ", 2);
+	if (name != NULL)
+	{
+		ft_putstr_fd(name, 2);
+		ft_putstr_fd(": ", 2);
+	}
+	ft_putendl_fd(msg, 2);
 }
 
 void	free_shell_exit(t_app *app, int exit_status)
