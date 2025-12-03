@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 09:16:49 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/30 07:13:14 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/03 18:22:23 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*get_current_dir(t_app *app)
  * @param msg  The error message to display
  */
 void	print_cmd_error(
-	t_cmd *cmd,
+	char *cmd_name,
 	int i,
 	const char *msg,
 	int quate_flag)
@@ -48,13 +48,16 @@ void	print_cmd_error(
 
 	str = (char *)msg;
 	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(cmd->argv[0], 2);
-	ft_putstr_fd(": ", 2);
+	if (cmd_name != NULL)
+	{
+		ft_putstr_fd(cmd_name, 2);
+		ft_putstr_fd(": ", 2);
+	}
 	if (i != 0)
 	{
 		if (quate_flag)
 			ft_putstr_fd("`", 2);
-		ft_putstr_fd(cmd->argv[i], 2);
+		ft_putstr_fd(cmd_name, 2);
 		if (quate_flag)
 			ft_putstr_fd("'", 2);
 		ft_putstr_fd(": ", 2);
