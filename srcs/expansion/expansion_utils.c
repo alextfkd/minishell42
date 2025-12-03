@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 08:17:10 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/12/02 20:07:13 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/12/02 22:09:41 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ char	*create_env_key_candidate(char *argv, int *status)
 	char	*key_candidate;
 	size_t	len;
 
-	*status = 0;
 	if (!argv)
 	{
 		*status = 1;
