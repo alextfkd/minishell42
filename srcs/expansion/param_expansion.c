@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:23:38 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/12/03 03:40:15 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/12/03 04:10:59 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	_expand_redirection(t_app *app, t_astree *root)
 		new_red_file = get_env_value(app->env_list, key_unquoted);
 		if (new_red_file)
 			local_status += overwrite_argv(&(red->file), new_red_file);
-		local_status += trim_quotes(&(red->file));
+		local_status += rm_quote_overwrite(&(red->file));
 		if (key_unquoted)
 			free(key_unquoted);
 		if (local_status != 0)
@@ -91,7 +91,7 @@ static int	_expand_args(t_app *app, t_astree *root)
 		new_argv_i = get_env_value(app->env_list, key_unquoted);
 		if (new_argv_i)
 			status += overwrite_argv(&(root->cmd->argv[i]), new_argv_i);
-		status += trim_quotes(&(root->cmd->argv[i]));
+		status += rm_quote_overwrite(&(root->cmd->argv[i]));
 		if (key_unquoted)
 			free(key_unquoted);
 		if (status != 0)
