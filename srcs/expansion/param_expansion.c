@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   param_expansion.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:23:38 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/21 11:21:30 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/12/03 14:32:48 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ int	parameter_expansion(t_app *app, t_astree *root)
 }
 
 /**
- * @brief 
- * 
- * @param app 
- * @param root 
- * @return int 
+ * @brief
+ *
+ * @param app
+ * @param root
+ * @return int
  */
 static int	_expand_child_nodes(t_app *app, t_astree *root)
 {
@@ -76,23 +76,18 @@ static int	_expand_redirection(t_app *app, t_astree *root)
 
 static int	_expand_args(t_app *app, t_astree *root)
 {
-	int		status;
 	int		i;
-	char	*key_unquoted;
 	char	*new_argv_i;
 
 	i = 0;
-	status = 0;
 	while (i < root->cmd->argc)
 	{
-		key_unquoted = create_env_key_candidate(root->cmd->argv[i], &status);
-		new_argv_i = get_env_value(app->env_list, key_unquoted);
-		if (new_argv_i)
-			status += overwrite_argv(&(root->cmd->argv[i]), new_argv_i);
-		status += trim_quotes(&(root->cmd->argv[i]));
-		if (key_unquoted)
-			free(key_unquoted);
-		if (status != 0)
+		new_argv_i = expand_argv(root->cmd->argv[i], app);
+		if (!new_argv_i)
+			return (1);
+		if (overwrite_argv(&(root->cmd->argv[i]), new_argv_i))
+			return (free(new_argv_i), 1);
+		if (trim_quotes(&(root->cmd->argv[i])))
 			return (1);
 		i++;
 	}

@@ -6,18 +6,18 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/30 23:42:07 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/03 13:46:20 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	_wait_for_heredoc(pid_t pid, int pipe_fds[2]);
-static void	_heredoc_exit_handler(int sig);
 static void	_heredoc_child(char *delimiter, int *pipe_fds, int is_quoted,
 				t_app *app);
 static void	_heredoc_routine(char *delimiter, int *pipe_fds, int is_quoted,
 				t_app *app);
+static char	*_process_expansion(char *line, int is_quoted, t_app *app);
 
 int	handle_heredoc(t_red *red, t_app *app)
 {
@@ -55,7 +55,7 @@ static void	_heredoc_child(
 {
 	int	exit_status;
 
-	signal(SIGINT, _heredoc_exit_handler);
+	signal(SIGINT, heredoc_exit_handler);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
 	g_sig_received = 0;
@@ -109,12 +109,23 @@ static void	_heredoc_routine(
 			free(line);
 			break ;
 		}
-		if (!is_quoted)
-			line = expand_line(line, app);
-		write(pipe_fds[1], line, ft_strlen(line));
-		write(pipe_fds[1], "\n", 1);
+		line = _process_expansion(line, is_quoted, app);
+		if (!line)
+			break ;
+		ft_putendl_fd(line, pipe_fds[1]);
 		free(line);
 	}
+}
+
+static char	*_process_expansion(char *line, int is_quoted, t_app *app)
+{
+	char	*expanded;
+
+	if (is_quoted)
+		return (line);
+	expanded = expand_heredoc_line(line, app);
+	free(line);
+	return (expanded);
 }
 
 static int	_wait_for_heredoc(pid_t pid, int pipe_fds[2])
@@ -143,11 +154,4 @@ static int	_wait_for_heredoc(pid_t pid, int pipe_fds[2])
 		return (exit_status);
 	}
 	return (0);
-}
-
-static void	_heredoc_exit_handler(int sig)
-{
-	(void)sig;
-	g_sig_received = 1;
-	close(STDIN_FILENO);
 }

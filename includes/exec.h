@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/12/03 11:07:43 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/03 13:56:00 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,10 +186,14 @@ int					handle_redirections(t_red *red, t_app *app);
 
 // heredoc
 int					handle_heredoc(t_red *red, t_app *app);
-char				*expand_line(char *line, t_app *app);
+char				*expand_heredoc_line(char *line, t_app *app);
 void				close_heredoc_unused_fds(int *pipe_fds, t_app *app);
 void				restore_heredoc_std_io(t_app *app, int *pipe_fds);
 void				print_heredoc_error(char *delimiter);
+char				*get_dollar_expansion(t_app *app, char *line, int *i);
+char				*join_and_free(char *prev, char *part);
+
+// signal
 void				set_ignore_signal(void);
 void				heredoc_exit_handler(int sig);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/12/02 20:01:59 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/12/03 14:34:15 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ int			pipeline_executor(t_shell *shell);
 int			parameter_expansion(t_app *app, t_astree *root);
 char		*create_env_key_candidate(char *argv, int *status);
 int			overwrite_argv(char **argv_i, char *new_argv);
+char		*expand_argv(char *argv, t_app *app);
 int			trim_quotes(char **argv_i);
 char		*remove_quote(char *s, t_ltstate initial_state);
+
 #endif
