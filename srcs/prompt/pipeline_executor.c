@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 01:59:40 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/12/02 22:45:00 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/12/03 03:31:30 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	pipeline_executor(t_shell *shell)
 	log_debug_show_ast(ast_root, shell->loglevel);
 	if (parameter_expansion(shell->app, ast_root) != 0)
 		return (_status_1_return(shell, head_token, ast_root));
+	log_debug_show_ast(ast_root, shell->loglevel);
 	_attach_ast_and_token_ptr(shell->app, ast_root, head_token);
 	shell->status = execute_pipeline(ast_root, shell->app);
 	astree_clear(&ast_head);
