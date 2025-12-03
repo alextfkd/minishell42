@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 18:35:43 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/12/03 18:59:36 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/03 22:53:42 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ static int	_fork_and_exec(t_exec *e, t_app *app)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_IGN);
-		signal(SIGTSTP, SIG_DFL);
+		signal(SIGTSTP, SIG_IGN);
 		free(e->pids);
 		child_routine(e, (t_cmd *)e->current->content, app);
 	}
