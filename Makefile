@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc -g -DLOGLEVEL=0
-GCC = gcc -g -DLOGLEVEL=0
+GCC = gcc -g -DLOGLEVEL=1
 
 OBJDIR = objs
 SRCDIR = srcs
@@ -39,7 +39,7 @@ PARSER_FILES = astree.c parser.c tokens2cmd.c cmd_args.c cmd_redirection.c redir
 
 SHELL_FILES = ft_shell.c shell_free.c ft_log_shell.c
 
-EXEC_FILES = find_cmd_path.c pipeline.c pipeline_cmd.c pipeline_util.c pipeline_wait.c redirect_io.c redirect_in.c redirect_out.c heredoc.c heredoc_util.c heredoc_expand.c builtin_cmd.c astree2list.c
+EXEC_FILES = find_cmd_path.c pipeline.c pipeline_cmd.c pipeline_util.c pipeline_wait.c redirect_io.c redirect_in.c redirect_out.c heredoc.c heredoc_util.c heredoc_expand.c builtin_cmd.c heredoc_sig.c astree2list.c
 
 BUILTIN_FILES = ft_pwd.c ft_env.c ft_export.c ft_cd.c ft_echo.c ft_exit.c ft_unset.c ft_export_util.c
 

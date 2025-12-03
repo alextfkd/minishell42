@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/30 23:47:48 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/03 11:42:19 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,4 @@ void	restore_heredoc_std_io(t_app *app, int *pipe_fds)
 		close(pipe_fds[1]);
 		exit(1);
 	}
-}
-
-void	set_ignore_signal(void)
-{
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGTSTP, SIG_IGN);
 }
