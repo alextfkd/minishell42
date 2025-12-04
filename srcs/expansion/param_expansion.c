@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   param_expansion.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:23:38 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/12/03 21:02:48 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/04 21:08:17 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,22 @@ static int	_expand_redirection(t_app *app, t_astree *root)
 	red = root->cmd->red;
 	while (red != NULL)
 	{
+		new_red_file = NULL;
 		if (red->tk != TK_RED_HEREDOC)
 		{
 			new_red_file = expand_argv(red->file, app);
 			if (!new_red_file)
 				return (perror("expand: memory allocatoin error\n"), 1);
-			if (is_ambiguous_redirect(new_red_file))
-			{
-				print_file_error(red->file, "ambiguous redirect");
-				return (free(new_red_file), 1);
-			}
 			if (overwrite_argv(&(red->file), new_red_file))
 				return (free(new_red_file), 1);
 		}
 		if (rm_quote_overwrite(&(red->file)))
 			return (1);
+		if (is_ambiguous_redirect(red->file))
+		{
+			print_file_error(red->file, "ambiguous redirect");
+			return (free(new_red_file), 1);
+		}
 		red = red->next;
 	}
 	return (0);

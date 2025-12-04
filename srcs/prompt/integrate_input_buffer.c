@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 03:25:27 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/12/04 02:50:40 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/12/04 20:44:05 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,20 @@ static char	*_integrate_buffers(t_ms_buf *ms_buf)
 
 static	int	_is_executable(t_ms_buf *ms_buf, int *status)
 {
-	t_token	*token;
+	t_token		*token;
+	t_ltstate	state;
 
+	state = has_unmatched_quote_pair(ms_buf->sh_buf);
+	if (state == LT_SQUOTE)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		return (ft_putendl_fd(ERR_UNMATCH_SQUOTE, 2), 1);
+	}
+	if (state == LT_DQUOTE)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		return (ft_putendl_fd(ERR_UNMATCH_DQUOTE, 2), 1);
+	}
 	token = tokenize(ms_buf->sh_buf, status);
 	if (token == NULL)
 		return (-1);

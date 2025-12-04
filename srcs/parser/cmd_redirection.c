@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:44:01 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/12/04 09:52:58 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/12/04 20:33:36 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static t_red	*_create_red_node(t_tkind tk, char *file, int is_quoted);
 static int		_validate_red_target(t_token *target);
 static int		_append_red_to_cmd(t_cmd *cmd, t_token *current);
 static int		_is_red_target_quoted(t_token *target);
+
 
 /* Create redirection node (t_red) and append on (or create) t_cmd->red.
 The new redirection node is created from the current token (operator) and
@@ -98,11 +99,46 @@ static t_red	*_create_red_node(t_tkind tk, char *file, int is_quoted)
 	return (new);
 }
 
+t_ltstate	has_unmatched_quote_pair(char *s)
+{
+	char		*ptr;
+	t_ltstate	state;
+
+	if (!s)
+		return (-1);
+	state = LT_NORMAL;
+	ptr = s;
+	while(*ptr)
+	{
+		if (state == LT_NORMAL && *ptr == '\"')
+			state = LT_DQUOTE;
+		else if (state == LT_NORMAL && *ptr == '\'')
+			state = LT_SQUOTE;
+		else if (state == LT_NORMAL)
+		{}
+		else if (state == LT_SQUOTE && *ptr == '\"')
+		{}
+		else if (state == LT_SQUOTE && *ptr == '\'')
+			state = LT_NORMAL;
+		else if (state == LT_SQUOTE)
+		{}
+		else if (state == LT_DQUOTE && *ptr == '\"')
+			state = LT_NORMAL;
+		else if (state == LT_DQUOTE && *ptr == '\'')
+		{}
+		else if (state == LT_DQUOTE)
+		{}
+		ptr++;
+	}
+	return (state);
+}
+
+
 /* Returns 1 if t_token is NULL or t_token->tk is not TK_CHAR;
 Otherwise returns 0.*/
 static int	_validate_red_target(t_token *target)
 {
-	size_t	len;
+	t_ltstate	state;
 
 	if (target == NULL || target->tk != TK_CHAR)
 	{
@@ -110,19 +146,16 @@ static int	_validate_red_target(t_token *target)
 		return (ft_putendl_fd(ERR_SYNTAX_TOKEN_NL, 2), 1);
 	}
 	if (target->tk == TK_CHAR)
-	
+		state = has_unmatched_quote_pair(target->data);
+	if (state == LT_SQUOTE)
 	{
-		len = ft_strlen(target->data);
-		if (target->data[0] == '\'' && target->data[len - 1] != '\'')
-		{
-			ft_putstr_fd("minishell: ", 2);
-			return (ft_putendl_fd(ERR_UNMATCH_SQUOTE, 2), 1);
-		}
-		if (target->data[0] == '\"' && target->data[len - 1] != '\"')
-		{
-			ft_putstr_fd("minishell: ", 2);
-			return (ft_putendl_fd(ERR_UNMATCH_DQUOTE, 2), 1);
-		}
+		ft_putstr_fd("minishell: ", 2);
+		return (ft_putendl_fd(ERR_UNMATCH_SQUOTE, 2), 1);
+	}
+	if (state == LT_DQUOTE)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		return (ft_putendl_fd(ERR_UNMATCH_DQUOTE, 2), 1);
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 04:26:06 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/12/03 21:00:33 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/04 20:41:35 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,6 @@ int			trim_quotes(char **argv_i);
 char		*remove_quote(char *s, t_ltstate initial_state);
 int			rm_quote_overwrite(char **argv_i);
 char		*rm_quote_strdup(char *s);
+t_ltstate	has_unmatched_quote_pair(char *s);
+
 #endif
