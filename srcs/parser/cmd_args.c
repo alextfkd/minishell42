@@ -26,7 +26,10 @@ int	set_cmd_argv(t_cmd *cmd, t_token *start, t_token *end)
 	int	argc;
 
 	if (!cmd)
-		log_debug("cmd is null in set_cmd_argv!", LOG_DEBUG);
+	{
+		perror("minishell: error, in set_cmd_argv(), arg[1] cmd is NULL");
+		return (1);
+	}
 	argc = _count_argc(start, end);
 	if (argc < 0)
 	{

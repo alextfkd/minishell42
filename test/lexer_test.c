@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 02:49:44 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/11/20 08:47:52 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/12/04 02:51:03 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,6 @@ void	test_single_quoted_empty(char *target)
 
 	status = 0;
 	token = tokenize(target, &status);
-	//log_debug_show_token(token, LOG_DEBUG);
 	head = token;
 	if (strcmp(token->data, "\'\'") && token->tk == TK_CHAR)
 		status = 1;

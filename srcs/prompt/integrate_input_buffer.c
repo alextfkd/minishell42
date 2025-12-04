@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 03:25:27 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/12/02 12:28:58 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/12/04 02:50:40 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ static	int	_is_executable(t_ms_buf *ms_buf, int *status)
 		free_tokens(token);
 		return (1);
 	}
-	log_debug_show_token(get_token_tail(token), LOG_DEBUG);
 	free_tokens(token);
 	return (0);
 }
