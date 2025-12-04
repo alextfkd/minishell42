@@ -89,7 +89,7 @@ run_comparison_test 10 "exit 42"
 run_comparison_test 11 "$NONEXECUTABLE"
 run_comparison_test 12 "./pipe_test ./pipe_test hoge"
 
-sleep 5
+sleep 8
 
 run_minipipe_test() {
 	rm -f $5 $6
@@ -342,7 +342,6 @@ run_minipipe_test3 test84 $NOEXIST_INFILE $CMD1 $CMD2 $EXIST_OUT $EXIST_OUT_TEST
 
 echo "--NOCOMMAND FOUND TEST--"
 
-
 CMD1=nofoundcommand
 CMD2=cat
 
@@ -387,6 +386,9 @@ run_minipipe_test test110 $PUBLIC $CMD1 $CMD2 $NOEXIST_OUT $NOEXIST_OUT_TEST
 run_minipipe_test test111 $OWNER_ONLY $CMD1 $CMD2 $NOEXIST_OUT $NOEXIST_OUT_TEST
 run_minipipe_test test112 $NOEXIST_INFILE $CMD1 $CMD2 $NOEXIST_OUT $NOEXIST_OUT_TEST
 
+
+chmod 644 $EXIST_OUT_TEST
+rm -f $EXIST_OUT_TEST
 
 echo ""
 echo -e "${GREEN}--- finished ---${NC}"
