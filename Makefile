@@ -85,6 +85,10 @@ quote_rm_test: $(LIBFT) $(OBJS)
 	$(GCC) $(CFLAGS) $(IFLAGS) -c test/quote_rm_test.c -o objs/quote_rm_test.o
 	$(GCC) $(CFLAGS) $(IFLAGS) $(filter-out objs/main.o, $(OBJS)) objs/quote_rm_test.o -o $@ $(LFLAGS) $(LIBFLAGS)
 
+pipe_test: $(LIBFT) $(OBJS)
+	$(GCC) $(CFLAGS) $(IFLAGS) -c test/pipe_test.c -o objs/pipe_test.o
+	$(GCC) $(CFLAGS) $(IFLAGS) $(filter-out objs/main.o, $(OBJS)) objs/pipe_test.o -o $@ $(LFLAGS) $(LIBFLAGS)
+
 builtin_off: fclean
 	$(MAKE) CFLAGS="$(CFLAGS) $(BUILTINFLAGS)" all
 
@@ -106,6 +110,6 @@ re: fclean all
 norminette:
 	bash ./norm.sh
 
-.PHONY: all clean fclean re bonus norminette lexer_test builtin_off
+.PHONY: all clean fclean re bonus norminette lexer_test pipe_test builtin_off
 
 #norminette ./srcs ./includes ./libft
