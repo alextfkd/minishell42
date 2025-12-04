@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   tokens2cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 06:30:16 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/27 21:09:20 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/04 09:17:04 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#define ERR_CMD_MALLOC "minishell: t_cmd memory allocated error"
+#define ERR_CMD_RED "minishell: set_cmd_redirection() error"
+#define ERR_CMD_ARGV "minishell: set_cmd_argv() error"
 
 static t_cmd	*_create_empty_cmd_node(int *status);
 void			clear_cmd(t_cmd **cmd);
@@ -31,17 +34,17 @@ t_cmd	*tokens2cmd(t_token **tokens_head, int *status)
 	current = *tokens_head;
 	cmd = _create_empty_cmd_node(status);
 	if (!cmd)
-		return (perror("minishell: t_cmd memory allocated error"), NULL);
+		return (ft_putendl_fd(ERR_CMD_MALLOC, 2), NULL);
 	if (set_cmd_redirection(cmd, &current, status) != 0)
 	{
 		clear_cmd(&cmd);
-		return (perror("minishell: set_cmd_redirection() error"), NULL);
+		return (ft_putendl_fd(ERR_CMD_RED, 2), NULL);
 	}
 	if (set_cmd_argv(cmd, head, current) != 0)
 	{
 		*status = 1;
 		clear_cmd(&cmd);
-		return (perror("minishell: set_cmd_argv() error"), NULL);
+		return (ft_putendl_fd(ERR_CMD_ARGV, 2), NULL);
 	}
 	*tokens_head = current;
 	return (cmd);

@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 01:44:01 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/28 07:03:01 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/12/04 09:52:58 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ static int	_validate_red_target(t_token *target)
 		return (ft_putendl_fd(ERR_SYNTAX_TOKEN_NL, 2), 1);
 	}
 	if (target->tk == TK_CHAR)
+	
 	{
 		len = ft_strlen(target->data);
 		if (target->data[0] == '\'' && target->data[len - 1] != '\'')
