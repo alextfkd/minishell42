@@ -49,6 +49,11 @@ run_test()
 
     if [ $? -eq 0 ]; then
         echo -e "${GREEN}[OK] Matches!${RESET}"
+        echo "--- Bash (Expected) ---"
+        cat "$OUT_BASH"
+        echo "--- Minishell (Actual) ---"
+        cat "$OUT_MINISHELL"
+        echo "-----------------------"
     else
         echo -e "${RED}[KO] Differs!${RESET}"
         echo "--- Bash (Expected) ---"

@@ -35,6 +35,6 @@ assert_exit "exit a 1" 2
 assert_exit "exit hello" 2
 assert_exit "exit -" 2
 assert_exit "exit 1 2" 1
-assert_exit "exit 2 a" 1 
-assert_exit "exit 999999999999999999" 2
-assert_exit "exit -999999999999999999" 2
+assert_exit "exit 2 a" 1
+assert_exit "exit 9999999999999999990" 2
+assert_exit "exit -9999999999999999999" 2
