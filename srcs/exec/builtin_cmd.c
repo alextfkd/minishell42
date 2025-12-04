@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 06:27:07 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/12/04 05:58:41 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/12/04 07:43:52 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	execute_builtin_parent(t_cmd *cmd, t_app *app)
 		ft_putendl_fd("minishell: dup bultin parent", 2);
 		return (1);
 	}
-	red_status = handle_redirections(cmd->red, app);
+	red_status = handle_redirections(cmd->red, cmd, app);
 	if (red_status != 0)
 	{
 		_reset_std_fd(tmp_stdin, tmp_stdout);
