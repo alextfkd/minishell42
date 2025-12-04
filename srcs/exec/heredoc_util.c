@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_util.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/12/03 11:42:19 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/04 05:58:59 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	restore_heredoc_std_io(t_app *app, int *pipe_fds)
 		|| (app->original_stdout != -1
 			&& dup2(app->original_stdout, STDOUT_FILENO) == -1))
 	{
-		perror("minishell: dup2 stdio failed in heredoc");
+		ft_putendl_fd("minishell: dup2 stdio failed in heredoc", 2);
 		close(pipe_fds[0]);
 		close(pipe_fds[1]);
 		exit(1);
