@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 07:29:47 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/29 00:15:23 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/04 04:37:58 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ static int	_is_alphasign(const char *str)
 
 static int	_is_overflow(const char *nptr)
 {
-	long	res;
-	long	sign;
+	unsigned long long	res;
+	long				sign;
 
 	res = 0;
 	sign = 1;
@@ -91,16 +91,16 @@ static int	_is_overflow(const char *nptr)
 	}
 	while (ft_isdigit(*nptr) != 0)
 	{
-		if (sign == 1 && res > INT_MAX / 10)
+		if (res > (unsigned long long)LLONG_MAX / 10)
 			return (1);
-		if (sign == 1 && 10 * res > INT_MAX - (*nptr - '0'))
-			return (1);
-		res = 10 * res + (*nptr - '0');
-		nptr++;
+		if (res == (unsigned long long)LLONG_MAX / 10)
+		{
+			if (sign == 1 && *nptr > '7')
+				return (1);
+			if (sign == -1 && *nptr > '8')
+				return (1);
+		}
+		res = 10 * res + (*nptr++ - '0');
 	}
-	if (sign == 1 && res > INT_MAX)
-		return (1);
-	if (sign == -1 && (-res) < INT_MIN)
-		return (1);
 	return (0);
 }
