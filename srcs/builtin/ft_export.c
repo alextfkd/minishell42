@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 08:44:03 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/12/03 19:57:07 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/04 05:58:27 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	append_args_to_env_list(const char *args, t_env **env_list)
 
 	new_node = get_env_from_env_line(args);
 	if (!new_node)
-		return (perror("minishell: create env_node failed"), 1);
+		return (ft_putendl_fd("minishell: create env_node failed", 2), 1);
 	return (add_or_update_env_node(env_list, new_node));
 }
 
