@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 06:27:07 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/12/04 02:47:49 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/12/04 14:38:58 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	execute_builtin_parent(t_cmd *cmd, t_app *app)
 		perror("minishell: dup bultin parent");
 		return (1);
 	}
-	red_status = handle_redirections(cmd->red, app);
+	red_status = handle_redirections(cmd->red, cmd, app);
 	if (red_status != 0)
 	{
 		_reset_std_fd(tmp_stdin, tmp_stdout);
