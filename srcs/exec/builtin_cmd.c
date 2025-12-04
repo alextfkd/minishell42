@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 06:27:07 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/11/27 23:15:49 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/04 02:47:49 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	execute_builtin_parent(t_cmd *cmd, t_app *app)
 	int	tmp_stdout;
 	int	red_status;
 
-	log_debug("execute_builtin_parent", LOG_DEBUG);
+	log_debug("execute_builtin_parent", app->shell->loglevel);
 	tmp_stdin = dup(STDIN_FILENO);
 	tmp_stdout = dup(STDOUT_FILENO);
 	if (tmp_stdin == -1 || tmp_stdout == -1)

@@ -1,6 +1,6 @@
 NAME = minishell
-CC = cc -g -DLOGLEVEL=0
-GCC = gcc -g -DLOGLEVEL=0
+CC = cc -g -DLOGLEVEL=3
+GCC = gcc -g -DLOGLEVEL=3
 
 OBJDIR = objs
 SRCDIR = srcs
