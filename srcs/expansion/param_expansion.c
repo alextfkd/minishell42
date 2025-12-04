@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:23:38 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/12/04 21:08:17 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/12/04 22:51:55 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,15 @@ static int	_expand_redirection(t_app *app, t_astree *root)
 			new_red_file = expand_argv(red->file, app);
 			if (!new_red_file)
 				return (perror("expand: memory allocatoin error\n"), 1);
+			if (is_ambiguous_redirect(red->file))
+			{
+				print_file_error(red->file, "ambiguous redirect");
+				return (free(new_red_file), 1);
+			}
 			if (overwrite_argv(&(red->file), new_red_file))
 				return (free(new_red_file), 1);
-		}
-		if (rm_quote_overwrite(&(red->file)))
-			return (1);
-		if (is_ambiguous_redirect(red->file))
-		{
-			print_file_error(red->file, "ambiguous redirect");
-			return (free(new_red_file), 1);
+			if (rm_quote_overwrite(&(red->file)))
+				return (1);
 		}
 		red = red->next;
 	}

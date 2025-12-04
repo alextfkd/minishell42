@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/12/04 14:57:23 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/04 23:05:30 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static int	_setup_heredoc(t_red *red, t_app *app)
 	if (dup2(red->fd, STDIN_FILENO) == -1)
 		return (perror("minishell: dup2 redirect here-doc"), 1);
 	close(red->fd);
+	free_tokens(app->token_head);
 	return (0);
 }
 

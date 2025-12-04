@@ -6,7 +6,7 @@
 /*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:55:06 by tkatsuma          #+#    #+#             */
-/*   Updated: 2025/12/03 04:10:59 by tkatsuma         ###   ########.fr       */
+/*   Updated: 2025/12/04 22:48:33 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ char	*rm_quote_strdup(char *s)
 	if (s == NULL)
 		return (NULL);
 	len = ft_strlen(s);
-	if ((s)[0] == '\'' && (s)[len] == '\'')
-		s_quote_removed = _remove_quote((s), LT_SQUOTE);
-	else if ((s)[0] == '\"' && (s)[len] == '\"')
-		s_quote_removed = _remove_quote((s), LT_DQUOTE);
+	if (s[0] == '\'' && s[len] == '\'')
+		s_quote_removed = _remove_quote(s, LT_SQUOTE);
+	else if (s[0] == '\"' && s[len] == '\"')
+		s_quote_removed = _remove_quote(s, LT_DQUOTE);
 	else
-		s_quote_removed = _remove_quote((s), LT_NORMAL);
+		s_quote_removed = _remove_quote(s, LT_NORMAL);
 	if (s_quote_removed == NULL)
 		return (NULL);
 	return (s_quote_removed);
