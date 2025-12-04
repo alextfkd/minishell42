@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 22:50:00 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/12/03 13:56:00 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/04 14:50:10 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,9 +180,9 @@ int					init_exec_vars(t_exec *e, t_astree *node, t_app *app);
 char				*find_cmd_path(char *av0, t_env *env_list);
 
 // redirect
-int					do_redirect_in(t_red *red, t_app *app);
-int					do_redirect_out(t_red *red);
-int					handle_redirections(t_red *red, t_app *app);
+int					do_redirect_in(t_red *red, t_cmd *cmd, t_app *app);
+int					do_redirect_out(t_red *red, t_cmd *cmd);
+int					handle_redirections(t_red *red, t_cmd *cmd, t_app *app);
 
 // heredoc
 int					handle_heredoc(t_red *red, t_app *app);

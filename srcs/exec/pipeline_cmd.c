@@ -30,7 +30,7 @@ void	child_routine(t_exec *e, t_cmd *cmd, t_app *app)
 	_setup_child_io(e);
 	if (get_builtin_type(cmd) != BT_NOT_BULTIN && BUILTIN_ON)
 	{
-		exit_status = handle_redirections(cmd->red, app);
+		exit_status = handle_redirections(cmd->red, cmd, app);
 		if (exit_status != 0)
 		{
 			if (app && app->shell)
@@ -99,7 +99,7 @@ static void	_validate_cmd_redirection(t_cmd *cmd, t_app *app)
 {
 	int	ret;
 
-	ret = handle_redirections(cmd->red, app);
+	ret = handle_redirections(cmd->red, cmd, app);
 	if (ret != 0)
 		free_shell_exit(app, ret);
 	if (cmd->argv == NULL || cmd->argv[0] == NULL)
