@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tkatsuma <tkatsuma@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 21:41:31 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/12/03 13:46:20 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/04 05:59:45 by tkatsuma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int	handle_heredoc(t_red *red, t_app *app)
 	int	pipe_fds[2];
 
 	if (pipe(pipe_fds) == -1)
-		return (perror("heredoc pipe error"), 1);
+		return (ft_putendl_fd("heredoc pipe error", 2), 1);
 	pid = fork();
 	if (pid == -1)
 	{
 		close(pipe_fds[0]);
 		close(pipe_fds[1]);
-		return (perror("minishell: heredoc fork error"), 1);
+		return (ft_putendl_fd("minishell: heredoc fork error", 2), 1);
 	}
 	set_ignore_signal();
 	if (pid == 0)
@@ -139,7 +139,7 @@ static int	_wait_for_heredoc(pid_t pid, int pipe_fds[2])
 		if (errno == EINTR)
 			continue ;
 		close(pipe_fds[0]);
-		return (perror("minishell: heredoc waitpid"), 1);
+		return (ft_putendl_fd("minishell: heredoc waitpid", 2), 1);
 	}
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_IGN);
