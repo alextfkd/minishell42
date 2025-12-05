@@ -102,8 +102,14 @@ clean: libft_clean
 	@rm -f $(OBJS)
 	@rm -rf $(OBJDIR)
 
+
 fclean: clean
 	@rm -f $(NAME) ./libft/libft.a
+	@rm -f ./pipe_test
+	@rm -f ./expansion_test
+	@rm -f ./quote_rm_test
+	@rm -f ./parser_test
+	@rm -f ./lexer_test
 
 re: fclean all
 

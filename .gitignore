@@ -13,7 +13,6 @@ objs/*.o
 lexer_test
 parser_test
 expansion_test
-pipex_tester
 html
 latex
 build/
