@@ -6,7 +6,7 @@
 /*   By: htsutsum <htsutsum@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 19:11:23 by htsutsum          #+#    #+#             */
-/*   Updated: 2025/12/04 21:13:43 by htsutsum         ###   ########.fr       */
+/*   Updated: 2025/12/05 21:30:40 by htsutsum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static void	_attach_ast_and_token_ptr(t_app *app,
 				t_astree *astree_root, t_token *head);
 static void	_detach_ast_and_token_ptr(t_app *app);
 static int	_status_1_return(t_shell *shell, t_token *head, t_astree *root);
+static void	_cleanup_all(t_shell *shell, t_token *head_token,
+				t_astree **ast_head);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -25,13 +27,12 @@ int	main(int argc, char **argv, char **envp)
 	t_token		*head_token;
 	t_astree	*ast_root;
 	t_astree	*ast_head;
-	int 		exit_status;
+	int			exit_status;
 
 	if (argc != 2)
 		return (1);
-
 	shell = create_t_shell(argc, argv, envp);
-	if(shell == NULL)
+	if (shell == NULL)
 		return (1);
 	shell->status = 0;
 	head_token = tokenize(argv[1], &(shell->status));
@@ -45,12 +46,20 @@ int	main(int argc, char **argv, char **envp)
 		return (_status_1_return(shell, head_token, ast_root));
 	_attach_ast_and_token_ptr(shell->app, ast_root, head_token);
 	exit_status = execute_pipeline(ast_root, shell->app);
-	astree_clear(&ast_head);
+	_cleanup_all(shell, head_token, &ast_head);
+	return (exit_status);
+}
+
+static void	_cleanup_all(
+	t_shell *shell,
+	t_token *head_token,
+	t_astree **ast_head)
+{
+	astree_clear(ast_head);
 	free_tokens(head_token);
 	_detach_ast_and_token_ptr(shell->app);
 	reset_stdio(shell->app);
 	free_shell(shell);
-	return (exit_status);
 }
 
 static void	_attach_ast_and_token_ptr(
