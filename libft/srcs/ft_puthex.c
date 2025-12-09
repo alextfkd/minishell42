@@ -20,7 +20,6 @@ int	ft_puthex(unsigned int nb, int flag)
 	s = ft_htoa((unsigned long long)nb, flag);
 	if (!s)
 		return (-1);
-	len = 0;
 	len = ft_putstr(s);
 	free(s);
 	return (len);
